@@ -1,5 +1,8 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": false
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
@@ -18,15 +21,49 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "aot": true,
             "assets": [
               "src/favicon.ico",
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/normalize.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/font-awesome/css/font-awesome.min.css",
+              "node_modules/animate.css/animate.min.css",
+              "node_modules/wowjs/css/libs/animate.css",
+              "node_modules/swiper/swiper-bundle.css",
+              "node_modules/odometer/themes/odometer-theme-minimal.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.slim.min.js",
+              "node_modules/jquery/dist/jquery.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "node_modules/masonry-layout/dist/masonry.pkgd.min.js",
+              "node_modules/vivus/dist/vivus.min.js",
+              "node_modules/wowjs/dist/wow.js",
+              "node_modules/swiper/swiper-bundle.min.js",
+              "node_modules/odometer/odometer.js",
+              "node_modules/moment/min/moment.min.js",
+              "node_modules/chart.js/dist/Chart.js",
+              "node_modules/chartjs-adapter-moment/dist/chartjs-adapter-moment.min.js",
+              "node_modules/hammerjs/hammer.js",
+              "node_modules/chartjs-plugin-style/dist/chartjs-plugin-style.js",
+              "node_modules/chartjs-plugin-zoom/dist/chartjs-plugin-zoom.min.js",
+              "node_modules/chartjs-plugin-annotation/chartjs-plugin-annotation.min.js",
+              "node_modules/chartjs-plugin-draggable/dist/chartjs-plugin-draggable.min.js",
+              "node_modules/echarts/dist/echarts.min.js",
+              "node_modules/echarts-wordcloud/dist/echarts-wordcloud.min.js",
+              "src/lib/prefixfree/js/prefixfree.min.js",
+              "src/lib/flip/js/initflip.js",
+              "src/lib/sidebar/js/initsidebar.js"
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -56,7 +93,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",

@@ -1,0 +1,51 @@
+<div id="preloader-wrapper" *ngIf="cargando">
+  <div class="preloader">
+    <div class="spin"></div>
+    <div class="txt-loading">
+      <span data-text-preloader="C" class="letters-loading">
+        C
+      </span>
+      <span data-text-preloader="A" class="letters-loading">
+        A
+      </span>
+      <span data-text-preloader="R" class="letters-loading">
+        R
+      </span>
+      <span data-text-preloader="G" class="letters-loading">
+        G
+      </span>
+      <span data-text-preloader="A" class="letters-loading">
+        A
+      </span>
+      <span data-text-preloader="N" class="letters-loading">
+        N
+      </span>
+      <span data-text-preloader="D" class="letters-loading">
+        D
+      </span>
+      <span data-text-preloader="O" class="letters-loading">
+        O
+      </span>
+    </div>
+  </div>
+</div>
+<div class="container-fluid vw-100 overflow-x-hidden p-0">
+  <div class="wrapper-dashboard d-flex flex-column justify-content-center align-items-center align-self-center">
+    <app-sidebar></app-sidebar>
+    <div id="content-dashboard" class="position-relative mb-5">
+      <app-submenu></app-submenu>
+      <button type="button" id="sidebarCollapse"
+        class="btn navbar-btn d-flex flex-row justify-content-center align-items-center align-self-center">
+        <i class="fa icon-icono-filtros"></i>
+        <p class="txt_smx txt_color_negro tip_fuen_roboto_l text-uppercase m-0 p-0">Filtros</p>
+      </button>
+      <div class="scroll-to-top  d-flex flex-row justify-content-center align-items-center align-self-center"
+        [ngClass]="{'show-scrollTop': windowScrolled}">
+        <button type="button" class="btn-scroll-to-top ps-4 pe-3 pt-2 pb-2 m-0" (click)="scrollToTop()">
+          <i class="fa fa-chevron-up"></i>
+        </button>
+      </div>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
