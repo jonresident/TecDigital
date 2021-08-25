@@ -54,6 +54,8 @@
               "node_modules/chartjs-plugin-draggable/dist/chartjs-plugin-draggable.min.js",
               "node_modules/echarts/dist/echarts.min.js",
               "node_modules/echarts-wordcloud/dist/echarts-wordcloud.min.js",
+              "node_modules/bodymovin/build/player/bodymovin.js",
+              "node_modules/lottie-web/build/player/lottie_light.js",
               "src/lib/prefixfree/js/prefixfree.min.js",
               "src/lib/flip/js/initflip.js",
               "src/lib/sidebar/js/initsidebar.js"
