@@ -358,5 +358,4 @@ export class IndicadorTresComponent implements OnInit {
     });
 
   }
-
 }

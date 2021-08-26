@@ -345,7 +345,7 @@ video::-webkit-media-controls {
 .icon-icono-flip-right:before {
   font-size: 15px;
   content: "\e984";
-  color: #2a52bb;
+  color: #1D244A;
 }
 
 .icon-icono-contrasena:before {
@@ -2972,7 +2972,7 @@ input[type="date"]:before {
 
 .front-card.count .card-body,
 .back-card.count .card-body {
-  height: 180px !important;
+  height: 140px !important;
 }
 
 .card-container.statistics,
@@ -2984,7 +2984,7 @@ input[type="date"]:before {
 .card-container.count,
 .front-card.count,
 .back-card.count {
-  height: 180px;
+  height: 140px;
 }
 
 .front-card.statistics .card-header,
@@ -3060,7 +3060,6 @@ input[type="date"]:before {
 }
 
 .contenedor-numero {
-  background-color: #2a52bb;
   width: 75px;
   height: 75px;
   border-radius: 100%;
@@ -3524,7 +3523,7 @@ ul {
     ----------------------------------------------------- */
 
 .txt_card_percentage {
-  font-size: 38px;
+  font-size: 34px;
 }
 
 /* ---------------------------------------------------
@@ -3716,19 +3715,59 @@ svg.finished * {
   animation-delay: 0.8ms;
 }
 
-.registersvg {
-  stroke: #fafafa;
-  stroke-width: 14px;
+#icono_diagnostico {
+  width: 50px;
+  height: 50px;
 }
 
-.diagnosissvg {
+.diagnostico {
   stroke: #fafafa;
-  stroke-width: 14px;
+  stroke-width: 12px;
 }
 
-.mappingsvg {
+#icono_mapeo {
+  width: 50px;
+  height: 50px;
+}
+
+.mapeo {
   stroke: #fafafa;
   stroke-width: 1.2px;
+}
+
+#icono_evaluacion {
+  width: 50px;
+  height: 50px;
+}
+
+.evaluacion {
+  stroke: #fafafa;
+  stroke-width: 12px;
+}
+
+#icono_consolidacion {
+  width: 50px;
+  height: 50px;
+}
+
+.consolidacion {
+  stroke: #fafafa;
+  stroke-width: 12px;
+}
+
+#icono_despegue {
+  width: 50px;
+  height: 50px;
+}
+
+.despegue {
+  stroke: #fafafa;
+  stroke-width: 12px;
+}
+
+#icono_mapping_colombia {
+  width: 160px;
+  height: 160px;
 }
 
 .icono_map {
@@ -3736,16 +3775,9 @@ svg.finished * {
   stroke-width: 10px;
 }
 
-.oferentessvg {
-  fill: transparent;
-  stroke: #fafafa;
-  stroke-width: 14px;
-}
-
-.offersvg {
-  fill: transparent;
-  stroke: #fafafa;
-  stroke-width: 10px;
+#icono_business {
+  width: 60px;
+  height: 60px;
 }
 
 .businessvg {
@@ -3754,10 +3786,42 @@ svg.finished * {
   stroke-width: 0.6px;
 }
 
+#icono_oferente {
+  width: 60px;
+  height: 60px;
+}
+
+.oferentessvg {
+  fill: transparent;
+  stroke: #fafafa;
+  stroke-width: 14px;
+}
+
+#icono_offer {
+  width: 60px;
+  height: 60px;
+}
+
+.offersvg {
+  fill: transparent;
+  stroke: #fafafa;
+  stroke-width: 10px;
+}
+
+#icono_leads {
+  width: 60px;
+  height: 60px;
+}
+
 .leadsvg {
   fill: transparent;
   stroke: #fafafa;
   stroke-width: 14px;
+}
+
+#icono_customers {
+  width: 60px;
+  height: 60px;
 }
 
 .customersvg {
@@ -3766,10 +3830,26 @@ svg.finished * {
   stroke-width: 6px;
 }
 
+#icono_register {
+  width: 60px;
+  height: 60px;
+}
+
+.registersvg {
+  fill: transparent;
+  stroke: #fafafa;
+  stroke-width: 12px;
+}
+
 .gendersvg {
   fill: transparent;
   stroke: #fafafa;
   stroke-width: 14px;
+}
+
+.icono_bar {
+  width: 120px;
+  height: 120px;
 }
 
 .barsvg {
