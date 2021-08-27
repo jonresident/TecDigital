@@ -3077,6 +3077,15 @@ input[type="date"]:before {
   position: relative;
 }
 
+.icono-tarjetas-pequenas {
+  width: 60px;
+  height: 60px;
+  padding: 5px;
+  border-radius: 100%;
+  background-color: #1d244a;
+  position: relative;
+}
+
 /* ---------------------------------------------------
       STYLES CONTENEDOR BACKGROUND DESCRIPCION PREGUNTA
    ----------------------------------------------------- */
@@ -3716,8 +3725,8 @@ svg.finished * {
 }
 
 #icono_diagnostico {
-  width: 50px;
-  height: 50px;
+  width: 35px;
+  height: 35px;
 }
 
 .diagnostico {
@@ -3726,8 +3735,8 @@ svg.finished * {
 }
 
 #icono_mapeo {
-  width: 50px;
-  height: 50px;
+  width: 35px;
+  height: 35px;
 }
 
 .mapeo {
@@ -3736,8 +3745,8 @@ svg.finished * {
 }
 
 #icono_evaluacion {
-  width: 50px;
-  height: 50px;
+  width: 35px;
+  height: 35px;
 }
 
 .evaluacion {
@@ -3746,8 +3755,8 @@ svg.finished * {
 }
 
 #icono_consolidacion {
-  width: 50px;
-  height: 50px;
+  width: 35px;
+  height: 35px;
 }
 
 .consolidacion {
@@ -3756,8 +3765,8 @@ svg.finished * {
 }
 
 #icono_despegue {
-  width: 50px;
-  height: 50px;
+  width: 35px;
+  height: 35px;
 }
 
 .despegue {
@@ -3776,8 +3785,8 @@ svg.finished * {
 }
 
 #icono_business {
-  width: 60px;
-  height: 60px;
+  width: 35px;
+  height: 35px;
 }
 
 .businessvg {
@@ -3787,8 +3796,8 @@ svg.finished * {
 }
 
 #icono_oferente {
-  width: 60px;
-  height: 60px;
+  width: 35px;
+  height: 35px;
 }
 
 .oferentessvg {
@@ -3798,8 +3807,8 @@ svg.finished * {
 }
 
 #icono_offer {
-  width: 60px;
-  height: 60px;
+  width: 35px;
+  height: 35px;
 }
 
 .offersvg {
@@ -3809,8 +3818,8 @@ svg.finished * {
 }
 
 #icono_leads {
-  width: 60px;
-  height: 60px;
+  width: 35px;
+  height: 35px;
 }
 
 .leadsvg {
@@ -3820,8 +3829,8 @@ svg.finished * {
 }
 
 #icono_customers {
-  width: 60px;
-  height: 60px;
+  width: 35px;
+  height: 35px;
 }
 
 .customersvg {
@@ -3831,8 +3840,8 @@ svg.finished * {
 }
 
 #icono_register {
-  width: 60px;
-  height: 60px;
+  width: 35px;
+  height: 35px;
 }
 
 .registersvg {
@@ -3853,6 +3862,17 @@ svg.finished * {
 }
 
 .barsvg {
+  fill: transparent;
+  stroke: #fafafa;
+  stroke-width: 10px;
+}
+
+.icono_burbuja {
+  width: 120px;
+  height: 120px;
+}
+
+.bubblesvg {
   fill: transparent;
   stroke: #fafafa;
   stroke-width: 10px;
@@ -3968,6 +3988,167 @@ svg.finished * {
   .front-card.table-data .card-body .table-responsive {
     height: 426px;
   }
+
+  /* ---------------------------------------------------
+      STYLES TARJETA PEQUEÑA
+   ----------------------------------------------------- */
+
+  .icono-tarjetas-pequenas {
+    width: 60px;
+    height: 60px;
+    padding: 5px;
+    border-radius: 100%;
+    background-color: #1d244a;
+    position: relative;
+  }
+
+  /* ---------------------------------------------------
+      ESTILOS SVG ANIMADOS
+   ----------------------------------------------------- */
+
+  svg * {
+    fill: #fafafa;
+    fill-opacity: 0;
+    transition: fill-opacity 1s;
+    stroke: #FFFFFF;
+    stroke-opacity: 1;
+    transition: stroke-opacity 1s;
+    stroke-width: 8px;
+  }
+
+  svg.finished * {
+    fill-opacity: 1;
+    stroke-opacity: 0;
+    stroke-width: 0px;
+    animation: opacity 0.8ms linear;
+    animation-delay: 0.8ms;
+  }
+
+  #icono_diagnostico {
+    width: 35px;
+    height: 35px;
+  }
+
+  .diagnostico {
+    stroke: #fafafa;
+    stroke-width: 12px;
+  }
+
+  #icono_mapeo {
+    width: 35px;
+    height: 35px;
+  }
+
+  .mapeo {
+    stroke: #fafafa;
+    stroke-width: 1.2px;
+  }
+
+  #icono_evaluacion {
+    width: 35px;
+    height: 35px;
+  }
+
+  .evaluacion {
+    stroke: #fafafa;
+    stroke-width: 12px;
+  }
+
+  #icono_consolidacion {
+    width: 35px;
+    height: 35px;
+  }
+
+  .consolidacion {
+    stroke: #fafafa;
+    stroke-width: 12px;
+  }
+
+  #icono_despegue {
+    width: 35px;
+    height: 35px;
+  }
+
+  .despegue {
+    stroke: #fafafa;
+    stroke-width: 12px;
+  }
+
+  #icono_mapping_colombia {
+    width: 160px;
+    height: 160px;
+  }
+
+  .icono_map {
+    stroke: #fafafa;
+    stroke-width: 10px;
+  }
+
+  #icono_business {
+    width: 35px;
+    height: 35px;
+  }
+
+  .businessvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 0.6px;
+  }
+
+  #icono_oferente {
+    width: 35px;
+    height: 35px;
+  }
+
+  .oferentessvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 14px;
+  }
+
+  #icono_offer {
+    width: 35px;
+    height: 35px;
+  }
+
+  .offersvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 10px;
+  }
+
+  #icono_leads {
+    width: 35px;
+    height: 35px;
+  }
+
+  .leadsvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 14px;
+  }
+
+  #icono_customers {
+    width: 35px;
+    height: 35px;
+  }
+
+  .customersvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 6px;
+  }
+
+  #icono_register {
+    width: 35px;
+    height: 35px;
+  }
+
+  .registersvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 12px;
+  }
 }
 
 @media (min-width: 360px) and (max-width: 575.98px) {
@@ -4057,6 +4238,167 @@ svg.finished * {
   .back-card.table-data .card-body .table-responsive,
   .front-card.table-data .card-body .table-responsive {
     height: 426px;
+  }
+
+  /* ---------------------------------------------------
+      STYLES TARJETA PEQUEÑA
+   ----------------------------------------------------- */
+
+  .icono-tarjetas-pequenas {
+    width: 60px;
+    height: 60px;
+    padding: 5px;
+    border-radius: 100%;
+    background-color: #1d244a;
+    position: relative;
+  }
+
+  /* ---------------------------------------------------
+      ESTILOS SVG ANIMADOS
+   ----------------------------------------------------- */
+
+  svg * {
+    fill: #fafafa;
+    fill-opacity: 0;
+    transition: fill-opacity 1s;
+    stroke: #FFFFFF;
+    stroke-opacity: 1;
+    transition: stroke-opacity 1s;
+    stroke-width: 8px;
+  }
+
+  svg.finished * {
+    fill-opacity: 1;
+    stroke-opacity: 0;
+    stroke-width: 0px;
+    animation: opacity 0.8ms linear;
+    animation-delay: 0.8ms;
+  }
+
+  #icono_diagnostico {
+    width: 35px;
+    height: 35px;
+  }
+
+  .diagnostico {
+    stroke: #fafafa;
+    stroke-width: 12px;
+  }
+
+  #icono_mapeo {
+    width: 35px;
+    height: 35px;
+  }
+
+  .mapeo {
+    stroke: #fafafa;
+    stroke-width: 1.2px;
+  }
+
+  #icono_evaluacion {
+    width: 35px;
+    height: 35px;
+  }
+
+  .evaluacion {
+    stroke: #fafafa;
+    stroke-width: 12px;
+  }
+
+  #icono_consolidacion {
+    width: 35px;
+    height: 35px;
+  }
+
+  .consolidacion {
+    stroke: #fafafa;
+    stroke-width: 12px;
+  }
+
+  #icono_despegue {
+    width: 35px;
+    height: 35px;
+  }
+
+  .despegue {
+    stroke: #fafafa;
+    stroke-width: 12px;
+  }
+
+  #icono_mapping_colombia {
+    width: 160px;
+    height: 160px;
+  }
+
+  .icono_map {
+    stroke: #fafafa;
+    stroke-width: 10px;
+  }
+
+  #icono_business {
+    width: 35px;
+    height: 35px;
+  }
+
+  .businessvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 0.6px;
+  }
+
+  #icono_oferente {
+    width: 35px;
+    height: 35px;
+  }
+
+  .oferentessvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 14px;
+  }
+
+  #icono_offer {
+    width: 35px;
+    height: 35px;
+  }
+
+  .offersvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 10px;
+  }
+
+  #icono_leads {
+    width: 35px;
+    height: 35px;
+  }
+
+  .leadsvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 14px;
+  }
+
+  #icono_customers {
+    width: 35px;
+    height: 35px;
+  }
+
+  .customersvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 6px;
+  }
+
+  #icono_register {
+    width: 35px;
+    height: 35px;
+  }
+
+  .registersvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 12px;
   }
 }
 
@@ -4148,6 +4490,167 @@ svg.finished * {
   .front-card.table-data .card-body .table-responsive {
     height: 426px;
   }
+
+  /* ---------------------------------------------------
+      STYLES TARJETA PEQUEÑA
+   ----------------------------------------------------- */
+
+  .icono-tarjetas-pequenas {
+    width: 60px;
+    height: 60px;
+    padding: 5px;
+    border-radius: 100%;
+    background-color: #1d244a;
+    position: relative;
+  }
+
+  /* ---------------------------------------------------
+      ESTILOS SVG ANIMADOS
+   ----------------------------------------------------- */
+
+  svg * {
+    fill: #fafafa;
+    fill-opacity: 0;
+    transition: fill-opacity 1s;
+    stroke: #FFFFFF;
+    stroke-opacity: 1;
+    transition: stroke-opacity 1s;
+    stroke-width: 8px;
+  }
+
+  svg.finished * {
+    fill-opacity: 1;
+    stroke-opacity: 0;
+    stroke-width: 0px;
+    animation: opacity 0.8ms linear;
+    animation-delay: 0.8ms;
+  }
+
+  #icono_diagnostico {
+    width: 35px;
+    height: 35px;
+  }
+
+  .diagnostico {
+    stroke: #fafafa;
+    stroke-width: 12px;
+  }
+
+  #icono_mapeo {
+    width: 35px;
+    height: 35px;
+  }
+
+  .mapeo {
+    stroke: #fafafa;
+    stroke-width: 1.2px;
+  }
+
+  #icono_evaluacion {
+    width: 35px;
+    height: 35px;
+  }
+
+  .evaluacion {
+    stroke: #fafafa;
+    stroke-width: 12px;
+  }
+
+  #icono_consolidacion {
+    width: 35px;
+    height: 35px;
+  }
+
+  .consolidacion {
+    stroke: #fafafa;
+    stroke-width: 12px;
+  }
+
+  #icono_despegue {
+    width: 35px;
+    height: 35px;
+  }
+
+  .despegue {
+    stroke: #fafafa;
+    stroke-width: 12px;
+  }
+
+  #icono_mapping_colombia {
+    width: 160px;
+    height: 160px;
+  }
+
+  .icono_map {
+    stroke: #fafafa;
+    stroke-width: 10px;
+  }
+
+  #icono_business {
+    width: 35px;
+    height: 35px;
+  }
+
+  .businessvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 0.6px;
+  }
+
+  #icono_oferente {
+    width: 35px;
+    height: 35px;
+  }
+
+  .oferentessvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 14px;
+  }
+
+  #icono_offer {
+    width: 35px;
+    height: 35px;
+  }
+
+  .offersvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 10px;
+  }
+
+  #icono_leads {
+    width: 35px;
+    height: 35px;
+  }
+
+  .leadsvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 14px;
+  }
+
+  #icono_customers {
+    width: 35px;
+    height: 35px;
+  }
+
+  .customersvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 6px;
+  }
+
+  #icono_register {
+    width: 35px;
+    height: 35px;
+  }
+
+  .registersvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 12px;
+  }
 }
 
 @media (min-width: 768px) and (max-width: 991.98px) {
@@ -4237,6 +4740,167 @@ svg.finished * {
   .back-card.table-data .card-body .table-responsive,
   .front-card.table-data .card-body .table-responsive {
     height: 426px;
+  }
+
+  /* ---------------------------------------------------
+      STYLES TARJETA PEQUEÑA
+   ----------------------------------------------------- */
+
+  .icono-tarjetas-pequenas {
+    width: 60px;
+    height: 60px;
+    padding: 5px;
+    border-radius: 100%;
+    background-color: #1d244a;
+    position: relative;
+  }
+
+  /* ---------------------------------------------------
+      ESTILOS SVG ANIMADOS
+   ----------------------------------------------------- */
+
+  svg * {
+    fill: #fafafa;
+    fill-opacity: 0;
+    transition: fill-opacity 1s;
+    stroke: #FFFFFF;
+    stroke-opacity: 1;
+    transition: stroke-opacity 1s;
+    stroke-width: 8px;
+  }
+
+  svg.finished * {
+    fill-opacity: 1;
+    stroke-opacity: 0;
+    stroke-width: 0px;
+    animation: opacity 0.8ms linear;
+    animation-delay: 0.8ms;
+  }
+
+  #icono_diagnostico {
+    width: 35px;
+    height: 35px;
+  }
+
+  .diagnostico {
+    stroke: #fafafa;
+    stroke-width: 12px;
+  }
+
+  #icono_mapeo {
+    width: 35px;
+    height: 35px;
+  }
+
+  .mapeo {
+    stroke: #fafafa;
+    stroke-width: 1.2px;
+  }
+
+  #icono_evaluacion {
+    width: 35px;
+    height: 35px;
+  }
+
+  .evaluacion {
+    stroke: #fafafa;
+    stroke-width: 12px;
+  }
+
+  #icono_consolidacion {
+    width: 35px;
+    height: 35px;
+  }
+
+  .consolidacion {
+    stroke: #fafafa;
+    stroke-width: 12px;
+  }
+
+  #icono_despegue {
+    width: 35px;
+    height: 35px;
+  }
+
+  .despegue {
+    stroke: #fafafa;
+    stroke-width: 12px;
+  }
+
+  #icono_mapping_colombia {
+    width: 160px;
+    height: 160px;
+  }
+
+  .icono_map {
+    stroke: #fafafa;
+    stroke-width: 10px;
+  }
+
+  #icono_business {
+    width: 35px;
+    height: 35px;
+  }
+
+  .businessvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 0.6px;
+  }
+
+  #icono_oferente {
+    width: 35px;
+    height: 35px;
+  }
+
+  .oferentessvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 14px;
+  }
+
+  #icono_offer {
+    width: 35px;
+    height: 35px;
+  }
+
+  .offersvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 10px;
+  }
+
+  #icono_leads {
+    width: 35px;
+    height: 35px;
+  }
+
+  .leadsvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 14px;
+  }
+
+  #icono_customers {
+    width: 35px;
+    height: 35px;
+  }
+
+  .customersvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 6px;
+  }
+
+  #icono_register {
+    width: 35px;
+    height: 35px;
+  }
+
+  .registersvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 12px;
   }
 }
 
@@ -4328,6 +4992,167 @@ svg.finished * {
   .front-card.table-data .card-body .table-responsive {
     height: 480px;
   }
+
+  /* ---------------------------------------------------
+      STYLES TARJETA PEQUEÑA
+   ----------------------------------------------------- */
+
+  .icono-tarjetas-pequenas {
+    width: 60px;
+    height: 60px;
+    padding: 5px;
+    border-radius: 100%;
+    background-color: #1d244a;
+    position: relative;
+  }
+
+  /* ---------------------------------------------------
+      ESTILOS SVG ANIMADOS
+   ----------------------------------------------------- */
+
+  svg * {
+    fill: #fafafa;
+    fill-opacity: 0;
+    transition: fill-opacity 1s;
+    stroke: #FFFFFF;
+    stroke-opacity: 1;
+    transition: stroke-opacity 1s;
+    stroke-width: 8px;
+  }
+
+  svg.finished * {
+    fill-opacity: 1;
+    stroke-opacity: 0;
+    stroke-width: 0px;
+    animation: opacity 0.8ms linear;
+    animation-delay: 0.8ms;
+  }
+
+  #icono_diagnostico {
+    width: 35px;
+    height: 35px;
+  }
+
+  .diagnostico {
+    stroke: #fafafa;
+    stroke-width: 12px;
+  }
+
+  #icono_mapeo {
+    width: 35px;
+    height: 35px;
+  }
+
+  .mapeo {
+    stroke: #fafafa;
+    stroke-width: 1.2px;
+  }
+
+  #icono_evaluacion {
+    width: 35px;
+    height: 35px;
+  }
+
+  .evaluacion {
+    stroke: #fafafa;
+    stroke-width: 12px;
+  }
+
+  #icono_consolidacion {
+    width: 35px;
+    height: 35px;
+  }
+
+  .consolidacion {
+    stroke: #fafafa;
+    stroke-width: 12px;
+  }
+
+  #icono_despegue {
+    width: 35px;
+    height: 35px;
+  }
+
+  .despegue {
+    stroke: #fafafa;
+    stroke-width: 12px;
+  }
+
+  #icono_mapping_colombia {
+    width: 160px;
+    height: 160px;
+  }
+
+  .icono_map {
+    stroke: #fafafa;
+    stroke-width: 10px;
+  }
+
+  #icono_business {
+    width: 35px;
+    height: 35px;
+  }
+
+  .businessvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 0.6px;
+  }
+
+  #icono_oferente {
+    width: 35px;
+    height: 35px;
+  }
+
+  .oferentessvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 14px;
+  }
+
+  #icono_offer {
+    width: 35px;
+    height: 35px;
+  }
+
+  .offersvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 10px;
+  }
+
+  #icono_leads {
+    width: 35px;
+    height: 35px;
+  }
+
+  .leadsvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 14px;
+  }
+
+  #icono_customers {
+    width: 35px;
+    height: 35px;
+  }
+
+  .customersvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 6px;
+  }
+
+  #icono_register {
+    width: 35px;
+    height: 35px;
+  }
+
+  .registersvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 12px;
+  }
 }
 
 @media (min-width: 1200px) and (max-width: 1399.98px) {
@@ -4418,6 +5243,167 @@ svg.finished * {
   .front-card.table-data .card-body .table-responsive {
     height: 480px;
   }
+
+  /* ---------------------------------------------------
+      STYLES TARJETA PEQUEÑA
+   ----------------------------------------------------- */
+
+  .icono-tarjetas-pequenas {
+    width: 60px;
+    height: 60px;
+    padding: 5px;
+    border-radius: 100%;
+    background-color: #1d244a;
+    position: relative;
+  }
+
+  /* ---------------------------------------------------
+      ESTILOS SVG ANIMADOS
+   ----------------------------------------------------- */
+
+  svg * {
+    fill: #fafafa;
+    fill-opacity: 0;
+    transition: fill-opacity 1s;
+    stroke: #FFFFFF;
+    stroke-opacity: 1;
+    transition: stroke-opacity 1s;
+    stroke-width: 8px;
+  }
+
+  svg.finished * {
+    fill-opacity: 1;
+    stroke-opacity: 0;
+    stroke-width: 0px;
+    animation: opacity 0.8ms linear;
+    animation-delay: 0.8ms;
+  }
+
+  #icono_diagnostico {
+    width: 35px;
+    height: 35px;
+  }
+
+  .diagnostico {
+    stroke: #fafafa;
+    stroke-width: 12px;
+  }
+
+  #icono_mapeo {
+    width: 35px;
+    height: 35px;
+  }
+
+  .mapeo {
+    stroke: #fafafa;
+    stroke-width: 1.2px;
+  }
+
+  #icono_evaluacion {
+    width: 35px;
+    height: 35px;
+  }
+
+  .evaluacion {
+    stroke: #fafafa;
+    stroke-width: 12px;
+  }
+
+  #icono_consolidacion {
+    width: 35px;
+    height: 35px;
+  }
+
+  .consolidacion {
+    stroke: #fafafa;
+    stroke-width: 12px;
+  }
+
+  #icono_despegue {
+    width: 35px;
+    height: 35px;
+  }
+
+  .despegue {
+    stroke: #fafafa;
+    stroke-width: 12px;
+  }
+
+  #icono_mapping_colombia {
+    width: 160px;
+    height: 160px;
+  }
+
+  .icono_map {
+    stroke: #fafafa;
+    stroke-width: 10px;
+  }
+
+  #icono_business {
+    width: 35px;
+    height: 35px;
+  }
+
+  .businessvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 0.6px;
+  }
+
+  #icono_oferente {
+    width: 35px;
+    height: 35px;
+  }
+
+  .oferentessvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 14px;
+  }
+
+  #icono_offer {
+    width: 35px;
+    height: 35px;
+  }
+
+  .offersvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 10px;
+  }
+
+  #icono_leads {
+    width: 35px;
+    height: 35px;
+  }
+
+  .leadsvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 14px;
+  }
+
+  #icono_customers {
+    width: 35px;
+    height: 35px;
+  }
+
+  .customersvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 6px;
+  }
+
+  #icono_register {
+    width: 35px;
+    height: 35px;
+  }
+
+  .registersvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 12px;
+  }
 }
 
 @media (min-width: 1400px) and (max-width: 1919.98px) {
@@ -4494,6 +5480,167 @@ svg.finished * {
     height: 480px;
   }
 
+  /* ---------------------------------------------------
+      STYLES TARJETA PEQUEÑA
+   ----------------------------------------------------- */
+
+  .icono-tarjetas-pequenas {
+    width: 55px;
+    height: 55px;
+    padding: 5px;
+    border-radius: 100%;
+    background-color: #1d244a;
+    position: relative;
+  }
+
+  /* ---------------------------------------------------
+      ESTILOS SVG ANIMADOS
+   ----------------------------------------------------- */
+
+  svg * {
+    fill: #fafafa;
+    fill-opacity: 0;
+    transition: fill-opacity 1s;
+    stroke: #FFFFFF;
+    stroke-opacity: 1;
+    transition: stroke-opacity 1s;
+    stroke-width: 8px;
+  }
+
+  svg.finished * {
+    fill-opacity: 1;
+    stroke-opacity: 0;
+    stroke-width: 0px;
+    animation: opacity 0.8ms linear;
+    animation-delay: 0.8ms;
+  }
+
+  #icono_diagnostico {
+    width: 35px;
+    height: 35px;
+  }
+
+  .diagnostico {
+    stroke: #fafafa;
+    stroke-width: 12px;
+  }
+
+  #icono_mapeo {
+    width: 35px;
+    height: 35px;
+  }
+
+  .mapeo {
+    stroke: #fafafa;
+    stroke-width: 1.2px;
+  }
+
+  #icono_evaluacion {
+    width: 35px;
+    height: 35px;
+  }
+
+  .evaluacion {
+    stroke: #fafafa;
+    stroke-width: 12px;
+  }
+
+  #icono_consolidacion {
+    width: 35px;
+    height: 35px;
+  }
+
+  .consolidacion {
+    stroke: #fafafa;
+    stroke-width: 12px;
+  }
+
+  #icono_despegue {
+    width: 35px;
+    height: 35px;
+  }
+
+  .despegue {
+    stroke: #fafafa;
+    stroke-width: 12px;
+  }
+
+  #icono_mapping_colombia {
+    width: 160px;
+    height: 160px;
+  }
+
+  .icono_map {
+    stroke: #fafafa;
+    stroke-width: 10px;
+  }
+
+  #icono_business {
+    width: 35px;
+    height: 35px;
+  }
+
+  .businessvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 0.6px;
+  }
+
+  #icono_oferente {
+    width: 35px;
+    height: 35px;
+  }
+
+  .oferentessvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 14px;
+  }
+
+  #icono_offer {
+    width: 35px;
+    height: 35px;
+  }
+
+  .offersvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 10px;
+  }
+
+  #icono_leads {
+    width: 35px;
+    height: 35px;
+  }
+
+  .leadsvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 14px;
+  }
+
+  #icono_customers {
+    width: 35px;
+    height: 35px;
+  }
+
+  .customersvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 6px;
+  }
+
+  #icono_register {
+    width: 35px;
+    height: 35px;
+  }
+
+  .registersvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 12px;
+  }
+
 }
 
 @media (min-width: 1920px) and (max-width: 2499.98px) {
@@ -4568,6 +5715,167 @@ svg.finished * {
   .back-card.table-data .card-body .table-responsive,
   .front-card.table-data .card-body .table-responsive {
     height: 480px;
+  }
+
+  /* ---------------------------------------------------
+      STYLES TARJETA PEQUEÑA
+   ----------------------------------------------------- */
+
+  .icono-tarjetas-pequenas {
+    width: 55px;
+    height: 55px;
+    padding: 5px;
+    border-radius: 100%;
+    background-color: #1d244a;
+    position: relative;
+  }
+
+  /* ---------------------------------------------------
+      ESTILOS SVG ANIMADOS
+   ----------------------------------------------------- */
+
+  svg * {
+    fill: #fafafa;
+    fill-opacity: 0;
+    transition: fill-opacity 1s;
+    stroke: #FFFFFF;
+    stroke-opacity: 1;
+    transition: stroke-opacity 1s;
+    stroke-width: 8px;
+  }
+
+  svg.finished * {
+    fill-opacity: 1;
+    stroke-opacity: 0;
+    stroke-width: 0px;
+    animation: opacity 0.8ms linear;
+    animation-delay: 0.8ms;
+  }
+
+  #icono_diagnostico {
+    width: 35px;
+    height: 35px;
+  }
+
+  .diagnostico {
+    stroke: #fafafa;
+    stroke-width: 12px;
+  }
+
+  #icono_mapeo {
+    width: 35px;
+    height: 35px;
+  }
+
+  .mapeo {
+    stroke: #fafafa;
+    stroke-width: 1.2px;
+  }
+
+  #icono_evaluacion {
+    width: 35px;
+    height: 35px;
+  }
+
+  .evaluacion {
+    stroke: #fafafa;
+    stroke-width: 12px;
+  }
+
+  #icono_consolidacion {
+    width: 35px;
+    height: 35px;
+  }
+
+  .consolidacion {
+    stroke: #fafafa;
+    stroke-width: 12px;
+  }
+
+  #icono_despegue {
+    width: 35px;
+    height: 35px;
+  }
+
+  .despegue {
+    stroke: #fafafa;
+    stroke-width: 12px;
+  }
+
+  #icono_mapping_colombia {
+    width: 160px;
+    height: 160px;
+  }
+
+  .icono_map {
+    stroke: #fafafa;
+    stroke-width: 10px;
+  }
+
+  #icono_business {
+    width: 35px;
+    height: 35px;
+  }
+
+  .businessvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 0.6px;
+  }
+
+  #icono_oferente {
+    width: 35px;
+    height: 35px;
+  }
+
+  .oferentessvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 14px;
+  }
+
+  #icono_offer {
+    width: 35px;
+    height: 35px;
+  }
+
+  .offersvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 10px;
+  }
+
+  #icono_leads {
+    width: 35px;
+    height: 35px;
+  }
+
+  .leadsvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 14px;
+  }
+
+  #icono_customers {
+    width: 35px;
+    height: 35px;
+  }
+
+  .customersvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 6px;
+  }
+
+  #icono_register {
+    width: 35px;
+    height: 35px;
+  }
+
+  .registersvg {
+    fill: transparent;
+    stroke: #fafafa;
+    stroke-width: 12px;
   }
 
 }

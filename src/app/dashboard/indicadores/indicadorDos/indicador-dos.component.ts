@@ -83,6 +83,16 @@ export class IndicadorDosComponent implements OnInit {
           reverse: true,
           dashGap: 20
         },).reset();
+        new Vivus('icono_burbuja_1',{
+          duration: 50,
+          reverse: true,
+          dashGap: 20
+        },).reset();
+        new Vivus('icono_burbuja_2',{
+          duration: 50,
+          reverse: true,
+          dashGap: 20
+        },).reset();
       }
   }
 
@@ -92,6 +102,8 @@ export class IndicadorDosComponent implements OnInit {
     this.initializerOdometer();
     this.chartQuestionOne();
     this.chartQuestionTwo();
+    this.chartQuestionThree();
+    this.chartQuestionFour();
   }
 
   initVivus() {
@@ -116,6 +128,16 @@ export class IndicadorDosComponent implements OnInit {
       dashGap: 20
     },).reset();
     new Vivus('icono_bar_2',{
+      duration: 50,
+      reverse: true,
+      dashGap: 20
+    },).reset();
+    new Vivus('icono_burbuja_1',{
+      duration: 50,
+      reverse: true,
+      dashGap: 20
+    },).reset();
+    new Vivus('icono_burbuja_2',{
       duration: 50,
       reverse: true,
       dashGap: 20
@@ -541,8 +563,8 @@ export class IndicadorDosComponent implements OnInit {
 
   chartQuestionOne() {
 
-    let chartQuestionTwo = echarts.init(document.getElementById('chart-question-one'));
-    let chartTwoQuestionTwo = echarts.init(document.getElementById('chart-two-question-one'));
+    let chartQuestionOne = echarts.init(document.getElementById('chart-question-one'));
+    let chartTwoQuestionOne = echarts.init(document.getElementById('chart-two-question-one'));
     let optionChartOne;
     let optionChartTwo;
 
@@ -778,18 +800,18 @@ export class IndicadorDosComponent implements OnInit {
       }
   };
 
-    optionChartOne && chartQuestionTwo.setOption(optionChartOne);
-    optionChartTwo && chartTwoQuestionTwo.setOption(optionChartTwo);
+    optionChartOne && chartQuestionOne.setOption(optionChartOne);
+    optionChartTwo && chartTwoQuestionOne.setOption(optionChartTwo);
 
     $(window).on('resize', function(){
-        if(chartQuestionTwo != null && chartQuestionTwo != undefined){
-            chartQuestionTwo.resize();
+        if(chartQuestionOne != null && chartQuestionOne != undefined){
+            chartQuestionOne.resize();
         }
     });
 
     $(window).on('resize', function(){
-        if(chartTwoQuestionTwo != null && chartTwoQuestionTwo != undefined){
-            chartTwoQuestionTwo.resize();
+        if(chartTwoQuestionOne != null && chartTwoQuestionOne != undefined){
+            chartTwoQuestionOne.resize();
         }
     });
 
@@ -797,8 +819,8 @@ export class IndicadorDosComponent implements OnInit {
 
   chartQuestionTwo() {
 
-    let chartQuestionThree = echarts.init(document.getElementById('chart-question-two'));
-    let chartTwoQuestionThree = echarts.init(document.getElementById('chart-two-question-two'));
+    let chartQuestionTwo = echarts.init(document.getElementById('chart-question-two'));
+    let chartTwoQuestionTwo = echarts.init(document.getElementById('chart-two-question-two'));
     let optionChartOne;
     let optionChartTwo;
 
@@ -1035,6 +1057,468 @@ export class IndicadorDosComponent implements OnInit {
       }
   };
 
+    optionChartOne && chartQuestionTwo.setOption(optionChartOne);
+    optionChartTwo && chartTwoQuestionTwo.setOption(optionChartTwo);
+
+    $(window).on('resize', function(){
+        if(chartQuestionTwo != null && chartQuestionTwo != undefined){
+            chartQuestionTwo.resize();
+        }
+    });
+
+    $(window).on('resize', function(){
+        if(chartTwoQuestionTwo != null && chartTwoQuestionTwo != undefined){
+            chartTwoQuestionTwo.resize();
+        }
+    });
+
+  }
+
+  chartQuestionThree() {
+
+    let chartQuestionThree = echarts.init(document.getElementById('chart-question-three'));
+    let chartTwoQuestionThree = echarts.init(document.getElementById('chart-two-question-three'));
+    let optionChartOne;
+    let optionChartTwo;
+
+      optionChartOne = {
+        tooltip: {
+          trigger: 'item',
+          showDelay: 0,
+          transitionDuration: 0.2,
+          formatter: "{a} <br/>{b} : {c}",
+          backgroundColor: '#FFFFFF',
+          padding: 5,
+          textStyle: {
+            color: '#212121',
+            fontSize: 13,
+            lineHeight:10,
+            fontWeight: 'bold',
+            fontFamily: 'Roboto-Light',
+          },
+          extraCssText: 'box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);'
+        },
+        animation: true,
+        animationThreshold: 2000,
+        animationDuration: 1000,
+        animationEasing: 'bounceIn',
+        animationDelay: 0,
+        animationDurationUpdate: 400,
+        animationEasingUpdate: 'bounceIn',
+        animationDelayUpdate: 0,
+        color: ['#fff', '#fff', '#fff'],
+        textStyle: {
+          fontWeight: 'bold',
+          fontFamily: 'Roboto-Light',
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                mark: {show: true},
+                dataView: {show: false, readOnly: false},
+                restore: {show: false},
+                saveAsImage: {show: false}
+            }
+        },
+        visualMap: {
+            top: 'middle',
+            right: -5,
+            max:3865,
+            min:0,
+            text: ['Maximo', 'Minimo'],
+            inRange: {
+                color: ['#9AC331', '#FFDA00', 'rgb(239, 36, 105)']
+            },
+            textStyle: {
+              color: '#212121',
+              fontWeight: 'bold',
+              fontFamily: 'Roboto-Light'
+            }
+        },
+        series: [
+          {
+            name:'Tipo de empresa',
+            type: 'graph',
+            layout: 'force',
+            force: {
+                repulsion: 150,
+                edgeLength: 10,
+                gravity: 0.1,
+            },
+            roam: true,
+            label: {
+              normal: {
+                show: true,
+                position: 'top',
+                fontSize: 12,
+                fontWeight: 'bold',
+                fontFamily: 'Roboto-Light',
+                formatter : function(d){
+                  var newParamsName = "";
+                  var paramsNameNumber = d.name.length;
+                  var provideNumber = 6;
+                  var rowNumber = Math.ceil(paramsNameNumber / provideNumber);
+                  if (paramsNameNumber > provideNumber) {
+                      for (var p = 0; p < rowNumber; p++) {
+                          var tempStr = "";
+                          if (p == rowNumber - 1) {
+                              tempStr = (d.name.length > 6 ? (d.name.slice(0,6)+"...") : '' );
+                          } else {}
+                          newParamsName += tempStr;
+                      }
+                  } else {
+                      newParamsName = d.name;
+                  }
+                  return newParamsName
+                }
+              },
+              emphasis: {
+                show: true,
+                position: 'top',
+                fontSize: 12,
+                fontWeight: 'bold',
+                fontFamily: 'Roboto-Light'
+              }
+            },
+            data:[
+              {
+                "name": "Emprendedor",
+                "value": 2181,
+                "symbolSize": 48,
+                "draggable": true,
+                "itemStyle": {
+                    "normal": {
+                        "shadowBlur": 0
+                    }
+                }
+              },
+              {
+                "name": "Micro empresas",
+                "value": 1386,
+                "symbolSize": 73,
+                "draggable": true,
+                "itemStyle": {
+                    "normal": {
+                        "shadowBlur": 0
+                    }
+                }
+              },
+              {
+                "name": "Empresas pequeñas",
+                "value": 2055,
+                "symbolSize": 67,
+                "draggable": true,
+                "itemStyle": {
+                    "normal": {
+                        "shadowBlur": 0
+                    }
+                }
+              },
+              {
+                "name": "Medianas empresas",
+                "value": 2518,
+                "symbolSize": 50,
+                "draggable": true,
+                "itemStyle": {
+                    "normal": {
+                        "shadowBlur": 0
+                    }
+                }
+              },
+              {
+                "name": "Grandes empresas",
+                "value": 3730,
+                "symbolSize": 88,
+                "draggable": true,
+                "itemStyle": {
+                    "normal": {
+                        "shadowBlur": 0
+                    }
+                }
+              },
+              {
+                "name": "Gobierno",
+                "value": 1952,
+                "symbolSize": 55,
+                "draggable": true,
+                "itemStyle": {
+                    "normal": {
+                        "shadowBlur": 0
+                    }
+                }
+              },
+              {
+                "name": "Academia",
+                "value": 1898,
+                "symbolSize": 70,
+                "draggable": true,
+                "itemStyle": {
+                    "normal": {
+                        "shadowBlur": 0
+                    }
+                }
+              },
+              {
+                "name": "Entidad soporte",
+                "value": 1484,
+                "symbolSize": 67,
+                "draggable": true,
+                "itemStyle": {
+                    "normal": {
+                        "shadowBlur": 0
+                    }
+                }
+              },
+              {
+                "name": "Personas naturales",
+                "value": 3865,
+                "symbolSize": 47,
+                "draggable": true,
+                "itemStyle": {
+                    "normal": {
+                        "shadowBlur": 0
+                    }
+                }
+              },
+              {
+                "name": "Otros usuarios",
+                "value": 493,
+                "symbolSize": 82,
+                "draggable": true,
+                "itemStyle": {
+                    "normal": {
+                        "shadowBlur": 0
+                    }
+                }
+              }
+            ],
+            animationEasing: 'elasticOut',
+            animationDelayUpdate: function (idx) {
+                return idx * 5;
+            }
+          }
+        ]
+    };
+
+    optionChartTwo = {
+      tooltip: {
+        trigger: 'item',
+        showDelay: 0,
+        transitionDuration: 0.2,
+        formatter: "{a} <br/>{b}: {c}",
+        backgroundColor: '#FFFFFF',
+        padding: 5,
+        textStyle: {
+          color: '#212121',
+          fontSize: 13,
+          lineHeight:10,
+          fontWeight: 'bold',
+          fontFamily: 'Roboto-Light'
+        },
+        extraCssText: 'box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);'
+      },
+      legend: {
+        show: false,
+        top: 'top',
+        textStyle: {
+          color: '#212121',
+          fontSize: 13,
+          lineHeight:10,
+          fontWeight: 'bold',
+          fontFamily: 'Roboto-Light'
+        },
+        icon: 'rect'
+      },
+      toolbox: {
+          show: true,
+          feature: {
+              mark: {show: true},
+              dataView: {show: false, readOnly: false},
+              restore: {show: false},
+              saveAsImage: {show: false}
+          }
+      },
+      visualMap: {
+          top: 'middle',
+          right: -5,
+          max:40,
+          min:28,
+          text: ['Maximo', 'Minimo'],
+          inRange: {
+              color: ['#9AC331', '#FFDA00', 'rgb(239, 36, 105)']
+          },
+          textStyle: {
+            color: '#212121',
+            fontWeight: 'bold',
+            fontFamily: 'Roboto-Light'
+          }
+      },
+      grid: [
+        {
+          right: '14%'
+        }
+      ],
+      series: [{
+        breadcrumb: {
+          show: false,
+          left: 'center',
+          top: 'auto',
+          right: 'auto',
+          bottom: 15,
+          height: 22,
+          itemStyle: {
+              color: '#1D244A'
+          },
+          textStyle: {
+            color: '#FAFAFA',
+            fontSize: 12,
+            lineHeight:10,
+            fontWeight: 'bold',
+            fontFamily: 'Roboto-Light'
+          }
+        },
+        width: '70%',
+        height: '70%',
+        name: 'Todo',
+        type: 'treemap',
+        leafDepth: 1,
+        data: [{
+          name: 'Emprendedor',
+          value: 100,
+          label: {
+            show: true,
+            position: 'inside',
+            color: '#FAFAFA',
+            fontSize: 11,
+            lineHeight:10,
+            fontWeight: 'bold',
+            fontFamily: 'Roboto-Light'
+          }
+        },
+        {
+          name: 'Micro empresas',
+          value: 27,
+          label: {
+            show: true,
+            position: 'inside',
+            color: '#FAFAFA',
+            fontSize: 11,
+            lineHeight:10,
+            fontWeight: 'bold',
+            fontFamily: 'Roboto-Light'
+          }
+        },
+        {
+          name: 'Empresas pequeñas',
+          value: 5,
+          label: {
+            show: true,
+            position: 'inside',
+            color: '#FAFAFA',
+            fontSize: 11,
+            lineHeight:10,
+            fontWeight: 'bold',
+            fontFamily: 'Roboto-Light'
+          }
+        },
+        {
+          name: 'Medianas empresas',
+          value: 10,
+          label: {
+            show: true,
+            position: 'inside',
+            color: '#FAFAFA',
+            fontSize: 11,
+            lineHeight:10,
+            fontWeight: 'bold',
+            fontFamily: 'Roboto-Light'
+          }
+        },
+        {
+          name: 'Grandes empresas',
+          value: 35,
+          label: {
+            show: true,
+            position: 'inside',
+            color: '#FAFAFA',
+            fontSize: 11,
+            lineHeight:10,
+            fontWeight: 'bold',
+            fontFamily: 'Roboto-Light'
+          }
+        },
+        {
+          name: 'Gobierno',
+          value: 8,
+          label: {
+            show: true,
+            position: 'inside',
+            color: '#FAFAFA',
+            fontSize: 11,
+            lineHeight:10,
+            fontWeight: 'bold',
+            fontFamily: 'Roboto-Light'
+          }
+        },
+        {
+          name: 'Academia',
+          value: 40,
+          label: {
+            show: true,
+            position: 'inside',
+            color: '#FAFAFA',
+            fontSize: 11,
+            lineHeight:10,
+            fontWeight: 'bold',
+            fontFamily: 'Roboto-Light'
+          }
+        },
+        {
+          name: 'Entidad soporte',
+          value: 15,
+          label: {
+            show: true,
+            position: 'inside',
+            color: '#FAFAFA',
+            fontSize: 11,
+            lineHeight:10,
+            fontWeight: 'bold',
+            fontFamily: 'Roboto-Light'
+          }
+        },
+        {
+          name: 'Personas naturales',
+          value: 10,
+          label: {
+            show: true,
+            position: 'inside',
+            color: '#FAFAFA',
+            fontSize: 11,
+            lineHeight:10,
+            fontWeight: 'bold',
+            fontFamily: 'Roboto-Light'
+          }
+        },
+        {
+          name: 'Otros usuarios',
+          value: 10,
+          label: {
+            show: true,
+            position: 'inside',
+            color: '#FAFAFA',
+            fontSize: 11,
+            lineHeight:10,
+            fontWeight: 'bold',
+            fontFamily: 'Roboto-Light'
+          }
+        }]
+      }],
+      animationEasing: 'elasticOut',
+      animationDelayUpdate: function (idx) {
+          return idx * 5;
+      }
+  };
+
     optionChartOne && chartQuestionThree.setOption(optionChartOne);
     optionChartTwo && chartTwoQuestionThree.setOption(optionChartTwo);
 
@@ -1047,6 +1531,468 @@ export class IndicadorDosComponent implements OnInit {
     $(window).on('resize', function(){
         if(chartTwoQuestionThree != null && chartTwoQuestionThree != undefined){
             chartTwoQuestionThree.resize();
+        }
+    });
+
+  }
+
+  chartQuestionFour() {
+
+    let chartQuestionFour = echarts.init(document.getElementById('chart-question-four'));
+    let chartTwoQuestionFour = echarts.init(document.getElementById('chart-two-question-four'));
+    let optionChartOne;
+    let optionChartTwo;
+
+      optionChartOne = {
+        tooltip: {
+          trigger: 'item',
+          showDelay: 0,
+          transitionDuration: 0.2,
+          formatter: "{a} <br/>{b} : {c}",
+          backgroundColor: '#FFFFFF',
+          padding: 5,
+          textStyle: {
+            color: '#212121',
+            fontSize: 13,
+            lineHeight:10,
+            fontWeight: 'bold',
+            fontFamily: 'Roboto-Light',
+          },
+          extraCssText: 'box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);'
+        },
+        animation: true,
+        animationThreshold: 2000,
+        animationDuration: 1000,
+        animationEasing: 'bounceIn',
+        animationDelay: 0,
+        animationDurationUpdate: 400,
+        animationEasingUpdate: 'bounceIn',
+        animationDelayUpdate: 0,
+        color: ['#fff', '#fff', '#fff'],
+        textStyle: {
+          fontWeight: 'bold',
+          fontFamily: 'Roboto-Light',
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                mark: {show: true},
+                dataView: {show: false, readOnly: false},
+                restore: {show: false},
+                saveAsImage: {show: false}
+            }
+        },
+        visualMap: {
+            top: 'middle',
+            right: -5,
+            max:3865,
+            min:0,
+            text: ['Maximo', 'Minimo'],
+            inRange: {
+                color: ['#9AC331', '#FFDA00', 'rgb(239, 36, 105)']
+            },
+            textStyle: {
+              color: '#212121',
+              fontWeight: 'bold',
+              fontFamily: 'Roboto-Light'
+            }
+        },
+        series: [
+          {
+            name:'Tipo de oferta',
+            type: 'graph',
+            layout: 'force',
+            force: {
+                repulsion: 150,
+                edgeLength: 10,
+                gravity: 0.1,
+            },
+            roam: true,
+            label: {
+              normal: {
+                show: true,
+                position: 'top',
+                fontSize: 12,
+                fontWeight: 'bold',
+                fontFamily: 'Roboto-Light',
+                formatter : function(d){
+                  var newParamsName = "";
+                  var paramsNameNumber = d.name.length;
+                  var provideNumber = 6;
+                  var rowNumber = Math.ceil(paramsNameNumber / provideNumber);
+                  if (paramsNameNumber > provideNumber) {
+                      for (var p = 0; p < rowNumber; p++) {
+                          var tempStr = "";
+                          if (p == rowNumber - 1) {
+                              tempStr = (d.name.length > 6 ? (d.name.slice(0,6)+"...") : '' );
+                          } else {}
+                          newParamsName += tempStr;
+                      }
+                  } else {
+                      newParamsName = d.name;
+                  }
+                  return newParamsName
+                }
+              },
+              emphasis: {
+                show: true,
+                position: 'top',
+                fontSize: 12,
+                fontWeight: 'bold',
+                fontFamily: 'Roboto-Light'
+              }
+            },
+            data:[
+              {
+                "name": "innovación",
+                "value": 2181,
+                "symbolSize": 48,
+                "draggable": true,
+                "itemStyle": {
+                    "normal": {
+                        "shadowBlur": 0
+                    }
+                }
+              },
+              {
+                "name": "Emprendimiento",
+                "value": 1386,
+                "symbolSize": 73,
+                "draggable": true,
+                "itemStyle": {
+                    "normal": {
+                        "shadowBlur": 0
+                    }
+                }
+              },
+              {
+                "name": "Transferencia de conocimiento",
+                "value": 2055,
+                "symbolSize": 67,
+                "draggable": true,
+                "itemStyle": {
+                    "normal": {
+                        "shadowBlur": 0
+                    }
+                }
+              },
+              {
+                "name": "Investigación",
+                "value": 2518,
+                "symbolSize": 50,
+                "draggable": true,
+                "itemStyle": {
+                    "normal": {
+                        "shadowBlur": 0
+                    }
+                }
+              },
+              {
+                "name": "Formación capital humano",
+                "value": 3730,
+                "symbolSize": 88,
+                "draggable": true,
+                "itemStyle": {
+                    "normal": {
+                        "shadowBlur": 0
+                    }
+                }
+              },
+              {
+                "name": "Tipo de formación",
+                "value": 1952,
+                "symbolSize": 55,
+                "draggable": true,
+                "itemStyle": {
+                    "normal": {
+                        "shadowBlur": 0
+                    }
+                }
+              },
+              {
+                "name": "Calidad",
+                "value": 1898,
+                "symbolSize": 70,
+                "draggable": true,
+                "itemStyle": {
+                    "normal": {
+                        "shadowBlur": 0
+                    }
+                }
+              },
+              {
+                "name": "Entidad soporte",
+                "value": 1484,
+                "symbolSize": 67,
+                "draggable": true,
+                "itemStyle": {
+                    "normal": {
+                        "shadowBlur": 0
+                    }
+                }
+              },
+              {
+                "name": "Cluster de encadenamiento",
+                "value": 3865,
+                "symbolSize": 47,
+                "draggable": true,
+                "itemStyle": {
+                    "normal": {
+                        "shadowBlur": 0
+                    }
+                }
+              },
+              {
+                "name": "Financiación",
+                "value": 493,
+                "symbolSize": 82,
+                "draggable": true,
+                "itemStyle": {
+                    "normal": {
+                        "shadowBlur": 0
+                    }
+                }
+              }
+            ],
+            animationEasing: 'elasticOut',
+            animationDelayUpdate: function (idx) {
+                return idx * 5;
+            }
+          }
+        ]
+    };
+
+    optionChartTwo = {
+      tooltip: {
+        trigger: 'item',
+        showDelay: 0,
+        transitionDuration: 0.2,
+        formatter: "{a} <br/>{b}: {c}",
+        backgroundColor: '#FFFFFF',
+        padding: 5,
+        textStyle: {
+          color: '#212121',
+          fontSize: 13,
+          lineHeight:10,
+          fontWeight: 'bold',
+          fontFamily: 'Roboto-Light'
+        },
+        extraCssText: 'box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);'
+      },
+      legend: {
+        show: false,
+        top: 'top',
+        textStyle: {
+          color: '#212121',
+          fontSize: 13,
+          lineHeight:10,
+          fontWeight: 'bold',
+          fontFamily: 'Roboto-Light'
+        },
+        icon: 'rect'
+      },
+      toolbox: {
+          show: true,
+          feature: {
+              mark: {show: true},
+              dataView: {show: false, readOnly: false},
+              restore: {show: false},
+              saveAsImage: {show: false}
+          }
+      },
+      visualMap: {
+          top: 'middle',
+          right: -5,
+          max:40,
+          min:28,
+          text: ['Maximo', 'Minimo'],
+          inRange: {
+              color: ['#9AC331', '#FFDA00', 'rgb(239, 36, 105)']
+          },
+          textStyle: {
+            color: '#212121',
+            fontWeight: 'bold',
+            fontFamily: 'Roboto-Light'
+          }
+      },
+      grid: [
+        {
+          right: '14%'
+        }
+      ],
+      series: [{
+        breadcrumb: {
+          show: false,
+          left: 'center',
+          top: 'auto',
+          right: 'auto',
+          bottom: 15,
+          height: 22,
+          itemStyle: {
+              color: '#1D244A'
+          },
+          textStyle: {
+            color: '#FAFAFA',
+            fontSize: 12,
+            lineHeight:10,
+            fontWeight: 'bold',
+            fontFamily: 'Roboto-Light'
+          }
+        },
+        width: '70%',
+        height: '70%',
+        name: 'Todo',
+        type: 'treemap',
+        leafDepth: 1,
+        data: [{
+          name: 'Innovación',
+          value: 100,
+          label: {
+            show: true,
+            position: 'inside',
+            color: '#FAFAFA',
+            fontSize: 11,
+            lineHeight:10,
+            fontWeight: 'bold',
+            fontFamily: 'Roboto-Light'
+          }
+        },
+        {
+          name: 'Emprendimiento',
+          value: 27,
+          label: {
+            show: true,
+            position: 'inside',
+            color: '#FAFAFA',
+            fontSize: 11,
+            lineHeight:10,
+            fontWeight: 'bold',
+            fontFamily: 'Roboto-Light'
+          }
+        },
+        {
+          name: 'Trasnferencia de conocimiento',
+          value: 5,
+          label: {
+            show: true,
+            position: 'inside',
+            color: '#FAFAFA',
+            fontSize: 11,
+            lineHeight:10,
+            fontWeight: 'bold',
+            fontFamily: 'Roboto-Light'
+          }
+        },
+        {
+          name: 'Investigación',
+          value: 10,
+          label: {
+            show: true,
+            position: 'inside',
+            color: '#FAFAFA',
+            fontSize: 11,
+            lineHeight:10,
+            fontWeight: 'bold',
+            fontFamily: 'Roboto-Light'
+          }
+        },
+        {
+          name: 'Formación de capital humano',
+          value: 35,
+          label: {
+            show: true,
+            position: 'inside',
+            color: '#FAFAFA',
+            fontSize: 11,
+            lineHeight:10,
+            fontWeight: 'bold',
+            fontFamily: 'Roboto-Light'
+          }
+        },
+        {
+          name: 'Tipo de formación',
+          value: 8,
+          label: {
+            show: true,
+            position: 'inside',
+            color: '#FAFAFA',
+            fontSize: 11,
+            lineHeight:10,
+            fontWeight: 'bold',
+            fontFamily: 'Roboto-Light'
+          }
+        },
+        {
+          name: 'Calidad',
+          value: 40,
+          label: {
+            show: true,
+            position: 'inside',
+            color: '#FAFAFA',
+            fontSize: 11,
+            lineHeight:10,
+            fontWeight: 'bold',
+            fontFamily: 'Roboto-Light'
+          }
+        },
+        {
+          name: 'Cluster de encadenamiento',
+          value: 15,
+          label: {
+            show: true,
+            position: 'inside',
+            color: '#FAFAFA',
+            fontSize: 11,
+            lineHeight:10,
+            fontWeight: 'bold',
+            fontFamily: 'Roboto-Light'
+          }
+        },
+        {
+          name: 'Financiación',
+          value: 10,
+          label: {
+            show: true,
+            position: 'inside',
+            color: '#FAFAFA',
+            fontSize: 11,
+            lineHeight:10,
+            fontWeight: 'bold',
+            fontFamily: 'Roboto-Light'
+          }
+        },
+        {
+          name: 'Comercialización',
+          value: 10,
+          label: {
+            show: true,
+            position: 'inside',
+            color: '#FAFAFA',
+            fontSize: 11,
+            lineHeight:10,
+            fontWeight: 'bold',
+            fontFamily: 'Roboto-Light'
+          }
+        }]
+      }],
+      animationEasing: 'elasticOut',
+      animationDelayUpdate: function (idx) {
+          return idx * 5;
+      }
+  };
+
+    optionChartOne && chartQuestionFour.setOption(optionChartOne);
+    optionChartTwo && chartTwoQuestionFour.setOption(optionChartTwo);
+
+    $(window).on('resize', function(){
+        if(chartQuestionFour != null && chartQuestionFour != undefined){
+            chartQuestionFour.resize();
+        }
+    });
+
+    $(window).on('resize', function(){
+        if(chartTwoQuestionFour != null && chartTwoQuestionFour != undefined){
+            chartTwoQuestionFour.resize();
         }
     });
 
