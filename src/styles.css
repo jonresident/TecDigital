@@ -5753,53 +5753,53 @@ svg.finished * {
   }
 
   #icono_diagnostico {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .diagnostico {
     stroke: #fafafa;
-    stroke-width: 12px;
+    stroke-width: 14px;
   }
 
   #icono_mapeo {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .mapeo {
     stroke: #fafafa;
-    stroke-width: 1.2px;
+    stroke-width: 1.4px;
   }
 
   #icono_evaluacion {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .evaluacion {
     stroke: #fafafa;
-    stroke-width: 12px;
+    stroke-width: 14px;
   }
 
   #icono_consolidacion {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .consolidacion {
     stroke: #fafafa;
-    stroke-width: 12px;
+    stroke-width: 14px;
   }
 
   #icono_despegue {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .despegue {
     stroke: #fafafa;
-    stroke-width: 12px;
+    stroke-width: 14px;
   }
 
   #icono_mapping_colombia {
@@ -5809,73 +5809,73 @@ svg.finished * {
 
   .icono_map {
     stroke: #fafafa;
-    stroke-width: 10px;
+    stroke-width: 12px;
   }
 
   #icono_business {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .businessvg {
     fill: transparent;
     stroke: #fafafa;
-    stroke-width: 0.6px;
+    stroke-width: 0.8px;
   }
 
   #icono_oferente {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .oferentessvg {
     fill: transparent;
     stroke: #fafafa;
-    stroke-width: 14px;
+    stroke-width: 16px;
   }
 
   #icono_offer {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .offersvg {
     fill: transparent;
     stroke: #fafafa;
-    stroke-width: 10px;
+    stroke-width: 12px;
   }
 
   #icono_leads {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .leadsvg {
     fill: transparent;
     stroke: #fafafa;
-    stroke-width: 14px;
+    stroke-width: 16px;
   }
 
   #icono_customers {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .customersvg {
     fill: transparent;
     stroke: #fafafa;
-    stroke-width: 6px;
+    stroke-width: 8px;
   }
 
   #icono_register {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .registersvg {
     fill: transparent;
     stroke: #fafafa;
-    stroke-width: 12px;
+    stroke-width: 14px;
   }
 
 }
