@@ -29,7 +29,7 @@
       <h2 class="accordion-header border-0 rounded-0" id="panelsStayOpen-headingOne">
         <button class="accordion-button border-0 rounded-0" type="button" data-bs-toggle="collapse"
           data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false" aria-controls="panelsStayOpen-collapseOne">
-          <span class="txt_sm tip_fuen_roboto_l">Filtro 1</span>
+          <span class="txt_sm tip_fuen_roboto_l">Fecha de registro</span>
         </button>
       </h2>
       <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show border-0 rounded-0"
@@ -38,14 +38,11 @@
           <div class="pl-0 pl-sm-0 pl-md-0 pl-lg-0 pl-xl-0 filters-dashboard mx-auto mt-2 mb-2">
             <div
               class="form-group inner-addon left-addon mt-2 mb-2 mt-sm-2 mb-sm-2 mt-md-2 mb-md-2 mt-lg-2 mb-lg-2 mt-xl-0 mb-xl-0">
-              <select class="form-control form-select" id="selectAno" [(ngModel)]="dropdownFilter"
-                (change)="fn_setFilter('dropdownFilter',dropdownFilter)" required>
-                <option hidden></option>
-                <option [value]="item" *ngFor="let item of aArray">{{item}}</option>
-              </select>
+              <input type="date" class="form-control" name="date" id="date" required
+                      data-validation-required-message="">
               <i class="fa icon-icono-ruta"></i>
               <span class="form-bar"></span>
-              <label class="float-label m-0" for="name"><span>Filtro</span></label>
+<!--               <label class="float-label m-0" for="name"><span>Fecha</span></label> -->
             </div>
           </div>
         </div>
@@ -55,7 +52,7 @@
       <h2 class="accordion-header border-0 rounded-0" id="panelsStayOpen-headingTwo">
         <button class="accordion-button collapsed border-0 rounded-0" type="button" data-bs-toggle="collapse"
           data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-          <span class="txt_sm tip_fuen_roboto_l">Filtro 2</span>
+          <span class="txt_sm tip_fuen_roboto_l">Departamento</span>
         </button>
       </h2>
       <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse border-0 rounded-0"
@@ -71,34 +68,7 @@
               </select>
               <i class="fa icon-icono-ciclo"></i>
               <span class="form-bar"></span>
-              <label class="float-label m-0" for="name"><span>Filtro</span></label>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="accordion-item border-0 rounded-0">
-      <h2 class="accordion-header border-0 rounded-0" id="panelsStayOpen-headingThree">
-        <button class="accordion-button border-0 rounded-0 collapsed" type="button" data-bs-toggle="collapse"
-          data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
-          aria-controls="panelsStayOpen-collapseThree">
-          <span class="txt_sm tip_fuen_roboto_l">Filtro 3</span>
-        </button>
-      </h2>
-      <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse border-0 rounded-0"
-        aria-labelledby="panelsStayOpen-headingThree">
-        <div class="accordion-body border-0 rounded-0 ps-3 pt-4 pb-4">
-          <div class="pl-0 pl-sm-0 pl-md-0 pl-lg-0 pl-xl-0 filters-dashboard mx-auto mt-2 mb-2">
-            <div
-              class="form-group inner-addon left-addon mt-2 mb-2 mt-sm-2 mb-sm-2 mt-md-2 mb-md-2 mt-lg-2 mb-lg-2 mt-xl-0 mb-xl-0">
-              <select class="form-control form-select" id="selectGenero" [(ngModel)]="dropdownFilter3"
-                (change)="fn_setFilter('dropdownFilter3',dropdownFilter3)" required>
-                <option hidden></option>
-                <option [value]="item" *ngFor="let item of aArray3">{{item}}</option>
-              </select>
-              <i class="fa icon-icono-semana"></i>
-              <span class="form-bar"></span>
-              <label class="float-label m-0" for="name"><span>Filtro</span></label>
+              <label class="float-label m-0" for="name"><span>Departamento</span></label>
             </div>
           </div>
         </div>

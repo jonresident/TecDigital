@@ -25,25 +25,35 @@ export class IndicadorDosComponent implements OnInit {
 
   chart: any;
 
-  datosReportOne = [
-    {
-      Nombre_curso: 'Habilidades Personales e Inserción Laboral',
-      Promedio_numero_personas: '48',
-      Promedio_asistencia_personas: '19.91',
-      Porcentaje_asistencia: '48.48',
-    },
-    {
-      Nombre_curso: 'Fundamentos de Programación Inglés',
-      Promedio_numero_personas: '48',
-      Promedio_asistencia_personas: '19.91',
-      Porcentaje_asistencia: '48.48',
-    },
-    {
-      Nombre_curso: 'Programadores Mentalmente Saludables Ciclo1 ',
-      Promedio_numero_personas: '48',
-      Promedio_asistencia_personas: '19.91',
-      Porcentaje_asistencia: '48.48',
-    }
+  datosSectores = [
+    {Numero_empresas: 2, Sector: 'Manufactura'},
+    {Numero_empresas: 58, Sector: 'Servicios'},
+    {Numero_empresas: 2, Sector: 'Comercialización'}
+  ];
+
+  datosMecanismosApoyo = [
+    {Numero_empresas: 11, Mecanismo: 'CapacitaciónFormación'},
+    {Numero_empresas: 10, Mecanismo: 'PlataformaBase'},
+    {Numero_empresas: 13, Mecanismo: 'AsesoriaConsultoria'},
+    {Numero_empresas: 10, Mecanismo: 'Relacionamiento'},
+    {Numero_empresas: 3, Mecanismo: 'financiero'},
+    {Numero_empresas: 3, Mecanismo: 'reembolsable'},
+    {Numero_empresas: 3, Mecanismo: 'contrapartida'},
+    {Numero_empresas: 6, Mecanismo: 'otrostipoapoyo'},
+    {Numero_empresas: 11, Mecanismo: 'otros2tipoapoyo'},
+  ]
+
+  datosTipoEmpresa = [
+    {Tipo_empresa: 'Emprendedor',Numero_empresas: 33},
+    {Tipo_empresa: 'Micro empresas',Numero_empresas: 38},
+    {Tipo_empresa: 'Empresas pequeñas',Numero_empresas: 40},
+    {Tipo_empresa: 'Medianas empresas',Numero_empresas: 59},
+    {Tipo_empresa: 'Grandes empresas',Numero_empresas: 54},
+    {Tipo_empresa: 'Gobierno',Numero_empresas: 54},
+    {Tipo_empresa: 'Academia',Numero_empresas: 51},
+    {Tipo_empresa: 'Entidad soporte',Numero_empresas: 40},
+    {Tipo_empresa: 'Personas naturales',Numero_empresas: 28},
+    {Tipo_empresa: 'Otros usuarios',Numero_empresas: 5}
   ];
 
   windowScrolled: boolean;
@@ -88,11 +98,11 @@ export class IndicadorDosComponent implements OnInit {
           reverse: true,
           dashGap: 20
         },).reset();
-        new Vivus('icono_burbuja_2',{
+        /*new Vivus('icono_burbuja_2',{
           duration: 50,
           reverse: true,
           dashGap: 20
-        },).reset();
+        },).reset();*/
       }
   }
 
@@ -103,7 +113,7 @@ export class IndicadorDosComponent implements OnInit {
     this.chartQuestionOne();
     this.chartQuestionTwo();
     this.chartQuestionThree();
-    this.chartQuestionFour();
+    /this.chartQuestionFour();/
   }
 
   initVivus() {
@@ -137,18 +147,18 @@ export class IndicadorDosComponent implements OnInit {
       reverse: true,
       dashGap: 20
     },).reset();
-    new Vivus('icono_burbuja_2',{
+    /* new Vivus('icono_burbuja_2',{
       duration: 50,
       reverse: true,
       dashGap: 20
-    },).reset();
+    },).reset(); */
   }
 
   initializerOdometer() {
     setTimeout(function () {
-      $('.resultActivityOne').html('9');
-      $('.resultActivityTwo').html('16 ');
-      $('.resultActivityThree').html('0');
+      $('.resultActivityOne').html('29');
+      $('.resultActivityTwo').html('62');
+      $('.resultActivityThree').html('9');
     }, 200);
   }
 
@@ -623,7 +633,7 @@ export class IndicadorDosComponent implements OnInit {
             top: 'middle',
             right: -5,
             min: 0,
-            max: 100,
+            max: 58,
             text: ['Maximo', 'Minimo'],
             inRange: {
                 color: ['#9AC331', '#FFDA00', 'rgb(239, 36, 105)']
@@ -641,7 +651,7 @@ export class IndicadorDosComponent implements OnInit {
         ],
         series: [
             {
-              data: [90, 38, 10],
+              data: [2, 58, 2],
               name: '',
               type: 'bar',
               label: {
@@ -705,7 +715,7 @@ export class IndicadorDosComponent implements OnInit {
       visualMap: {
           top: 'middle',
           right: -5,
-          max:100,
+          max:58,
           min:0,
           text: ['Maximo', 'Minimo'],
           inRange: {
@@ -785,9 +795,9 @@ export class IndicadorDosComponent implements OnInit {
                 }
               },
               data: [
-                  {value: 90, name: 'Manufactura'},
-                  {value: 38, name: 'Servicios'},
-                  {value: 10, name: 'Comercialización'}
+                  {value: 2, name: 'Manufactura'},
+                  {value: 58, name: 'Servicios'},
+                  {value: 2, name: 'Comercialización'}
               ],
               animationDelay: function (idx) {
                 return idx * 15;
@@ -842,7 +852,7 @@ export class IndicadorDosComponent implements OnInit {
         },
         xAxis: {
             type: 'category',
-            data: ['CapacitaciónFormación', 'PlataformaBase', 'AsesoriaConsultoria', 'Relacionamiento'],
+            data: ['CapacitaciónFormación', 'PlataformaBase', 'AsesoriaConsultoria', 'Relacionamiento', 'financiero', 'reembolsable', 'contrapartida', 'otrostipoapoyo'],
             axisLabel: {
               formatter : function(params, value){
                 var newParamsName = "";
@@ -879,7 +889,7 @@ export class IndicadorDosComponent implements OnInit {
             top: 'middle',
             right: -5,
             min: 0,
-            max: 100,
+            max: 13,
             text: ['Maximo', 'Minimo'],
             inRange: {
                 color: ['#9AC331', '#FFDA00', 'rgb(239, 36, 105)']
@@ -897,7 +907,7 @@ export class IndicadorDosComponent implements OnInit {
         ],
         series: [
             {
-              data: [90, 38, 10, 50],
+              data: [11, 10, 13, 10, 3, 3, 3, 6],
               name: '',
               type: 'bar',
               label: {
@@ -961,7 +971,7 @@ export class IndicadorDosComponent implements OnInit {
       visualMap: {
           top: 'middle',
           right: -5,
-          max:100,
+          max:13,
           min:0,
           text: ['Maximo', 'Minimo'],
           inRange: {
@@ -1041,10 +1051,14 @@ export class IndicadorDosComponent implements OnInit {
                 }
               },
               data: [
-                  {value: 90, name: 'CapacitaciónFormación'},
-                  {value: 38, name: 'PlataformaBase'},
-                  {value: 10, name: 'AsesoriaConsultoria'},
-                  {value: 50, name: 'Relacionamiento'}
+                  {value: 11, name: 'CapacitaciónFormación'},
+                  {value: 10, name: 'PlataformaBase'},
+                  {value: 13, name: 'AsesoriaConsultoria'},
+                  {value: 10, name: 'Relacionamiento'},
+                  {value: 3, name: 'financiero'},
+                  {value: 3, name: 'reembolsable'},
+                  {value: 3, name: 'contrapartida'},
+                  {value: 6, name: 'otrostipoapoyo'}
               ],
               animationDelay: function (idx) {
                 return idx * 15;
@@ -1123,7 +1137,7 @@ export class IndicadorDosComponent implements OnInit {
         visualMap: {
             top: 'middle',
             right: -5,
-            max:3865,
+            max:59,
             min:0,
             text: ['Maximo', 'Minimo'],
             inRange: {
@@ -1183,7 +1197,7 @@ export class IndicadorDosComponent implements OnInit {
             data:[
               {
                 "name": "Emprendedor",
-                "value": 2181,
+                "value": 33,
                 "symbolSize": 48,
                 "draggable": true,
                 "itemStyle": {
@@ -1194,7 +1208,7 @@ export class IndicadorDosComponent implements OnInit {
               },
               {
                 "name": "Micro empresas",
-                "value": 1386,
+                "value": 38,
                 "symbolSize": 73,
                 "draggable": true,
                 "itemStyle": {
@@ -1205,7 +1219,7 @@ export class IndicadorDosComponent implements OnInit {
               },
               {
                 "name": "Empresas pequeñas",
-                "value": 2055,
+                "value": 40,
                 "symbolSize": 67,
                 "draggable": true,
                 "itemStyle": {
@@ -1216,7 +1230,7 @@ export class IndicadorDosComponent implements OnInit {
               },
               {
                 "name": "Medianas empresas",
-                "value": 2518,
+                "value": 59,
                 "symbolSize": 50,
                 "draggable": true,
                 "itemStyle": {
@@ -1227,7 +1241,7 @@ export class IndicadorDosComponent implements OnInit {
               },
               {
                 "name": "Grandes empresas",
-                "value": 3730,
+                "value": 54,
                 "symbolSize": 88,
                 "draggable": true,
                 "itemStyle": {
@@ -1238,7 +1252,7 @@ export class IndicadorDosComponent implements OnInit {
               },
               {
                 "name": "Gobierno",
-                "value": 1952,
+                "value": 54,
                 "symbolSize": 55,
                 "draggable": true,
                 "itemStyle": {
@@ -1249,7 +1263,7 @@ export class IndicadorDosComponent implements OnInit {
               },
               {
                 "name": "Academia",
-                "value": 1898,
+                "value": 51,
                 "symbolSize": 70,
                 "draggable": true,
                 "itemStyle": {
@@ -1260,7 +1274,7 @@ export class IndicadorDosComponent implements OnInit {
               },
               {
                 "name": "Entidad soporte",
-                "value": 1484,
+                "value": 40,
                 "symbolSize": 67,
                 "draggable": true,
                 "itemStyle": {
@@ -1271,7 +1285,7 @@ export class IndicadorDosComponent implements OnInit {
               },
               {
                 "name": "Personas naturales",
-                "value": 3865,
+                "value": 28,
                 "symbolSize": 47,
                 "draggable": true,
                 "itemStyle": {
@@ -1282,7 +1296,7 @@ export class IndicadorDosComponent implements OnInit {
               },
               {
                 "name": "Otros usuarios",
-                "value": 493,
+                "value": 5,
                 "symbolSize": 82,
                 "draggable": true,
                 "itemStyle": {
@@ -1341,8 +1355,8 @@ export class IndicadorDosComponent implements OnInit {
       visualMap: {
           top: 'middle',
           right: -5,
-          max:40,
-          min:28,
+          max:59,
+          min:0,
           text: ['Maximo', 'Minimo'],
           inRange: {
               color: ['#9AC331', '#FFDA00', 'rgb(239, 36, 105)']
@@ -1384,7 +1398,7 @@ export class IndicadorDosComponent implements OnInit {
         leafDepth: 1,
         data: [{
           name: 'Emprendedor',
-          value: 100,
+          value: 33,
           label: {
             show: true,
             position: 'inside',
@@ -1397,7 +1411,7 @@ export class IndicadorDosComponent implements OnInit {
         },
         {
           name: 'Micro empresas',
-          value: 27,
+          value: 38,
           label: {
             show: true,
             position: 'inside',
@@ -1410,58 +1424,6 @@ export class IndicadorDosComponent implements OnInit {
         },
         {
           name: 'Empresas pequeñas',
-          value: 5,
-          label: {
-            show: true,
-            position: 'inside',
-            color: '#FAFAFA',
-            fontSize: 11,
-            lineHeight:10,
-            fontWeight: 'bold',
-            fontFamily: 'Roboto-Light'
-          }
-        },
-        {
-          name: 'Medianas empresas',
-          value: 10,
-          label: {
-            show: true,
-            position: 'inside',
-            color: '#FAFAFA',
-            fontSize: 11,
-            lineHeight:10,
-            fontWeight: 'bold',
-            fontFamily: 'Roboto-Light'
-          }
-        },
-        {
-          name: 'Grandes empresas',
-          value: 35,
-          label: {
-            show: true,
-            position: 'inside',
-            color: '#FAFAFA',
-            fontSize: 11,
-            lineHeight:10,
-            fontWeight: 'bold',
-            fontFamily: 'Roboto-Light'
-          }
-        },
-        {
-          name: 'Gobierno',
-          value: 8,
-          label: {
-            show: true,
-            position: 'inside',
-            color: '#FAFAFA',
-            fontSize: 11,
-            lineHeight:10,
-            fontWeight: 'bold',
-            fontFamily: 'Roboto-Light'
-          }
-        },
-        {
-          name: 'Academia',
           value: 40,
           label: {
             show: true,
@@ -1474,8 +1436,60 @@ export class IndicadorDosComponent implements OnInit {
           }
         },
         {
+          name: 'Medianas empresas',
+          value: 59,
+          label: {
+            show: true,
+            position: 'inside',
+            color: '#FAFAFA',
+            fontSize: 11,
+            lineHeight:10,
+            fontWeight: 'bold',
+            fontFamily: 'Roboto-Light'
+          }
+        },
+        {
+          name: 'Grandes empresas',
+          value: 54,
+          label: {
+            show: true,
+            position: 'inside',
+            color: '#FAFAFA',
+            fontSize: 11,
+            lineHeight:10,
+            fontWeight: 'bold',
+            fontFamily: 'Roboto-Light'
+          }
+        },
+        {
+          name: 'Gobierno',
+          value: 54,
+          label: {
+            show: true,
+            position: 'inside',
+            color: '#FAFAFA',
+            fontSize: 11,
+            lineHeight:10,
+            fontWeight: 'bold',
+            fontFamily: 'Roboto-Light'
+          }
+        },
+        {
+          name: 'Academia',
+          value: 51,
+          label: {
+            show: true,
+            position: 'inside',
+            color: '#FAFAFA',
+            fontSize: 11,
+            lineHeight:10,
+            fontWeight: 'bold',
+            fontFamily: 'Roboto-Light'
+          }
+        },
+        {
           name: 'Entidad soporte',
-          value: 15,
+          value: 40,
           label: {
             show: true,
             position: 'inside',
@@ -1488,7 +1502,7 @@ export class IndicadorDosComponent implements OnInit {
         },
         {
           name: 'Personas naturales',
-          value: 10,
+          value: 28,
           label: {
             show: true,
             position: 'inside',
@@ -1501,7 +1515,7 @@ export class IndicadorDosComponent implements OnInit {
         },
         {
           name: 'Otros usuarios',
-          value: 10,
+          value: 5,
           label: {
             show: true,
             position: 'inside',

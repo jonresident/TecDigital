@@ -58,6 +58,11 @@ export class IndicadorUnoComponent implements OnInit {
       }
      else if (this.windowScrolled && window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop < 10) {
         this.windowScrolled = false;
+        new Vivus('icono_business',{
+          duration: 50,
+          reverse: true,
+          dashGap: 20
+        },).reset();
         new Vivus('icono_diagnostico',{
           duration: 50,
           reverse: true,
@@ -111,6 +116,11 @@ export class IndicadorUnoComponent implements OnInit {
   }
 
   initVivus() {
+    new Vivus('icono_business',{
+      duration: 50,
+      reverse: true,
+      dashGap: 20
+    },).reset();
     new Vivus('icono_diagnostico',{
       duration: 50,
       reverse: true,
@@ -160,6 +170,7 @@ export class IndicadorUnoComponent implements OnInit {
       $('.resultActivityThree').html('18 ');
       $('.resultActivityFour').html('188 ');
       $('.resultActivityFive').html('158 ');
+      $('.resultActivitySix').html('158 ');
     }, 200);
   }
 
@@ -222,7 +233,7 @@ export class IndicadorUnoComponent implements OnInit {
           visualMap: {
               top: 'middle',
               right: -5,
-              max:544,
+              max:53,
               min:0,
               text: ['Maximo', 'Minimo'],
               textStyle: {
@@ -279,43 +290,31 @@ export class IndicadorUnoComponent implements OnInit {
                       areaColor: '#1D244A',
                       borderColor: '#FAFAFA',
                       borderWidth: 1.3
-  
                     }
                   },
                   data:[
-                    {name: 'ANTIOQUIA', value: 253},
-                    {name: 'ATLANTICO', value: 83},
-                    {name: 'SANTAFE DE BOGOTA D.C', value: 544},
-                    {name: 'BOLIVAR', value: 0},
-                    {name: 'BOYACA', value: 60},
-                    {name: 'CALDAS', value: 199},
-                    {name: 'CAQUETA', value: 0},
-                    {name: 'CAUCA', value: 0},
-                    {name: 'CESAR', value: 0},
-                    {name: 'CORDOBA', value: 0},
-                    {name: 'CUNDINAMARCA', value: 151},
-                    {name: 'CHOCO', value: 0},
-                    {name: 'HUILA', value: 0},
-                    {name: 'LA GUAJIRA', value: 0},
-                    {name: 'MAGDALENA', value: 0},
-                    {name: 'META', value: 0},
-                    {name: 'NARIÑO', value: 67},
-                    {name: 'NORTE DE SANTANDER', value: 0},
-                    {name: 'QUINDIO', value: 0},
-                    {name: 'RISARALDA', value: 0},
-                    {name: 'SANTANDER', value: 58},
-                    {name: 'SUCRE', value: 0},
-                    {name: 'TOLIMA', value: 70},
-                    {name: 'VALLE DEL CAUCA', value: 131},
-                    {name: 'ARAUCA', value: 0},
-                    {name: 'CASANARE', value: 0},
-                    {name: 'PUTUMAYO', value: 0},
-                    {name: 'AMAZONAS', value: 0},
-                    {name: 'GUAINIA', value: 0},
-                    {name: 'GUAVIARE', value: 0},
-                    {name: 'VAUPES', value: 0},
-                    {name: 'VICHADA', value: 0},
-                    {name: 'ARCHIPIELAGO DE SAN ANDRES PROVIDENCIA Y SANTA CATALINA', value: 0}
+                    {name: 'ANTIOQUIA', value: 17},
+                    {name: 'ATLANTICO', value: 1},
+                    {name: 'SANTAFE DE BOGOTA D.C', value: 53},
+                    {name: 'BOLIVAR', value: 3},
+                    {name: 'BOYACA', value: 4},
+                    {name: 'CALDAS', value: 18},
+                    {name: 'CAUCA', value: 1},
+                    {name: 'CESAR', value: 3},
+                    {name: 'CUNDINAMARCA', value: 15},
+                    {name: 'HUILA', value: 1},
+                    {name: 'LA GUAJIRA', value: 2},
+                    {name: 'META', value: 1},
+                    {name: 'NARIÑO', value: 1},
+                    {name: 'NORTE DE SANTANDER', value: 1},
+                    {name: 'QUINDIO', value: 2},
+                    {name: 'RISARALDA', value: 1},
+                    {name: 'SANTANDER', value: 1},
+                    {name: 'SUCRE', value: 3},
+                    {name: 'TOLIMA', value: 4},
+                    {name: 'VALLE DEL CAUCA', value: 3},
+                    {name: 'CASANARE', value: 1},
+                    {name: 'AMAZONAS', value: 5}
                   ],
                   animationDelay: function (idx) {
                     return idx * 15;
@@ -330,233 +329,105 @@ export class IndicadorUnoComponent implements OnInit {
       optionChartOne && chartQuestionOne.setOption(optionChartOne);
     });
 
-    $.get('../../../../assets/data/COLOMBIAMUNI.json', function (colombiaJson) {
-      chartTwoQuestionOne.hideLoading();
-        echarts.registerMap('COLOMBIA_MUNI', colombiaJson, {});
         optionChartTwo = {
-            tooltip: {
-              trigger: 'item',
-              showDelay: 0,
-              transitionDuration: 0.2,
-              formatter: function (params) {
-                let value = (params.value + '').split('.');
-                value[0].replace(/(\d{1,3})(?=(?:\d{3})+(?!\d))/g, '$1,');
-                return params.seriesName + '<br/>' + params.name + ': ' + value;
-              },
-              textStyle: {
-                color: '#212121',
-                fontSize: 13,
-                lineHeight:10,
-                fontWeight: 'bold',
-                fontFamily: 'Roboto-Light'
-              },
-              extraCssText: 'box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);'
+          tooltip: {
+            trigger: 'item',
+            showDelay: 0,
+            transitionDuration: 0.2,
+            backgroundColor: '#FFFFFF',
+            padding: 5,
+            textStyle: {
+              color: '#212121',
+              fontSize: 13,
+              lineHeight:10,
+              fontWeight: 'bold',
+              fontFamily: 'Roboto-Light'
             },
-            toolbox: {
-              show: true,
-              left: '1.2%',
-              top: '-1%',
-              textStyle: {
-                color: '#212121',
-                fontSize: 12,
-                fontWeight: 'bold',
-                fontFamily: 'Roboto-Light'
-              },
-              feature: {
-                  mark: {show: true},
-                  dataView: {show: false, readOnly: false},
-                  restore: {
-                    show: true,
-                    title: 'restaurar',
-                    iconStyle: {
-                      borderColor: '#1D244A'
-                    },
-                    emphasis: {
-                      borderColor: '#2a52bb'
-                    }
-                  },
-                  saveAsImage: {show: false}
-              }
-            },
-            visualMap: {
-                top: 'middle',
-                right: -5,
-                max:544,
-                min:0,
-                text: ['Maximo', 'Minimo'],
-                textStyle: {
-                  color: '#212121',
-                  fontSize: 12,
-                  fontWeight: 'bold',
-                  fontFamily: 'Roboto-Light'
+            extraCssText: 'box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);'
+          },
+          xAxis: {
+              type: 'category',
+              data: ['ANTIOQUIA','ATLANTICO','SANTAFE DE BOGOTA D.C','BOLIVAR','BOYACA','CALDAS','CAUCA','CESAR','CUNDINAMARCA','HUILA','LA GUAJIRA','META','NARIÑO','NORTE DE SANTANDER','QUINDIO','RISARALDA','SANTANDER','SUCRE','TOLIMA','VALLE DEL CAUCA','CASANARE','AMAZONAS'],
+
+              axisLabel: {
+                formatter : function(params, value){
+                  var newParamsName = "";
+                  var paramsNameNumber = params.length;
+                  var provideNumber = 6;
+                  var rowNumber = Math.ceil(paramsNameNumber / provideNumber);
+                  if (paramsNameNumber > provideNumber) {
+                      for (var p = 0; p < rowNumber; p++) {
+                          var tempStr = "";
+                          if (p == rowNumber - 1) {
+                              tempStr = (params.length > 6 ? (params.slice(0,6)+"...") : '' );
+                          } else {}
+                          newParamsName += tempStr;
+                      }
+                  } else {
+                      newParamsName = params;
+                  }
+                  return newParamsName
                 },
-                inRange: {
-                    color: ['#9AC331', '#FFDA00', 'rgb(239, 36, 105)']
+                color: '#212121',
+                fontWeight: 'bold',
+                fontFamily: 'Roboto-Light'
+            }
+          },
+          yAxis: {
+              type: 'value',
+              axisLabel: {
+                color: '#212121',
+                fontWeight: 'bold',
+                fontFamily: 'Roboto-Light'
+              }
+          },
+          visualMap: {
+              top: 'middle',
+              right: -5,
+              min: 0,
+              max: 100,
+              text: ['Maximo', 'Minimo'],
+              inRange: {
+                  color: ['#9AC331', '#FFDA00', 'rgb(239, 36, 105)']
+              },
+              textStyle: {
+                color: '#212121',
+                fontWeight: 'bold',
+                fontFamily: 'Roboto-Light'
+              }
+          },
+          grid: [
+            {
+              right: '14%'
+            }
+          ],
+          series: [
+              {
+                data: [17,1,53,3,4,18,1,3,15,1,2,1,1,1,2,1,1,3,4,3,1,5],
+                name: '',
+                type: 'bar',
+                label: {
+                  color: '#212121',
+                  fontWeight: 'bold',
+                  fontFamily: 'Roboto-Light',
+                  position: 'top',
+                  show: true
+                },
+                itemStyle: {
+                },
+                animationDelay: function (idx) {
+                  return idx * 15;
                 }
-            },
-            series: [
-                {
-                    type: 'map',
-                    roam: true,
-                    map: 'COLOMBIA_MUNI',
-                    emphasis: {
-                      label: {
-                          show: true
-                      }
-                    },
-                    scaleLimit: {
-                      min: 1,
-                      max: 15,
-                    },
-                    aspectScale: 1,
-                    zoom: 1.2,
-                    top: '7%',
-                    label: {
-                      normal: {
-                        show: false,
-                        textStyle: {
-                          color: '#FAFAFA',
-                          fontSize: 10,
-                          fontWeight: 'bold',
-                          fontFamily: 'Roboto-Light'
-                        }
-                      },
-                      emphasis: {
-                        show: true,
-                        textStyle: {
-                          color: '#FAFAFA',
-                          fontSize: 10,
-                          fontWeight: 'bold',
-                          fontFamily: 'Roboto-Light'
-                        }
-                      }
-                    },
-                    itemStyle: {
-                      borderColor: '#FAFAFA',
-                      borderWidth: 1.3,
-                      emphasis: {
-                        areaColor: '#1D244A',
-                        borderColor: '#FAFAFA',
-                        borderWidth: 1.3
-                      }
-                    },
-                    data:[
-                      { name: '44847', value: 4822023, label:{formatter:'URIBIA'}, tooltip: {
-                        formatter: function (params) {
-                          var value = (params.value + '').split('.');
-                          value[0].replace(/(\d{1,3})(?=(?:\d{3})+(?!\d))/g, '$1,');
-                          return params.seriesName + '<br/>' + 'URIBIA' + ': ' + value;
-                        }}
-                      },
-                      { name: '44560', value: 731449, label:{formatter:'MANAURE'}, tooltip: {
-                        formatter: function (params) {
-                          var value = (params.value + '').split('.');
-                          value[0].replace(/(\d{1,3})(?=(?:\d{3})+(?!\d))/g, '$1,');
-                          return params.seriesName + '<br/>' + 'MANAURE' + ': ' + value;
-                        }}
-                      },
-                      { name: '44430', value: 2949131, label:{formatter:'MAICAO'}, tooltip: {
-                        formatter: function (params) {
-                          var value = (params.value + '').split('.');
-                          value[0].replace(/(\d{1,3})(?=(?:\d{3})+(?!\d))/g, '$1,');
-                          return params.seriesName + '<br/>' + 'MAICAO' + ': ' + value;
-                        }}
-                      },
-                      { name: '44001', value: 38041430, label:{formatter:'RIOHACHA'}, tooltip: {
-                        formatter: function (params) {
-                          var value = (params.value + '').split('.');
-                          value[0].replace(/(\d{1,3})(?=(?:\d{3})+(?!\d))/g, '$1,');
-                          return params.seriesName + '<br/>' + 'RIOHACHA' + ': ' + value;
-                        }}
-                      },
-                      { name: '44090', value: 5187582, label:{formatter:'DIBULLA'}, tooltip: {
-                        formatter: function (params) {
-                          var value = (params.value + '').split('.');
-                          value[0].replace(/(\d{1,3})(?=(?:\d{3})+(?!\d))/g, '$1,');
-                          return params.seriesName + '<br/>' + 'DIBULLA' + ': ' + value;
-                        }}
-                      },{ name: '47001', value: 3590347, label:{formatter:'SANTA MARTA'}, tooltip: {
-                        formatter: function (params) {
-                          var value = (params.value + '').split('.');
-                          value[0].replace(/(\d{1,3})(?=(?:\d{3})+(?!\d))/g, '$1,');
-                          return params.seriesName + '<br/>' + 'SANTA MARTA' + ': ' + value;
-                        }}
-                      },
-                      { name: '44378', value: 917092, label:{formatter:'HATONUEVO'}, tooltip: {
-                        formatter: function (params) {
-                          var value = (params.value + '').split('.');
-                          value[0].replace(/(\d{1,3})(?=(?:\d{3})+(?!\d))/g, '$1,');
-                          return params.seriesName + '<br/>' + 'HATONUEVO' + ': ' + value;
-                        }}
-                      },
-                      { name: '44078', value: 632323, label:{formatter:'BARRANCAS'}, tooltip: {
-                        formatter: function (params) {
-                          var value = (params.value + '').split('.');
-                          value[0].replace(/(\d{1,3})(?=(?:\d{3})+(?!\d))/g, '$1,');
-                          return params.seriesName + '<br/>' + 'BARRANCAS' + ': ' + value;
-                        }}
-                      },
-                      { name: '47189', value: 19317568, label:{formatter:'CIENAGA'}, tooltip: {
-                        formatter: function (params) {
-                          var value = (params.value + '').split('.');
-                          value[0].replace(/(\d{1,3})(?=(?:\d{3})+(?!\d))/g, '$1,');
-                          return params.seriesName + '<br/>' + 'CIENAGA' + ': ' + value;
-                        }}
-                      },
-                      { name: '08001', value: 9919945, label:{formatter:'BARRANQUILLA'}, tooltip: {
-                        formatter: function (params) {
-                          var value = (params.value + '').split('.');
-                          value[0].replace(/(\d{1,3})(?=(?:\d{3})+(?!\d))/g, '$1,');
-                          return params.seriesName + '<br/>' + 'BARRANQUILLA' + ': ' + value;
-                        }}
-                      },
-                      { name: '47745', value: 1392313, label:{formatter:'SITIONUEVO'}, tooltip: {
-                        formatter: function (params) {
-                          var value = (params.value + '').split('.');
-                          value[0].replace(/(\d{1,3})(?=(?:\d{3})+(?!\d))/g, '$1,');
-                          return params.seriesName + '<br/>' + 'SITIONUEVO' + ': ' + value;
-                        }}
-                      },{ name: '08573', value: 1595728, label:{formatter:'PUERTO COLOMBIA'}, tooltip: {
-                        formatter: function (params) {
-                          var value = (params.value + '').split('.');
-                          value[0].replace(/(\d{1,3})(?=(?:\d{3})+(?!\d))/g, '$1,');
-                          return params.seriesName + '<br/>' + 'PUERTO COLOMBIA' + ': ' + value;
-                        }}
-                      },
-                      { name: '44098', value: 12875255, label:{formatter:'DISTRACCION'}, tooltip: {
-                        formatter: function (params) {
-                          var value = (params.value + '').split('.');
-                          value[0].replace(/(\d{1,3})(?=(?:\d{3})+(?!\d))/g, '$1,');
-                          return params.seriesName + '<br/>' + 'DISTRACCION' + ': ' + value;
-                        }}
-                      },
-                      { name: '44279', value: 6537334, label:{formatter:'FONSECA'}, tooltip: {
-                        formatter: function (params) {
-                          var value = (params.value + '').split('.');
-                          value[0].replace(/(\d{1,3})(?=(?:\d{3})+(?!\d))/g, '$1,');
-                          return params.seriesName + '<br/>' + 'FONSECA' + ': ' + value;
-                        }}
-                      },
-                      { name: '44650', value: 3074186, label:{formatter:'SAN JUAN DEL CESAR'}, tooltip: {
-                        formatter: function (params) {
-                          var value = (params.value + '').split('.');
-                          value[0].replace(/(\d{1,3})(?=(?:\d{3})+(?!\d))/g, '$1,');
-                          return params.seriesName + '<br/>' + 'SAN JUAN DEL CESAR' + ': ' + value;
-                        }}
-                      }
-                    ],
-                    animationDelay: function (idx) {
-                      return idx * 15;
-                    }
-                }
-            ],
-            animationEasing: 'elasticOut',
-            animationDelayUpdate: function (idx) {
-                return idx * 5;
+            }
+          ],
+          animationEasing: 'elasticOut',
+          animationDelayUpdate: function (idx) {
+              return idx * 5;
             }
         };
-        optionChartTwo && chartTwoQuestionOne.setOption(optionChartTwo);
-      });
+
+    optionChartOne && chartQuestionOne.setOption(optionChartOne);
+    optionChartTwo && chartTwoQuestionOne.setOption(optionChartTwo);
 
     $(window).on('resize', function(){
         if(chartQuestionOne != null && chartQuestionOne != undefined){

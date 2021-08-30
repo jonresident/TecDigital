@@ -14,14 +14,8 @@ export class SidebarComponent implements OnInit {
   dropdownFilter3 = null;
   aFiltrosSeleccionados = [];
 
-  aArray = [
-    'Ruta 1', 'Ruta 2', 'Ruta 3', 'Ruta 4'
-  ];
   aArray2 = [
-    'Ciclo 1', 'Ciclo 2', 'Ciclo 3', 'Ciclo 4'
-  ];
-  aArray3 = [
-    'Semana 1', 'Semana 2', 'Semana 3', 'Semana 4', 'Semana 5', 'Semana 6', 'Semana 7'
+    'ANTIOQUIA','ATLANTICO','SANTAFE DE BOGOTA D.C','BOLIVAR','BOYACA','CALDAS','CAQUETA','CAUCA','CESAR','CORDOBA','CUNDINAMARCA','CHOCO','HUILA','LA GUAJIRA','MAGDALENA','META','NARIÑO','NORTE DE SANTANDER','QUINDIO','RISARALDA','SANTANDER','SUCRE','TOLIMA','VALLE DEL CAUCA','ARAUCA','CASANARE','PUTUMAYO','AMAZONAS','GUAINIA','GUAVIARE','VAUPES','VICHADA','ARCHIPIELAGO DE SAN ANDRES PROVIDENCIA Y SANTA CATALINA'
   ];
 
   constructor() { }
