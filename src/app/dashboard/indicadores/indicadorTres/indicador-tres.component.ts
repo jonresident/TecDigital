@@ -11,6 +11,7 @@ import * as moment from 'moment';
 import 'moment/locale/es-mx';
 import 'hammerjs';
 import * as Vivus from 'vivus';
+import * as Odometer from 'odometer';
 declare var $: any;
 declare const initSidebar: any;
 declare const initFlip: any;
@@ -110,12 +111,41 @@ export class IndicadorTresComponent implements OnInit {
   }
 
   initializerOdometer() {
-    setTimeout(function () {
-      $('.resultActivityOne').html('1501');
-      $('.resultActivityTwo').html('3');
-      $('.resultActivityThree').html('808');
-      $('.resultActivityFour').html('105');
-    }, 200);
+    var OdometerUno = document.querySelector('.resultActivityOne');
+    let odUno = new Odometer({
+      el: OdometerUno,
+      value: 0,
+      format: '',
+      theme: ''
+    });
+    odUno.update(1501)
+
+    var OdometerDos = document.querySelector('.resultActivityTwo');
+    let odDos = new Odometer({
+      el: OdometerDos,
+      value: 0,
+      format: '',
+      theme: ''
+    });
+    odDos.update(3)
+
+    var OdometerTres = document.querySelector('.resultActivityThree');
+    let odTres = new Odometer({
+      el: OdometerTres,
+      value: 0,
+      format: '',
+      theme: ''
+    });
+    odTres.update(808)
+
+    var OdometerFour = document.querySelector('.resultActivityFour');
+    let odFour = new Odometer({
+      el: OdometerFour,
+      value: 0,
+      format: '',
+      theme: ''
+    });
+    odFour.update(105)
   }
 
   chartQuestionOne(){

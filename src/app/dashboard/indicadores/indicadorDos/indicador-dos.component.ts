@@ -11,6 +11,7 @@ import * as moment from 'moment';
 import 'moment/locale/es-mx';
 import 'hammerjs';
 import * as Vivus from 'vivus';
+import * as Odometer from 'odometer';
 declare var $: any;
 declare const initSidebar: any;
 declare const initFlip: any;
@@ -26,8 +27,8 @@ export class IndicadorDosComponent implements OnInit {
   chart: any;
 
   datosSectores = [
-    {Numero_empresas: 2, Sector: 'Manufactura'},
-    {Numero_empresas: 58, Sector: 'Servicios'},
+    {Numero_empresas: 4, Sector: 'Manufactura'},
+    {Numero_empresas: 60, Sector: 'Servicios'},
     {Numero_empresas: 2, Sector: 'Comercialización'}
   ];
 
@@ -39,21 +40,20 @@ export class IndicadorDosComponent implements OnInit {
     {Numero_empresas: 3, Mecanismo: 'financiero'},
     {Numero_empresas: 3, Mecanismo: 'reembolsable'},
     {Numero_empresas: 3, Mecanismo: 'contrapartida'},
-    {Numero_empresas: 6, Mecanismo: 'otrostipoapoyo'},
-    {Numero_empresas: 11, Mecanismo: 'otros2tipoapoyo'},
+    {Numero_empresas: 6, Mecanismo: 'otrostipoapoyo'}
   ]
 
   datosTipoEmpresa = [
-    {Tipo_empresa: 'Emprendedor',Numero_empresas: 33},
-    {Tipo_empresa: 'Micro empresas',Numero_empresas: 38},
-    {Tipo_empresa: 'Empresas pequeñas',Numero_empresas: 40},
-    {Tipo_empresa: 'Medianas empresas',Numero_empresas: 59},
-    {Tipo_empresa: 'Grandes empresas',Numero_empresas: 54},
-    {Tipo_empresa: 'Gobierno',Numero_empresas: 54},
-    {Tipo_empresa: 'Academia',Numero_empresas: 51},
-    {Tipo_empresa: 'Entidad soporte',Numero_empresas: 40},
-    {Tipo_empresa: 'Personas naturales',Numero_empresas: 28},
-    {Tipo_empresa: 'Otros usuarios',Numero_empresas: 5}
+    {Tipo_empresa: 'Emprendedor',Numero_empresas: 37},
+    {Tipo_empresa: 'Micro empresas',Numero_empresas: 42},
+    {Tipo_empresa: 'Empresas pequeñas',Numero_empresas: 44},
+    {Tipo_empresa: 'Medianas empresas',Numero_empresas: 63},
+    {Tipo_empresa: 'Grandes empresas',Numero_empresas: 57},
+    {Tipo_empresa: 'Gobierno',Numero_empresas: 57},
+    {Tipo_empresa: 'Academia',Numero_empresas: 54},
+    {Tipo_empresa: 'Entidad soporte',Numero_empresas: 43},
+    {Tipo_empresa: 'Personas naturales',Numero_empresas: 32},
+    {Tipo_empresa: 'Otros usuarios',Numero_empresas: 8}
   ];
 
   windowScrolled: boolean;
@@ -68,11 +68,6 @@ export class IndicadorDosComponent implements OnInit {
       }
      else if (this.windowScrolled && window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop < 10) {
         this.windowScrolled = false;
-        new Vivus('icono_oferente',{
-          duration: 50,
-          reverse: true,
-          dashGap: 20
-        },).reset();
         new Vivus('icono_offer',{
           duration: 50,
           reverse: true,
@@ -117,11 +112,6 @@ export class IndicadorDosComponent implements OnInit {
   }
 
   initVivus() {
-    new Vivus('icono_oferente',{
-      duration: 50,
-      reverse: true,
-      dashGap: 20
-    },).reset();
     new Vivus('icono_offer',{
       duration: 50,
       reverse: true,
@@ -155,11 +145,23 @@ export class IndicadorDosComponent implements OnInit {
   }
 
   initializerOdometer() {
-    setTimeout(function () {
-      $('.resultActivityOne').html('29');
-      $('.resultActivityTwo').html('62');
-      $('.resultActivityThree').html('9');
-    }, 200);
+    var OdometerUno = document.querySelector('.resultActivityOne');
+    let odUno = new Odometer({
+      el: OdometerUno,
+      value: 0,
+      format: '',
+      theme: ''
+    });
+    odUno.update(32)
+
+    var OdometerDos = document.querySelector('.resultActivityTwo');
+    let odDos = new Odometer({
+      el: OdometerDos,
+      value: 0,
+      format: '',
+      theme: ''
+    });
+    odDos.update(60)
   }
 
   /*chartQuestionOne() {
@@ -651,7 +653,7 @@ export class IndicadorDosComponent implements OnInit {
         ],
         series: [
             {
-              data: [2, 58, 2],
+              data: [4, 60, 2],
               name: '',
               type: 'bar',
               label: {
@@ -795,8 +797,8 @@ export class IndicadorDosComponent implements OnInit {
                 }
               },
               data: [
-                  {value: 2, name: 'Manufactura'},
-                  {value: 58, name: 'Servicios'},
+                  {value: 4, name: 'Manufactura'},
+                  {value: 60, name: 'Servicios'},
                   {value: 2, name: 'Comercialización'}
               ],
               animationDelay: function (idx) {
@@ -1197,7 +1199,7 @@ export class IndicadorDosComponent implements OnInit {
             data:[
               {
                 "name": "Emprendedor",
-                "value": 33,
+                "value": 37,
                 "symbolSize": 48,
                 "draggable": true,
                 "itemStyle": {
@@ -1208,7 +1210,7 @@ export class IndicadorDosComponent implements OnInit {
               },
               {
                 "name": "Micro empresas",
-                "value": 38,
+                "value": 42,
                 "symbolSize": 73,
                 "draggable": true,
                 "itemStyle": {
@@ -1219,7 +1221,7 @@ export class IndicadorDosComponent implements OnInit {
               },
               {
                 "name": "Empresas pequeñas",
-                "value": 40,
+                "value": 44,
                 "symbolSize": 67,
                 "draggable": true,
                 "itemStyle": {
@@ -1230,7 +1232,7 @@ export class IndicadorDosComponent implements OnInit {
               },
               {
                 "name": "Medianas empresas",
-                "value": 59,
+                "value": 63,
                 "symbolSize": 50,
                 "draggable": true,
                 "itemStyle": {
@@ -1241,7 +1243,7 @@ export class IndicadorDosComponent implements OnInit {
               },
               {
                 "name": "Grandes empresas",
-                "value": 54,
+                "value": 57,
                 "symbolSize": 88,
                 "draggable": true,
                 "itemStyle": {
@@ -1252,7 +1254,7 @@ export class IndicadorDosComponent implements OnInit {
               },
               {
                 "name": "Gobierno",
-                "value": 54,
+                "value": 57,
                 "symbolSize": 55,
                 "draggable": true,
                 "itemStyle": {
@@ -1263,7 +1265,7 @@ export class IndicadorDosComponent implements OnInit {
               },
               {
                 "name": "Academia",
-                "value": 51,
+                "value": 54,
                 "symbolSize": 70,
                 "draggable": true,
                 "itemStyle": {
@@ -1274,7 +1276,7 @@ export class IndicadorDosComponent implements OnInit {
               },
               {
                 "name": "Entidad soporte",
-                "value": 40,
+                "value": 43,
                 "symbolSize": 67,
                 "draggable": true,
                 "itemStyle": {
@@ -1285,7 +1287,7 @@ export class IndicadorDosComponent implements OnInit {
               },
               {
                 "name": "Personas naturales",
-                "value": 28,
+                "value": 32,
                 "symbolSize": 47,
                 "draggable": true,
                 "itemStyle": {
@@ -1296,7 +1298,7 @@ export class IndicadorDosComponent implements OnInit {
               },
               {
                 "name": "Otros usuarios",
-                "value": 5,
+                "value": 8,
                 "symbolSize": 82,
                 "draggable": true,
                 "itemStyle": {
@@ -1398,7 +1400,7 @@ export class IndicadorDosComponent implements OnInit {
         leafDepth: 1,
         data: [{
           name: 'Emprendedor',
-          value: 33,
+          value: 37,
           label: {
             show: true,
             position: 'inside',
@@ -1411,7 +1413,7 @@ export class IndicadorDosComponent implements OnInit {
         },
         {
           name: 'Micro empresas',
-          value: 38,
+          value: 42,
           label: {
             show: true,
             position: 'inside',
@@ -1424,7 +1426,7 @@ export class IndicadorDosComponent implements OnInit {
         },
         {
           name: 'Empresas pequeñas',
-          value: 40,
+          value: 44,
           label: {
             show: true,
             position: 'inside',
@@ -1437,7 +1439,7 @@ export class IndicadorDosComponent implements OnInit {
         },
         {
           name: 'Medianas empresas',
-          value: 59,
+          value: 63,
           label: {
             show: true,
             position: 'inside',
@@ -1450,7 +1452,7 @@ export class IndicadorDosComponent implements OnInit {
         },
         {
           name: 'Grandes empresas',
-          value: 54,
+          value: 57,
           label: {
             show: true,
             position: 'inside',
@@ -1463,7 +1465,7 @@ export class IndicadorDosComponent implements OnInit {
         },
         {
           name: 'Gobierno',
-          value: 54,
+          value: 57,
           label: {
             show: true,
             position: 'inside',
@@ -1476,7 +1478,7 @@ export class IndicadorDosComponent implements OnInit {
         },
         {
           name: 'Academia',
-          value: 51,
+          value: 54,
           label: {
             show: true,
             position: 'inside',
@@ -1489,7 +1491,7 @@ export class IndicadorDosComponent implements OnInit {
         },
         {
           name: 'Entidad soporte',
-          value: 40,
+          value: 43,
           label: {
             show: true,
             position: 'inside',
@@ -1502,7 +1504,7 @@ export class IndicadorDosComponent implements OnInit {
         },
         {
           name: 'Personas naturales',
-          value: 28,
+          value: 32,
           label: {
             show: true,
             position: 'inside',
@@ -1515,7 +1517,7 @@ export class IndicadorDosComponent implements OnInit {
         },
         {
           name: 'Otros usuarios',
-          value: 5,
+          value: 8,
           label: {
             show: true,
             position: 'inside',

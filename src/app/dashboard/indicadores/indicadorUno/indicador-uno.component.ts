@@ -11,6 +11,7 @@ import * as moment from 'moment';
 import 'moment/locale/es-mx';
 import 'hammerjs';
 import * as Vivus from 'vivus';
+import * as Odometer from 'odometer';
 declare var $: any;
 declare const initSidebar: any;
 declare const initFlip: any;
@@ -26,12 +27,12 @@ export class IndicadorUnoComponent implements OnInit {
   chart: any;
 
   datosDepartamento = [
-    {Departamento: 'ANTIOQUIA', Empresas_registradas: 17},
-    {Departamento: 'ATLANTICO', Empresas_registradas: 1},
-    {Departamento: 'SANTAFE DE BOGOTA D.C', Empresas_registradas: 53},
+    {Departamento: 'ANTIOQUIA', Empresas_registradas: 19},
+    {Departamento: 'ATLANTICO', Empresas_registradas: 2},
+    {Departamento: 'SANTAFE DE BOGOTA D.C', Empresas_registradas: 59},
     {Departamento: 'BOLIVAR', Empresas_registradas: 3},
     {Departamento: 'BOYACA', Empresas_registradas: 4},
-    {Departamento: 'CALDAS', Empresas_registradas: 18},
+    {Departamento: 'CALDAS', Empresas_registradas: 27},
     {Departamento: 'CAUCA', Empresas_registradas: 1},
     {Departamento: 'CESAR', Empresas_registradas: 3},
     {Departamento: 'CUNDINAMARCA', Empresas_registradas: 15},
@@ -39,26 +40,27 @@ export class IndicadorUnoComponent implements OnInit {
     {Departamento: 'LA GUAJIRA', Empresas_registradas: 2},
     {Departamento: 'META', Empresas_registradas: 1},
     {Departamento: 'NARIÑO', Empresas_registradas: 1},
-    {Departamento: 'NORTE DE SANTANDER', Empresas_registradas: 1},
+    {Departamento: 'NORTE DE SANTANDER', Empresas_registradas: 2},
     {Departamento: 'QUINDIO', Empresas_registradas: 2},
-    {Departamento: 'RISARALDA', Empresas_registradas: 1},
+    {Departamento: 'RISARALDA', Empresas_registradas: 5},
     {Departamento: 'SANTANDER', Empresas_registradas: 1},
-    {Departamento: 'SUCRE', Empresas_registradas: 3},
+    {Departamento: 'SUCRE', Empresas_registradas: 4},
     {Departamento: 'TOLIMA', Empresas_registradas: 4},
-    {Departamento: 'VALLE DEL CAUCA', Empresas_registradas: 3},
+    {Departamento: 'VALLE DEL CAUCA', Empresas_registradas: 4},
     {Departamento: 'CASANARE', Empresas_registradas: 1},
-    {Departamento: 'AMAZONAS', Empresas_registradas: 5}
+    {Departamento: 'AMAZONAS', Empresas_registradas: 6},
+    {Departamento: 'VICHADA', Empresas_registradas: 6}
   ];
 
   datosNivelMadurezBasico = [
-    {Empresas_registradas: 35, Nivel_madurez: 'Nivel 1 básica'},
-    {Empresas_registradas: 19, Nivel_madurez: 'Nivel 2 básica'},
-    {Empresas_registradas: 4, Nivel_madurez: 'Nivel 3 básica'},
+    {Empresas_registradas: 38, Nivel_madurez: 'Nivel 1 básica'},
+    {Empresas_registradas: 20, Nivel_madurez: 'Nivel 2 básica'},
+    {Empresas_registradas: 5, Nivel_madurez: 'Nivel 3 básica'},
     {Empresas_registradas: 0, Nivel_madurez: 'Nivel 4 básica'}
   ];
 
   datosNivelMadurezAvanzadado = [
-    {Empresas_registradas: 2, Nivel_madurez: 'Nivel 1 avanzada'},
+    {Empresas_registradas: 3, Nivel_madurez: 'Nivel 1 avanzada'},
     {Empresas_registradas: 0, Nivel_madurez: 'Nivel 2 avanzada'},
     {Empresas_registradas: 0, Nivel_madurez: 'Nivel 3 avanzada'},
     {Empresas_registradas: 0, Nivel_madurez: 'Nivel 4 avanzada'}
@@ -77,6 +79,11 @@ export class IndicadorUnoComponent implements OnInit {
       }
      else if (this.windowScrolled && window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop < 10) {
         this.windowScrolled = false;
+        new Vivus('icono_business',{
+          duration: 50,
+          reverse: true,
+          dashGap: 20
+        },).reset();
         new Vivus('icono_diagnostico',{
           duration: 50,
           reverse: true,
@@ -130,6 +137,11 @@ export class IndicadorUnoComponent implements OnInit {
   }
 
   initVivus() {
+    new Vivus('icono_business',{
+      duration: 50,
+      reverse: true,
+      dashGap: 20
+    },).reset();
     new Vivus('icono_diagnostico',{
       duration: 50,
       reverse: true,
@@ -173,14 +185,59 @@ export class IndicadorUnoComponent implements OnInit {
   }
 
   initializerOdometer() {
-    setTimeout(function () {
-      $('.resultActivityOne').html('161');
-      $('.resultActivityTwo').html('81');
-      $('.resultActivityThree').html('60');
-      $('.resultActivityFour').html('6');
-      $('.resultActivityFive').html('0');
-      $('.resultActivitySix').html('0');
-    }, 200);
+    var OdometerUno = document.querySelector('.resultActivityOne');
+    let odUno = new Odometer({
+      el: OdometerUno,
+      value: 0,
+      format: '',
+      theme: ''
+    });
+    odUno.update(176)
+
+    var OdometerDos = document.querySelector('.resultActivityTwo');
+    let odDos = new Odometer({
+      el: OdometerDos,
+      value: 0,
+      format: '',
+      theme: ''
+    });
+    odDos.update(102)
+
+    var OdometerTres = document.querySelector('.resultActivityThree');
+    let odTres = new Odometer({
+      el: OdometerTres,
+      value: 0,
+      format: '',
+      theme: ''
+    });
+    odTres.update(66)
+
+    var OdometerFour = document.querySelector('.resultActivityFour');
+    let odFour = new Odometer({
+      el: OdometerFour,
+      value: 0,
+      format: '',
+      theme: ''
+    });
+    odFour.update(8)
+
+    var OdometerFive = document.querySelector('.resultActivityFive');
+    let odFive = new Odometer({
+      el: OdometerFive,
+      value: 0,
+      format: '',
+      theme: ''
+    });
+    odFive.update(0)
+
+    var OdometerSix = document.querySelector('.resultActivitySix');
+    let odSix = new Odometer({
+      el: OdometerSix,
+      value: 0,
+      format: '',
+      theme: ''
+    });
+    odSix.update(0)
   }
 
   chartQuestionOne() {
@@ -303,12 +360,12 @@ export class IndicadorUnoComponent implements OnInit {
                     }
                   },
                   data:[
-                    {name: 'ANTIOQUIA', value: 17},
-                    {name: 'ATLANTICO', value: 1},
-                    {name: 'SANTAFE DE BOGOTA D.C', value: 53},
+                    {name: 'ANTIOQUIA', value: 19},
+                    {name: 'ATLANTICO', value: 2},
+                    {name: 'SANTAFE DE BOGOTA D.C', value: 59},
                     {name: 'BOLIVAR', value: 3},
                     {name: 'BOYACA', value: 4},
-                    {name: 'CALDAS', value: 18},
+                    {name: 'CALDAS', value: 27},
                     {name: 'CAUCA', value: 1},
                     {name: 'CESAR', value: 3},
                     {name: 'CUNDINAMARCA', value: 15},
@@ -316,15 +373,16 @@ export class IndicadorUnoComponent implements OnInit {
                     {name: 'LA GUAJIRA', value: 2},
                     {name: 'META', value: 1},
                     {name: 'NARIÑO', value: 1},
-                    {name: 'NORTE DE SANTANDER', value: 1},
+                    {name: 'NORTE DE SANTANDER', value: 2},
                     {name: 'QUINDIO', value: 2},
-                    {name: 'RISARALDA', value: 1},
+                    {name: 'RISARALDA', value: 5},
                     {name: 'SANTANDER', value: 1},
-                    {name: 'SUCRE', value: 3},
+                    {name: 'SUCRE', value: 4},
                     {name: 'TOLIMA', value: 4},
-                    {name: 'VALLE DEL CAUCA', value: 3},
+                    {name: 'VALLE DEL CAUCA', value: 4},
                     {name: 'CASANARE', value: 1},
-                    {name: 'AMAZONAS', value: 5}
+                    {name: 'AMAZONAS', value: 6},
+                    {name: 'VICHADA', value: 1}
                   ],
                   animationDelay: function (idx) {
                     return idx * 15;
@@ -358,7 +416,7 @@ export class IndicadorUnoComponent implements OnInit {
           xAxis: {
               type: 'category',
               
-              data: ['ANTIOQUIA','ATLANTICO','SANTAFE DE BOGOTA D.C','BOLIVAR','BOYACA','CALDAS','CAUCA','CESAR','CUNDINAMARCA','HUILA','LA GUAJIRA','META','NARIÑO','NORTE DE SANTANDER','QUINDIO','RISARALDA','SANTANDER','SUCRE','TOLIMA','VALLE DEL CAUCA','CASANARE','AMAZONAS'],
+              data: ['ANTIOQUIA','ATLANTICO','SANTAFE DE BOGOTA D.C','BOLIVAR','BOYACA','CALDAS','CAUCA','CESAR','CUNDINAMARCA','HUILA','LA GUAJIRA','META','NARIÑO','NORTE DE SANTANDER','QUINDIO','RISARALDA','SANTANDER','SUCRE','TOLIMA','VALLE DEL CAUCA','CASANARE','AMAZONAS','VICHADA'],
 
               axisLabel: {
                 formatter : function(params, value){
@@ -414,7 +472,7 @@ export class IndicadorUnoComponent implements OnInit {
           ],
           series: [
               {
-                data: [17,1,53,3,4,18,1,3,15,1,2,1,1,1,2,1,1,3,4,3,1,5],
+                data: [19,2,59,3,4,27,1,3,15,1,2,1,1,2,2,5,1,4,4,4,1,6,1],
                 name: '',
                 type: 'bar',
                 label: {
@@ -534,7 +592,7 @@ export class IndicadorUnoComponent implements OnInit {
         ],
         series: [
             {
-              data: [35, 19, 4, 0],
+              data: [38, 20, 5, 0],
               name: '',
               type: 'bar',
               label: {
@@ -678,9 +736,9 @@ export class IndicadorUnoComponent implements OnInit {
                 }
               },
               data: [
-                  {value: 35, name: 'Nivel 1 básica'},
-                  {value: 19, name: 'Nivel 2 básica'},
-                  {value: 4, name: 'Nivel 3 básica'},
+                  {value: 38, name: 'Nivel 1 básica'},
+                  {value: 20, name: 'Nivel 2 básica'},
+                  {value: 5, name: 'Nivel 3 básica'},
                   {value: 0, name: 'Nivel 4 básica'}
               ],
               animationDelay: function (idx) {
@@ -791,7 +849,7 @@ export class IndicadorUnoComponent implements OnInit {
         ],
         series: [
             {
-              data: [2, 0, 0, 0],
+              data: [3, 0, 0, 0],
               name: '',
               type: 'bar',
               label: {
@@ -935,7 +993,7 @@ export class IndicadorUnoComponent implements OnInit {
                 }
               },
               data: [
-                  {value: 2, name: 'Nivel 1 avanzada'},
+                  {value: 3, name: 'Nivel 1 avanzada'},
                   {value: 0, name: 'Nivel 2 avanzada'},
                   {value: 0, name: 'Nivel 3 avanzada'},
                   {value: 0, name: 'Nivel 4 avanzada'}
