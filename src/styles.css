@@ -3840,6 +3840,28 @@ svg.finished * {
   stroke-width: 14px;
 }
 
+#icono_email {
+  width: 35px;
+  height: 35px;
+}
+
+.emailsvg {
+  fill: transparent;
+  stroke: #fafafa;
+  stroke-width: 12px;
+}
+
+#icono_phone {
+  width: 35px;
+  height: 35px;
+}
+
+.phonesvg {
+  fill: transparent;
+  stroke: #fafafa;
+  stroke-width: 1.5px;
+}
+
 #icono_customers {
   width: 35px;
   height: 35px;
@@ -3863,6 +3885,17 @@ svg.finished * {
 }
 
 .gendersvg {
+  fill: transparent;
+  stroke: #fafafa;
+  stroke-width: 14px;
+}
+
+#icono_treemap {
+  width: 120px;
+  height: 120px;
+}
+
+.treemapsvg {
   fill: transparent;
   stroke: #fafafa;
   stroke-width: 14px;
