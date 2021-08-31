@@ -43,6 +43,42 @@ export class IndicadorUnoComponent implements OnInit {
       Promedio_numero_personas: '48',
       Promedio_asistencia_personas: '19.91',
       Porcentaje_asistencia: '48.48',
+    },
+    {
+      Nombre_curso: 'Programadores Mentalmente Saludables Ciclo1 ',
+      Promedio_numero_personas: '48',
+      Promedio_asistencia_personas: '19.91',
+      Porcentaje_asistencia: '48.48',
+    },
+    {
+      Nombre_curso: 'Programadores Mentalmente Saludables Ciclo1 ',
+      Promedio_numero_personas: '48',
+      Promedio_asistencia_personas: '19.91',
+      Porcentaje_asistencia: '48.48',
+    },
+    {
+      Nombre_curso: 'Programadores Mentalmente Saludables Ciclo1 ',
+      Promedio_numero_personas: '48',
+      Promedio_asistencia_personas: '19.91',
+      Porcentaje_asistencia: '48.48',
+    },
+    {
+      Nombre_curso: 'Programadores Mentalmente Saludables Ciclo1 ',
+      Promedio_numero_personas: '48',
+      Promedio_asistencia_personas: '19.91',
+      Porcentaje_asistencia: '48.48',
+    },
+    {
+      Nombre_curso: 'Programadores Mentalmente Saludables Ciclo1 ',
+      Promedio_numero_personas: '48',
+      Promedio_asistencia_personas: '19.91',
+      Porcentaje_asistencia: '48.48',
+    },
+    {
+      Nombre_curso: 'Programadores Mentalmente Saludables Ciclo1 ',
+      Promedio_numero_personas: '48',
+      Promedio_asistencia_personas: '19.91',
+      Porcentaje_asistencia: '48.48',
     }
   ];
 
