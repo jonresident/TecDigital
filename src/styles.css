@@ -2322,8 +2322,8 @@ input[type="date"]:before {
   width: 15px;
   height: 20px;
   position: absolute;
-  top: 6px;
-  right: 6px;
+  top: 8px;
+  right: 10px;
   color: #1D244A;
 }
 
