@@ -161,7 +161,7 @@ export class IndicadorDosComponent implements OnInit {
       format: '',
       theme: ''
     });
-    odDos.update(60)
+    odDos.update(66)
   }
 
   /*chartQuestionOne() {

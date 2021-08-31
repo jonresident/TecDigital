@@ -118,7 +118,7 @@ export class IndicadorTresComponent implements OnInit {
       format: '',
       theme: ''
     });
-    odUno.update(1501)
+    odUno.update(1511)
 
     var OdometerDos = document.querySelector('.resultActivityTwo');
     let odDos = new Odometer({
@@ -136,7 +136,7 @@ export class IndicadorTresComponent implements OnInit {
       format: '',
       theme: ''
     });
-    odTres.update(808)
+    odTres.update(812)
 
     var OdometerFour = document.querySelector('.resultActivityFour');
     let odFour = new Odometer({
@@ -145,7 +145,7 @@ export class IndicadorTresComponent implements OnInit {
       format: '',
       theme: ''
     });
-    odFour.update(105)
+    odFour.update(113)
   }
 
   chartQuestionOne(){
@@ -239,7 +239,7 @@ export class IndicadorTresComponent implements OnInit {
         leafDepth: 1,
         data: [{
             name: 'Total contactados',
-            value: 1501,
+            value: 1511,
             label: {
               show: true,
               position: 'inside',
@@ -263,7 +263,7 @@ export class IndicadorTresComponent implements OnInit {
               }
             }, {
               name: 'Contacto inicial (Telefono)',
-              value: 808,
+              value: 812,
               label: {
                 show: true,
                 position: 'inside',
@@ -275,7 +275,7 @@ export class IndicadorTresComponent implements OnInit {
               }
             }, {
               name: 'Registrados plataforma',
-              value: 105,
+              value: 113,
               label: {
                 show: true,
                 position: 'inside',
@@ -325,7 +325,7 @@ export class IndicadorTresComponent implements OnInit {
     dataset: {
         source: [
             ['label', 'Contacto inicial (Email)', 'Contacto inicial (Telefono)', 'Registros plataforma'],
-            ['', 3, 808, 105]
+            ['', 3, 812, 113]
         ]
     },
     xAxis: {
