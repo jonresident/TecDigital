@@ -25,62 +25,45 @@ export class IndicadorUnoComponent implements OnInit {
 
   chart: any;
 
-  datosReportOne = [
-    {
-      Nombre_curso: 'Habilidades Personales e Inserción Laboral',
-      Promedio_numero_personas: '48',
-      Promedio_asistencia_personas: '19.91',
-      Porcentaje_asistencia: '48.48',
-    },
-    {
-      Nombre_curso: 'Fundamentos de Programación Inglés',
-      Promedio_numero_personas: '48',
-      Promedio_asistencia_personas: '19.91',
-      Porcentaje_asistencia: '48.48',
-    },
-    {
-      Nombre_curso: 'Programadores Mentalmente Saludables Ciclo1 ',
-      Promedio_numero_personas: '48',
-      Promedio_asistencia_personas: '19.91',
-      Porcentaje_asistencia: '48.48',
-    },
-    {
-      Nombre_curso: 'Programadores Mentalmente Saludables Ciclo1 ',
-      Promedio_numero_personas: '48',
-      Promedio_asistencia_personas: '19.91',
-      Porcentaje_asistencia: '48.48',
-    },
-    {
-      Nombre_curso: 'Programadores Mentalmente Saludables Ciclo1 ',
-      Promedio_numero_personas: '48',
-      Promedio_asistencia_personas: '19.91',
-      Porcentaje_asistencia: '48.48',
-    },
-    {
-      Nombre_curso: 'Programadores Mentalmente Saludables Ciclo1 ',
-      Promedio_numero_personas: '48',
-      Promedio_asistencia_personas: '19.91',
-      Porcentaje_asistencia: '48.48',
-    },
-    {
-      Nombre_curso: 'Programadores Mentalmente Saludables Ciclo1 ',
-      Promedio_numero_personas: '48',
-      Promedio_asistencia_personas: '19.91',
-      Porcentaje_asistencia: '48.48',
-    },
-    {
-      Nombre_curso: 'Programadores Mentalmente Saludables Ciclo1 ',
-      Promedio_numero_personas: '48',
-      Promedio_asistencia_personas: '19.91',
-      Porcentaje_asistencia: '48.48',
-    },
-    {
-      Nombre_curso: 'Programadores Mentalmente Saludables Ciclo1 ',
-      Promedio_numero_personas: '48',
-      Promedio_asistencia_personas: '19.91',
-      Porcentaje_asistencia: '48.48',
-    }
+  datosDepartamento = [
+    {Departamento: 'ANTIOQUIA', Empresas_registradas: 17},
+    {Departamento: 'ATLANTICO', Empresas_registradas: 1},
+    {Departamento: 'SANTAFE DE BOGOTA D.C', Empresas_registradas: 53},
+    {Departamento: 'BOLIVAR', Empresas_registradas: 3},
+    {Departamento: 'BOYACA', Empresas_registradas: 4},
+    {Departamento: 'CALDAS', Empresas_registradas: 18},
+    {Departamento: 'CAUCA', Empresas_registradas: 1},
+    {Departamento: 'CESAR', Empresas_registradas: 3},
+    {Departamento: 'CUNDINAMARCA', Empresas_registradas: 15},
+    {Departamento: 'HUILA', Empresas_registradas: 1},
+    {Departamento: 'LA GUAJIRA', Empresas_registradas: 2},
+    {Departamento: 'META', Empresas_registradas: 1},
+    {Departamento: 'NARIÑO', Empresas_registradas: 1},
+    {Departamento: 'NORTE DE SANTANDER', Empresas_registradas: 1},
+    {Departamento: 'QUINDIO', Empresas_registradas: 2},
+    {Departamento: 'RISARALDA', Empresas_registradas: 1},
+    {Departamento: 'SANTANDER', Empresas_registradas: 1},
+    {Departamento: 'SUCRE', Empresas_registradas: 3},
+    {Departamento: 'TOLIMA', Empresas_registradas: 4},
+    {Departamento: 'VALLE DEL CAUCA', Empresas_registradas: 3},
+    {Departamento: 'CASANARE', Empresas_registradas: 1},
+    {Departamento: 'AMAZONAS', Empresas_registradas: 5}
   ];
+
+  datosNivelMadurezBasico = [
+    {Empresas_registradas: 35, Nivel_madurez: 'Nivel 1 básica'},
+    {Empresas_registradas: 19, Nivel_madurez: 'Nivel 2 básica'},
+    {Empresas_registradas: 4, Nivel_madurez: 'Nivel 3 básica'},
+    {Empresas_registradas: 0, Nivel_madurez: 'Nivel 4 básica'}
+  ];
+
+  datosNivelMadurezAvanzadado = [
+    {Empresas_registradas: 2, Nivel_madurez: 'Nivel 1 avanzada'},
+    {Empresas_registradas: 0, Nivel_madurez: 'Nivel 2 avanzada'},
+    {Empresas_registradas: 0, Nivel_madurez: 'Nivel 3 avanzada'},
+    {Empresas_registradas: 0, Nivel_madurez: 'Nivel 4 avanzada'}
+  ];
+
 
   windowScrolled: boolean;
   Vivus: any;
@@ -94,11 +77,6 @@ export class IndicadorUnoComponent implements OnInit {
       }
      else if (this.windowScrolled && window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop < 10) {
         this.windowScrolled = false;
-        new Vivus('icono_business',{
-          duration: 50,
-          reverse: true,
-          dashGap: 20
-        },).reset();
         new Vivus('icono_diagnostico',{
           duration: 50,
           reverse: true,
@@ -152,11 +130,6 @@ export class IndicadorUnoComponent implements OnInit {
   }
 
   initVivus() {
-    new Vivus('icono_business',{
-      duration: 50,
-      reverse: true,
-      dashGap: 20
-    },).reset();
     new Vivus('icono_diagnostico',{
       duration: 50,
       reverse: true,
@@ -202,11 +175,11 @@ export class IndicadorUnoComponent implements OnInit {
   initializerOdometer() {
     setTimeout(function () {
       $('.resultActivityOne').html('161');
-      $('.resultActivityTwo').html('36');
-      $('.resultActivityThree').html('18 ');
-      $('.resultActivityFour').html('188 ');
-      $('.resultActivityFive').html('158 ');
-      $('.resultActivitySix').html('158 ');
+      $('.resultActivityTwo').html('81');
+      $('.resultActivityThree').html('60');
+      $('.resultActivityFour').html('6');
+      $('.resultActivityFive').html('0');
+      $('.resultActivitySix').html('0');
     }, 200);
   }
 
@@ -326,6 +299,7 @@ export class IndicadorUnoComponent implements OnInit {
                       areaColor: '#1D244A',
                       borderColor: '#FAFAFA',
                       borderWidth: 1.3
+  
                     }
                   },
                   data:[
@@ -383,6 +357,7 @@ export class IndicadorUnoComponent implements OnInit {
           },
           xAxis: {
               type: 'category',
+              
               data: ['ANTIOQUIA','ATLANTICO','SANTAFE DE BOGOTA D.C','BOLIVAR','BOYACA','CALDAS','CAUCA','CESAR','CUNDINAMARCA','HUILA','LA GUAJIRA','META','NARIÑO','NORTE DE SANTANDER','QUINDIO','RISARALDA','SANTANDER','SUCRE','TOLIMA','VALLE DEL CAUCA','CASANARE','AMAZONAS'],
 
               axisLabel: {
@@ -559,7 +534,7 @@ export class IndicadorUnoComponent implements OnInit {
         ],
         series: [
             {
-              data: [90, 38, 10, 50],
+              data: [35, 19, 4, 0],
               name: '',
               type: 'bar',
               label: {
@@ -703,10 +678,10 @@ export class IndicadorUnoComponent implements OnInit {
                 }
               },
               data: [
-                  {value: 90, name: 'Nivel 1 básica'},
-                  {value: 38, name: 'Nivel 2 básica'},
-                  {value: 10, name: 'Nivel 3 básica'},
-                  {value: 50, name: 'Nivel 4 básica'}
+                  {value: 35, name: 'Nivel 1 básica'},
+                  {value: 19, name: 'Nivel 2 básica'},
+                  {value: 4, name: 'Nivel 3 básica'},
+                  {value: 0, name: 'Nivel 4 básica'}
               ],
               animationDelay: function (idx) {
                 return idx * 15;
@@ -816,7 +791,7 @@ export class IndicadorUnoComponent implements OnInit {
         ],
         series: [
             {
-              data: [90, 38, 10, 50],
+              data: [2, 0, 0, 0],
               name: '',
               type: 'bar',
               label: {
@@ -960,10 +935,10 @@ export class IndicadorUnoComponent implements OnInit {
                 }
               },
               data: [
-                  {value: 90, name: 'Nivel 1 avanzada'},
-                  {value: 38, name: 'Nivel 2 avanzada'},
-                  {value: 10, name: 'Nivel 3 avanzada'},
-                  {value: 50, name: 'Nivel 4 avanzada'}
+                  {value: 2, name: 'Nivel 1 avanzada'},
+                  {value: 0, name: 'Nivel 2 avanzada'},
+                  {value: 0, name: 'Nivel 3 avanzada'},
+                  {value: 0, name: 'Nivel 4 avanzada'}
               ],
               animationDelay: function (idx) {
                 return idx * 15;
