@@ -8,6 +8,7 @@ import { IndicadorUnoComponent } from './indicadores/indicadorUno/indicador-uno.
 import { IndicadorDosComponent } from './indicadores/indicadorDos/indicador-dos.component';
 import { IndicadorTresComponent } from './indicadores/indicadorTres/indicador-tres.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
+import { EmpresasComponent } from './empresas/empresas.component';
 
 
 const routes: Routes = [
@@ -24,7 +25,8 @@ const routes: Routes = [
                     {path: 'indicadorTres', component: IndicadorTresComponent}
                 ]
             },
-            {path: 'usuarios', component: UsuariosComponent}
+            {path: 'usuarios', component: UsuariosComponent},
+            {path: 'empresas', component: EmpresasComponent}
         ]
     }
 ];
