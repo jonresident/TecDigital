@@ -192,7 +192,7 @@ export class IndicadorUnoComponent implements OnInit {
       format: '',
       theme: ''
     });
-    odUno.update(176)
+    odUno.update(202)
 
     var OdometerDos = document.querySelector('.resultActivityTwo');
     let odDos = new Odometer({
@@ -201,7 +201,7 @@ export class IndicadorUnoComponent implements OnInit {
       format: '',
       theme: ''
     });
-    odDos.update(102)
+    odDos.update(128)
 
     var OdometerTres = document.querySelector('.resultActivityThree');
     let odTres = new Odometer({
