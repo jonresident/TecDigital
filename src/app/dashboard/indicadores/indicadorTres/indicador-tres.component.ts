@@ -29,7 +29,7 @@ export class IndicadorTresComponent implements OnInit {
   datosReportOne = [
     {
       Total_contactados: '1501',
-      Contacto_inicial_email: '3',
+      Contacto_inicial_email: '593',
       contacto_inicial_telefono: '808',
       registros_plataforma: '105',
     }
@@ -127,7 +127,7 @@ export class IndicadorTresComponent implements OnInit {
       format: '',
       theme: ''
     });
-    odDos.update(3)
+    odDos.update(593)
 
     var OdometerTres = document.querySelector('.resultActivityThree');
     let odTres = new Odometer({
@@ -251,7 +251,7 @@ export class IndicadorTresComponent implements OnInit {
             },
             children: [{
               name: 'Contacto inicial (Email)',
-              value: 3,
+              value: 593,
               label: {
                 show: true,
                 position: 'inside',
@@ -325,7 +325,7 @@ export class IndicadorTresComponent implements OnInit {
     dataset: {
         source: [
             ['label', 'Contacto inicial (Email)', 'Contacto inicial (Telefono)', 'Registros plataforma'],
-            ['', 3, 812, 113]
+            ['', 593, 812, 113]
         ]
     },
     xAxis: {

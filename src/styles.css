@@ -1248,7 +1248,7 @@ td.txt_datos_celdas {
 }
 
 .preloader {
-  background: url() no-repeat center center;
+  background: url('assets/icono_molecula_tecdigital.svg') no-repeat center center;
   background-size: 72px;
   width: 220px;
   text-align: center;

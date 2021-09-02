@@ -50,7 +50,7 @@
               "node_modules/hammerjs/hammer.js",
               "node_modules/chartjs-plugin-style/dist/chartjs-plugin-style.js",
               "node_modules/chartjs-plugin-zoom/dist/chartjs-plugin-zoom.min.js",
-              "node_modules/chartjs-plugin-annotation/chartjs-plugin-annotation.min.js",
+              "node_modules/chartjs-plugin-annotation/chartjs-plugin-annotation.js",
               "node_modules/chartjs-plugin-draggable/dist/chartjs-plugin-draggable.min.js",
               "node_modules/echarts/dist/echarts.min.js",
               "node_modules/echarts-wordcloud/dist/echarts-wordcloud.min.js",
