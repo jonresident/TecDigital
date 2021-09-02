@@ -5,9 +5,8 @@
 
 export const environment = {
   production: false,
-  api: 'http://localhost:8000/api/resultados/data_beneficiarias/',
   apiBeneficiarias: 'http://localhost:8000/api/resultados/data_beneficiarias/',
-  apiOferentes: 'https://sheet.best/api/sheets/2de25f78-2d85-451f-901c-6bb8fd1d3041/'
+  apiOferentes: 'http://localhost:8000/api/resultados/data_oferentes/'
 };
 
 

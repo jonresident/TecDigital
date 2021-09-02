@@ -11,11 +11,12 @@ export class IndicadoresService {
         private http: HttpClient
     ) { }
 
-    /* getBeneficiarias(): Promise<IndicadorUnoDetail> {
-        return this.http.get<IndicadorUnoDetail>(environment.api).toPromise();
-    } */
     getBeneficiarias(){
-        return this.http.get(environment.api);
+        return this.http.get(environment.apiBeneficiarias);
+    }
+
+    getOferentes(){
+        return this.http.get(environment.apiOferentes);
     }
 
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, HostListener } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { IndicadoresService } from '../indicadores.service';
-import { IndicadorUnoDetail } from '../indicadores.models';
+import { IndicadorUnoDetail, Beneficiario_departamento } from '../indicadores.models';
 //import { from, Observable, Subscription } from 'rxjs';
 import { Chart } from "chart.js";
 import * as echarts from 'echarts';
@@ -104,8 +104,6 @@ export class IndicadorUnoComponent implements OnInit {
 
   ngOnInit(): void {
     initFlip();
-    this.initVivus();
-
     this.observeCharts();
   }
 
@@ -157,7 +155,7 @@ export class IndicadorUnoComponent implements OnInit {
     }).reset();
   }
 
-  obtenerDatosDepartamento(datosDepartamento: any): any {
+  obtenerDatosDepartamento(datosDepartamento: Beneficiario_departamento): any {
     let deptos: any = [];
     let depto = {};
 
@@ -173,7 +171,7 @@ export class IndicadorUnoComponent implements OnInit {
     return deptos;
   }
 
-  obtenerTablaDepartamento(datosDepartamento: any): any {
+  obtenerTablaDepartamento(datosDepartamento: Beneficiario_departamento): any {
     let deptos: any = [];
     let depto = {};
 
@@ -185,8 +183,8 @@ export class IndicadorUnoComponent implements OnInit {
     return deptos;
   }
 
-  definirTablas(deptos: any, arrNivelBasico: number[], arrNivelAvanzado: number[]) {
-    this.datosDepartamento = this.obtenerTablaDepartamento;
+  definirTablas(deptos: Beneficiario_departamento, arrNivelBasico: number[], arrNivelAvanzado: number[]) {
+    this.datosDepartamento = this.obtenerTablaDepartamento(deptos);
 
     this.datosNivelMadurezBasico = [
       { Empresas_registradas: arrNivelBasico[0], Nivel_madurez: 'Nivel 1 básica' },
@@ -204,10 +202,9 @@ export class IndicadorUnoComponent implements OnInit {
   }
 
   observeCharts() {
-
+  
     this.indicadorService.getBeneficiarias().subscribe((resp: any) => {
       this.data = resp;
-      console.log(resp);
 
       let diagnostico: number = this.data.faseDiagnostico;
       let mapeo: number = this.data.faseMapeo;
@@ -216,6 +213,7 @@ export class IndicadorUnoComponent implements OnInit {
       let despegue: number = this.data.faseDespegue;
 
       let beneficiario_departamento = this.data.beneficiario_departamento;
+      
 
       let arrNivelBasico: number[] = [
         this.data.nivel_1_basicas,
@@ -229,6 +227,7 @@ export class IndicadorUnoComponent implements OnInit {
         this.data.nivel_3_avanzadas,
         this.data.nivel_4_avanzadas];
 
+      this.initVivus();
       this.initializerOdometer(diagnostico, mapeo, evaluacion, consolidacion, despegue);
       this.chartQuestionOne(beneficiario_departamento);
       this.chartQuestionTwo(arrNivelBasico);

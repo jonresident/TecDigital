@@ -28,9 +28,9 @@ export class IndicadorTresComponent implements OnInit {
 
   datosReportOne = [
     {
-      Total_contactados: '1501',
-      Contacto_inicial_email: '593',
-      contacto_inicial_telefono: '808',
+      Total_contactados: '1894',
+      Contacto_inicial_email: '151',
+      contacto_inicial_telefono: '815',
       registros_plataforma: '105',
     }
   ];
@@ -63,6 +63,11 @@ export class IndicadorTresComponent implements OnInit {
             dashGap: 20
           },).reset();
           new Vivus('icono_register',{
+            duration: 50,
+            reverse: true,
+            dashGap: 20
+          },).reset();
+          new Vivus('icono_consolidacion',{
             duration: 50,
             reverse: true,
             dashGap: 20
@@ -103,6 +108,11 @@ export class IndicadorTresComponent implements OnInit {
       reverse: true,
       dashGap: 20
     },).reset();
+    new Vivus('icono_consolidacion',{
+      duration: 50,
+      reverse: true,
+      dashGap: 20
+    },).reset();
     new Vivus('icono_treemap',{
       duration: 50,
       reverse: true,
@@ -118,7 +128,7 @@ export class IndicadorTresComponent implements OnInit {
       format: '',
       theme: ''
     });
-    odUno.update(1511)
+    odUno.update(1894)
 
     var OdometerDos = document.querySelector('.resultActivityTwo');
     let odDos = new Odometer({
@@ -127,7 +137,7 @@ export class IndicadorTresComponent implements OnInit {
       format: '',
       theme: ''
     });
-    odDos.update(593)
+    odDos.update(151)
 
     var OdometerTres = document.querySelector('.resultActivityThree');
     let odTres = new Odometer({
@@ -136,7 +146,7 @@ export class IndicadorTresComponent implements OnInit {
       format: '',
       theme: ''
     });
-    odTres.update(812)
+    odTres.update(815)
 
     var OdometerFour = document.querySelector('.resultActivityFour');
     let odFour = new Odometer({
@@ -145,7 +155,16 @@ export class IndicadorTresComponent implements OnInit {
       format: '',
       theme: ''
     });
-    odFour.update(113)
+    odFour.update(338)
+
+    var OdometerFive = document.querySelector('.resultActivityFive');
+    let odFive = new Odometer({
+      el: OdometerFive,
+      value: 0,
+      format: '',
+      theme: ''
+    });
+    odFive.update(590)
   }
 
   chartQuestionOne(){

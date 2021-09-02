@@ -1,5 +1,7 @@
-import { Component, OnInit, Inject, HostListener} from '@angular/core';
+import { Component, OnInit, Inject, HostListener } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
+import { IndicadoresService } from '../indicadores.service';
+import { IndicadorDosDetail, OferentesPorTipoEmpresas, CantidadTiposApoyo, Sectores } from '../indicadores.models';
 import { Chart } from "chart.js";
 import * as echarts from 'echarts';
 import 'chartjs-plugin-style';
@@ -26,83 +28,90 @@ export class IndicadorDosComponent implements OnInit {
 
   chart: any;
 
+  /* datosSectores = [];
+  datosMecanismosApoyo = [];
+  datosTipoEmpresa = []; */
+
   datosSectores = [
-    {Numero_empresas: 4, Sector: 'Manufactura'},
-    {Numero_empresas: 60, Sector: 'Servicios'},
-    {Numero_empresas: 2, Sector: 'Comercialización'}
+    { Numero_empresas: 4, Sector: 'Manufactura' },
+    { Numero_empresas: 60, Sector: 'Servicios' },
+    { Numero_empresas: 2, Sector: 'Comercialización' }
   ];
 
   datosMecanismosApoyo = [
-    {Numero_empresas: 11, Mecanismo: 'CapacitaciónFormación'},
-    {Numero_empresas: 10, Mecanismo: 'PlataformaBase'},
-    {Numero_empresas: 13, Mecanismo: 'AsesoriaConsultoria'},
-    {Numero_empresas: 10, Mecanismo: 'Relacionamiento'},
-    {Numero_empresas: 3, Mecanismo: 'financiero'},
-    {Numero_empresas: 3, Mecanismo: 'reembolsable'},
-    {Numero_empresas: 3, Mecanismo: 'contrapartida'},
-    {Numero_empresas: 6, Mecanismo: 'otrostipoapoyo'}
+    { Numero_empresas: 11, Mecanismo: 'CapacitaciónFormación' },
+    { Numero_empresas: 10, Mecanismo: 'PlataformaBase' },
+    { Numero_empresas: 13, Mecanismo: 'AsesoriaConsultoria' },
+    { Numero_empresas: 10, Mecanismo: 'Relacionamiento' },
+    { Numero_empresas: 3, Mecanismo: 'financiero' },
+    { Numero_empresas: 3, Mecanismo: 'reembolsable' },
+    { Numero_empresas: 3, Mecanismo: 'contrapartida' },
+    { Numero_empresas: 6, Mecanismo: 'otrostipoapoyo' }
   ]
 
   datosTipoEmpresa = [
-    {Tipo_empresa: 'Emprendedor',Numero_empresas: 37},
-    {Tipo_empresa: 'Micro empresas',Numero_empresas: 42},
-    {Tipo_empresa: 'Empresas pequeñas',Numero_empresas: 44},
-    {Tipo_empresa: 'Medianas empresas',Numero_empresas: 63},
-    {Tipo_empresa: 'Grandes empresas',Numero_empresas: 57},
-    {Tipo_empresa: 'Gobierno',Numero_empresas: 57},
-    {Tipo_empresa: 'Academia',Numero_empresas: 54},
-    {Tipo_empresa: 'Entidad soporte',Numero_empresas: 43},
-    {Tipo_empresa: 'Personas naturales',Numero_empresas: 32},
-    {Tipo_empresa: 'Otros usuarios',Numero_empresas: 8}
+    { Tipo_empresa: 'Emprendedor', Numero_empresas: 37 },
+    { Tipo_empresa: 'Micro empresas', Numero_empresas: 42 },
+    { Tipo_empresa: 'Empresas pequeñas', Numero_empresas: 44 },
+    { Tipo_empresa: 'Medianas empresas', Numero_empresas: 63 },
+    { Tipo_empresa: 'Grandes empresas', Numero_empresas: 57 },
+    { Tipo_empresa: 'Gobierno', Numero_empresas: 57 },
+    { Tipo_empresa: 'Academia', Numero_empresas: 54 },
+    { Tipo_empresa: 'Entidad soporte', Numero_empresas: 43 },
+    { Tipo_empresa: 'Personas naturales', Numero_empresas: 32 },
+    { Tipo_empresa: 'Otros usuarios', Numero_empresas: 8 }
   ];
 
   windowScrolled: boolean;
   Vivus: any;
 
-  constructor(@Inject(DOCUMENT) private document: Document) { }
+  constructor(
+    private indicadorService: IndicadoresService,
+    @Inject(DOCUMENT) private document: Document) { }
 
   @HostListener("window:scroll")
   onWindowScroll() {
     if (window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop > 100) {
-        this.windowScrolled = true;
-      }
-     else if (this.windowScrolled && window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop < 10) {
-        this.windowScrolled = false;
-        new Vivus('icono_offer',{
-          duration: 50,
-          reverse: true,
-          dashGap: 20
-        },).reset();
-        new Vivus('icono_business',{
-          duration: 50,
-          reverse: true,
-          dashGap: 20
-        },).reset();
-        new Vivus('icono_bar_1',{
-          duration: 50,
-          reverse: true,
-          dashGap: 20
-        },).reset();
-        new Vivus('icono_bar_2',{
-          duration: 50,
-          reverse: true,
-          dashGap: 20
-        },).reset();
-        new Vivus('icono_burbuja_1',{
-          duration: 50,
-          reverse: true,
-          dashGap: 20
-        },).reset();
-        /*new Vivus('icono_burbuja_2',{
-          duration: 50,
-          reverse: true,
-          dashGap: 20
-        },).reset();*/
-      }
+      this.windowScrolled = true;
+    }
+    else if (this.windowScrolled && window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop < 10) {
+      this.windowScrolled = false;
+      new Vivus('icono_offer', {
+        duration: 50,
+        reverse: true,
+        dashGap: 20
+      }).reset();
+      new Vivus('icono_business', {
+        duration: 50,
+        reverse: true,
+        dashGap: 20
+      }).reset();
+      new Vivus('icono_bar_1', {
+        duration: 50,
+        reverse: true,
+        dashGap: 20
+      }).reset();
+      new Vivus('icono_bar_2', {
+        duration: 50,
+        reverse: true,
+        dashGap: 20
+      }).reset();
+      new Vivus('icono_burbuja_1', {
+        duration: 50,
+        reverse: true,
+        dashGap: 20
+      }).reset();
+      /*new Vivus('icono_burbuja_2',{
+        duration: 50,
+        reverse: true,
+        dashGap: 20
+      },).reset();*/
+    }
   }
 
   ngOnInit(): void {
     initFlip();
+    //this.observeCharts();
     this.initVivus();
     this.initializerOdometer();
     this.chartQuestionOne();
@@ -112,31 +121,31 @@ export class IndicadorDosComponent implements OnInit {
   }
 
   initVivus() {
-    new Vivus('icono_offer',{
+    new Vivus('icono_offer', {
       duration: 50,
       reverse: true,
       dashGap: 20
-    },).reset();
-    new Vivus('icono_business',{
+    }).reset();
+    new Vivus('icono_business', {
       duration: 50,
       reverse: true,
       dashGap: 20
-    },).reset();
-    new Vivus('icono_bar_1',{
+    }).reset();
+    new Vivus('icono_bar_1', {
       duration: 50,
       reverse: true,
       dashGap: 20
-    },).reset();
-    new Vivus('icono_bar_2',{
+    }).reset();
+    new Vivus('icono_bar_2', {
       duration: 50,
       reverse: true,
       dashGap: 20
-    },).reset();
-    new Vivus('icono_burbuja_1',{
+    }).reset();
+    new Vivus('icono_burbuja_1', {
       duration: 50,
       reverse: true,
       dashGap: 20
-    },).reset();
+    }).reset();
     /* new Vivus('icono_burbuja_2',{
       duration: 50,
       reverse: true,
@@ -152,7 +161,7 @@ export class IndicadorDosComponent implements OnInit {
       format: '',
       theme: ''
     });
-    odUno.update(32)
+    odUno.update(35)
 
     var OdometerDos = document.querySelector('.resultActivityTwo');
     let odDos = new Odometer({
@@ -161,7 +170,7 @@ export class IndicadorDosComponent implements OnInit {
       format: '',
       theme: ''
     });
-    odDos.update(66)
+    odDos.update(72)
   }
 
   /*chartQuestionOne() {
@@ -580,100 +589,100 @@ export class IndicadorDosComponent implements OnInit {
     let optionChartOne;
     let optionChartTwo;
 
-      optionChartOne = {
-        tooltip: {
-          trigger: 'item',
-          showDelay: 0,
-          transitionDuration: 0.2,
-          backgroundColor: '#FFFFFF',
-          padding: 5,
-          textStyle: {
-            color: '#212121',
-            fontSize: 13,
-            lineHeight:10,
-            fontWeight: 'bold',
-            fontFamily: 'Roboto-Light'
-          },
-          extraCssText: 'box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);'
+    optionChartOne = {
+      tooltip: {
+        trigger: 'item',
+        showDelay: 0,
+        transitionDuration: 0.2,
+        backgroundColor: '#FFFFFF',
+        padding: 5,
+        textStyle: {
+          color: '#212121',
+          fontSize: 13,
+          lineHeight: 10,
+          fontWeight: 'bold',
+          fontFamily: 'Roboto-Light'
         },
-        xAxis: {
-            type: 'category',
-            data: ['Manufactura', 'Servicios', 'Comercialización'],
-            axisLabel: {
-              formatter : function(params, value){
-                var newParamsName = "";
-                var paramsNameNumber = params.length;
-                var provideNumber = 6;
-                var rowNumber = Math.ceil(paramsNameNumber / provideNumber);
-                if (paramsNameNumber > provideNumber) {
-                    for (var p = 0; p < rowNumber; p++) {
-                        var tempStr = "";
-                        if (p == rowNumber - 1) {
-                            tempStr = (params.length > 6 ? (params.slice(0,6)+"...") : '' );
-                        } else {}
-                        newParamsName += tempStr;
-                    }
-                } else {
-                    newParamsName = params;
-                }
-                return newParamsName
-              },
-              color: '#212121',
-              fontWeight: 'bold',
-              fontFamily: 'Roboto-Light'
-          }
-        },
-        yAxis: {
-            type: 'value',
-            axisLabel: {
-              color: '#212121',
-              fontWeight: 'bold',
-              fontFamily: 'Roboto-Light'
-            }
-        },
-        visualMap: {
-            top: 'middle',
-            right: -5,
-            min: 0,
-            max: 58,
-            text: ['Maximo', 'Minimo'],
-            inRange: {
-                color: ['#9AC331', '#FFDA00', 'rgb(239, 36, 105)']
-            },
-            textStyle: {
-              color: '#212121',
-              fontWeight: 'bold',
-              fontFamily: 'Roboto-Light'
-            }
-        },
-        grid: [
-          {
-            right: '14%'
-          }
-        ],
-        series: [
-            {
-              data: [4, 60, 2],
-              name: '',
-              type: 'bar',
-              label: {
-                color: '#212121',
-                fontWeight: 'bold',
-                fontFamily: 'Roboto-Light',
-                position: 'top',
-                show: true
-              },
-              itemStyle: {
-              },
-              animationDelay: function (idx) {
-                return idx * 15;
+        extraCssText: 'box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);'
+      },
+      xAxis: {
+        type: 'category',
+        data: ['Manufactura', 'Servicios', 'Comercialización'],
+        axisLabel: {
+          formatter: function (params, value) {
+            var newParamsName = "";
+            var paramsNameNumber = params.length;
+            var provideNumber = 6;
+            var rowNumber = Math.ceil(paramsNameNumber / provideNumber);
+            if (paramsNameNumber > provideNumber) {
+              for (var p = 0; p < rowNumber; p++) {
+                var tempStr = "";
+                if (p == rowNumber - 1) {
+                  tempStr = (params.length > 6 ? (params.slice(0, 6) + "...") : '');
+                } else { }
+                newParamsName += tempStr;
               }
-          }
-        ],
-        animationEasing: 'elasticOut',
-        animationDelayUpdate: function (idx) {
-            return idx * 5;
+            } else {
+              newParamsName = params;
+            }
+            return newParamsName
+          },
+          color: '#212121',
+          fontWeight: 'bold',
+          fontFamily: 'Roboto-Light'
         }
+      },
+      yAxis: {
+        type: 'value',
+        axisLabel: {
+          color: '#212121',
+          fontWeight: 'bold',
+          fontFamily: 'Roboto-Light'
+        }
+      },
+      visualMap: {
+        top: 'middle',
+        right: -5,
+        min: 0,
+        max: 58,
+        text: ['Maximo', 'Minimo'],
+        inRange: {
+          color: ['#9AC331', '#FFDA00', 'rgb(239, 36, 105)']
+        },
+        textStyle: {
+          color: '#212121',
+          fontWeight: 'bold',
+          fontFamily: 'Roboto-Light'
+        }
+      },
+      grid: [
+        {
+          right: '14%'
+        }
+      ],
+      series: [
+        {
+          data: [4, 60, 2],
+          name: '',
+          type: 'bar',
+          label: {
+            color: '#212121',
+            fontWeight: 'bold',
+            fontFamily: 'Roboto-Light',
+            position: 'top',
+            show: true
+          },
+          itemStyle: {
+          },
+          animationDelay: function (idx) {
+            return idx * 15;
+          }
+        }
+      ],
+      animationEasing: 'elasticOut',
+      animationDelayUpdate: function (idx) {
+        return idx * 5;
+      }
     };
 
     optionChartTwo = {
@@ -687,7 +696,7 @@ export class IndicadorDosComponent implements OnInit {
         textStyle: {
           color: '#212121',
           fontSize: 13,
-          lineHeight:10,
+          lineHeight: 10,
           fontWeight: 'bold',
           fontFamily: 'Roboto-Light'
         },
@@ -699,132 +708,132 @@ export class IndicadorDosComponent implements OnInit {
         textStyle: {
           color: '#212121',
           fontSize: 13,
-          lineHeight:10,
+          lineHeight: 10,
           fontWeight: 'bold',
           fontFamily: 'Roboto-Light'
         },
         icon: 'rect'
       },
       toolbox: {
-          show: true,
-          feature: {
-              mark: {show: true},
-              dataView: {show: false, readOnly: false},
-              restore: {show: false},
-              saveAsImage: {show: false}
-          }
+        show: true,
+        feature: {
+          mark: { show: true },
+          dataView: { show: false, readOnly: false },
+          restore: { show: false },
+          saveAsImage: { show: false }
+        }
       },
       visualMap: {
-          top: 'middle',
-          right: -5,
-          max:58,
-          min:0,
-          text: ['Maximo', 'Minimo'],
-          inRange: {
-              color: ['#9AC331', '#FFDA00', 'rgb(239, 36, 105)']
-          },
-          textStyle: {
-            color: '#212121',
-            fontWeight: 'bold',
-            fontFamily: 'Roboto-Light'
-          }
+        top: 'middle',
+        right: -5,
+        max: 58,
+        min: 0,
+        text: ['Maximo', 'Minimo'],
+        inRange: {
+          color: ['#9AC331', '#FFDA00', 'rgb(239, 36, 105)']
+        },
+        textStyle: {
+          color: '#212121',
+          fontWeight: 'bold',
+          fontFamily: 'Roboto-Light'
+        }
       },
       series: [
-          {
-              name: 'Dato',
-              type: 'pie',
-              radius: ['30%', '70%'],
-              center: ['50%', '50%'],
-              roseType: 'area',
-              hoverOffset: 12,
-              emphasis: {
-                  label: {
-                      show: true
+        {
+          name: 'Dato',
+          type: 'pie',
+          radius: ['30%', '70%'],
+          center: ['50%', '50%'],
+          roseType: 'area',
+          hoverOffset: 12,
+          emphasis: {
+            label: {
+              show: true
+            }
+          },
+          label: {
+            normal: {
+              show: true,
+              fontSize: 12,
+              fontWeight: 'bold',
+              fontFamily: 'Roboto-Light',
+              formatter: function (d) {
+                var newParamsName = "";
+                var paramsNameNumber = d.name.length;
+                var provideNumber = 6;
+                var rowNumber = Math.ceil(paramsNameNumber / provideNumber);
+                if (paramsNameNumber > provideNumber) {
+                  for (var p = 0; p < rowNumber; p++) {
+                    var tempStr = "";
+                    if (p == rowNumber - 1) {
+                      tempStr = (d.name.length > 6 ? (d.name.slice(0, 6) + "...") : '');
+                    } else { }
+                    newParamsName += tempStr;
                   }
-              },
-              label: {
-                normal: {
-                  show: true,
-                  fontSize: 12,
-                  fontWeight: 'bold',
-                  fontFamily: 'Roboto-Light',
-                  formatter : function(d){
-                    var newParamsName = "";
-                    var paramsNameNumber = d.name.length;
-                    var provideNumber = 6;
-                    var rowNumber = Math.ceil(paramsNameNumber / provideNumber);
-                    if (paramsNameNumber > provideNumber) {
-                        for (var p = 0; p < rowNumber; p++) {
-                            var tempStr = "";
-                            if (p == rowNumber - 1) {
-                                tempStr = (d.name.length > 6 ? (d.name.slice(0,6)+"...") : '' );
-                            } else {}
-                            newParamsName += tempStr;
-                        }
-                    } else {
-                        newParamsName = d.name;
-                    }
-                    return newParamsName
-                  }
-                },
-                emphasis: {
-                  show: true,
-                  fontSize: 12,
-                  fontWeight: 'bold',
-                  fontFamily: 'Roboto-Light'
+                } else {
+                  newParamsName = d.name;
                 }
-              },
-              lableLine: {
-                normal: {
-                  show: false,
-                  fontSize: 12,
-                  fontWeight: 'bold',
-                  fontFamily: 'Roboto-Light'
-                },
-                emphasis: {
-                  show: true,
-                  fontSize: 12,
-                  fontWeight: 'bold',
-                  fontFamily: 'Roboto-Light'
-                }
-              },
-              itemStyle: {
-                borderRadius: 8,
-                normal: {
-                    opacity: 1,
-                    shadowOffsetX: 0,
-                    shadowOffsetY: 0,
-                }
-              },
-              data: [
-                  {value: 4, name: 'Manufactura'},
-                  {value: 60, name: 'Servicios'},
-                  {value: 2, name: 'Comercialización'}
-              ],
-              animationDelay: function (idx) {
-                return idx * 15;
+                return newParamsName
               }
+            },
+            emphasis: {
+              show: true,
+              fontSize: 12,
+              fontWeight: 'bold',
+              fontFamily: 'Roboto-Light'
+            }
+          },
+          lableLine: {
+            normal: {
+              show: false,
+              fontSize: 12,
+              fontWeight: 'bold',
+              fontFamily: 'Roboto-Light'
+            },
+            emphasis: {
+              show: true,
+              fontSize: 12,
+              fontWeight: 'bold',
+              fontFamily: 'Roboto-Light'
+            }
+          },
+          itemStyle: {
+            borderRadius: 8,
+            normal: {
+              opacity: 1,
+              shadowOffsetX: 0,
+              shadowOffsetY: 0,
+            }
+          },
+          data: [
+            { value: 4, name: 'Manufactura' },
+            { value: 60, name: 'Servicios' },
+            { value: 2, name: 'Comercialización' }
+          ],
+          animationDelay: function (idx) {
+            return idx * 15;
           }
+        }
       ],
       animationEasing: 'elasticOut',
       animationDelayUpdate: function (idx) {
-          return idx * 5;
+        return idx * 5;
       }
-  };
+    };
 
     optionChartOne && chartQuestionOne.setOption(optionChartOne);
     optionChartTwo && chartTwoQuestionOne.setOption(optionChartTwo);
 
-    $(window).on('resize', function(){
-        if(chartQuestionOne != null && chartQuestionOne != undefined){
-            chartQuestionOne.resize();
-        }
+    $(window).on('resize', function () {
+      if (chartQuestionOne != null && chartQuestionOne != undefined) {
+        chartQuestionOne.resize();
+      }
     });
 
-    $(window).on('resize', function(){
-        if(chartTwoQuestionOne != null && chartTwoQuestionOne != undefined){
-            chartTwoQuestionOne.resize();
-        }
+    $(window).on('resize', function () {
+      if (chartTwoQuestionOne != null && chartTwoQuestionOne != undefined) {
+        chartTwoQuestionOne.resize();
+      }
     });
 
   }
@@ -836,100 +845,100 @@ export class IndicadorDosComponent implements OnInit {
     let optionChartOne;
     let optionChartTwo;
 
-      optionChartOne = {
-        tooltip: {
-          trigger: 'item',
-          showDelay: 0,
-          transitionDuration: 0.2,
-          backgroundColor: '#FFFFFF',
-          padding: 5,
-          textStyle: {
-            color: '#212121',
-            fontSize: 13,
-            lineHeight:10,
-            fontWeight: 'bold',
-            fontFamily: 'Roboto-Light'
-          },
-          extraCssText: 'box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);'
+    optionChartOne = {
+      tooltip: {
+        trigger: 'item',
+        showDelay: 0,
+        transitionDuration: 0.2,
+        backgroundColor: '#FFFFFF',
+        padding: 5,
+        textStyle: {
+          color: '#212121',
+          fontSize: 13,
+          lineHeight: 10,
+          fontWeight: 'bold',
+          fontFamily: 'Roboto-Light'
         },
-        xAxis: {
-            type: 'category',
-            data: ['CapacitaciónFormación', 'PlataformaBase', 'AsesoriaConsultoria', 'Relacionamiento', 'financiero', 'reembolsable', 'contrapartida', 'otrostipoapoyo'],
-            axisLabel: {
-              formatter : function(params, value){
-                var newParamsName = "";
-                var paramsNameNumber = params.length;
-                var provideNumber = 6;
-                var rowNumber = Math.ceil(paramsNameNumber / provideNumber);
-                if (paramsNameNumber > provideNumber) {
-                    for (var p = 0; p < rowNumber; p++) {
-                        var tempStr = "";
-                        if (p == rowNumber - 1) {
-                            tempStr = (params.length > 6 ? (params.slice(0,6)+"...") : '' );
-                        } else {}
-                        newParamsName += tempStr;
-                    }
-                } else {
-                    newParamsName = params;
-                }
-                return newParamsName
-              },
-              color: '#212121',
-              fontWeight: 'bold',
-              fontFamily: 'Roboto-Light'
-          }
-        },
-        yAxis: {
-            type: 'value',
-            axisLabel: {
-              color: '#212121',
-              fontWeight: 'bold',
-              fontFamily: 'Roboto-Light'
-            }
-        },
-        visualMap: {
-            top: 'middle',
-            right: -5,
-            min: 0,
-            max: 13,
-            text: ['Maximo', 'Minimo'],
-            inRange: {
-                color: ['#9AC331', '#FFDA00', 'rgb(239, 36, 105)']
-            },
-            textStyle: {
-              color: '#212121',
-              fontWeight: 'bold',
-              fontFamily: 'Roboto-Light'
-            }
-        },
-        grid: [
-          {
-            right: '14%'
-          }
-        ],
-        series: [
-            {
-              data: [11, 10, 13, 10, 3, 3, 3, 6],
-              name: '',
-              type: 'bar',
-              label: {
-                color: '#212121',
-                fontWeight: 'bold',
-                fontFamily: 'Roboto-Light',
-                position: 'top',
-                show: true
-              },
-              itemStyle: {
-              },
-              animationDelay: function (idx) {
-                return idx * 15;
+        extraCssText: 'box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);'
+      },
+      xAxis: {
+        type: 'category',
+        data: ['CapacitaciónFormación', 'PlataformaBase', 'AsesoriaConsultoria', 'Relacionamiento', 'financiero', 'reembolsable', 'contrapartida', 'otrostipoapoyo'],
+        axisLabel: {
+          formatter: function (params, value) {
+            var newParamsName = "";
+            var paramsNameNumber = params.length;
+            var provideNumber = 6;
+            var rowNumber = Math.ceil(paramsNameNumber / provideNumber);
+            if (paramsNameNumber > provideNumber) {
+              for (var p = 0; p < rowNumber; p++) {
+                var tempStr = "";
+                if (p == rowNumber - 1) {
+                  tempStr = (params.length > 6 ? (params.slice(0, 6) + "...") : '');
+                } else { }
+                newParamsName += tempStr;
               }
-          }
-        ],
-        animationEasing: 'elasticOut',
-        animationDelayUpdate: function (idx) {
-            return idx * 5;
+            } else {
+              newParamsName = params;
+            }
+            return newParamsName
+          },
+          color: '#212121',
+          fontWeight: 'bold',
+          fontFamily: 'Roboto-Light'
         }
+      },
+      yAxis: {
+        type: 'value',
+        axisLabel: {
+          color: '#212121',
+          fontWeight: 'bold',
+          fontFamily: 'Roboto-Light'
+        }
+      },
+      visualMap: {
+        top: 'middle',
+        right: -5,
+        min: 0,
+        max: 13,
+        text: ['Maximo', 'Minimo'],
+        inRange: {
+          color: ['#9AC331', '#FFDA00', 'rgb(239, 36, 105)']
+        },
+        textStyle: {
+          color: '#212121',
+          fontWeight: 'bold',
+          fontFamily: 'Roboto-Light'
+        }
+      },
+      grid: [
+        {
+          right: '14%'
+        }
+      ],
+      series: [
+        {
+          data: [11, 10, 13, 10, 3, 3, 3, 6],
+          name: '',
+          type: 'bar',
+          label: {
+            color: '#212121',
+            fontWeight: 'bold',
+            fontFamily: 'Roboto-Light',
+            position: 'top',
+            show: true
+          },
+          itemStyle: {
+          },
+          animationDelay: function (idx) {
+            return idx * 15;
+          }
+        }
+      ],
+      animationEasing: 'elasticOut',
+      animationDelayUpdate: function (idx) {
+        return idx * 5;
+      }
     };
 
     optionChartTwo = {
@@ -943,7 +952,7 @@ export class IndicadorDosComponent implements OnInit {
         textStyle: {
           color: '#212121',
           fontSize: 13,
-          lineHeight:10,
+          lineHeight: 10,
           fontWeight: 'bold',
           fontFamily: 'Roboto-Light'
         },
@@ -955,137 +964,137 @@ export class IndicadorDosComponent implements OnInit {
         textStyle: {
           color: '#212121',
           fontSize: 13,
-          lineHeight:10,
+          lineHeight: 10,
           fontWeight: 'bold',
           fontFamily: 'Roboto-Light'
         },
         icon: 'rect'
       },
       toolbox: {
-          show: true,
-          feature: {
-              mark: {show: true},
-              dataView: {show: false, readOnly: false},
-              restore: {show: false},
-              saveAsImage: {show: false}
-          }
+        show: true,
+        feature: {
+          mark: { show: true },
+          dataView: { show: false, readOnly: false },
+          restore: { show: false },
+          saveAsImage: { show: false }
+        }
       },
       visualMap: {
-          top: 'middle',
-          right: -5,
-          max:13,
-          min:0,
-          text: ['Maximo', 'Minimo'],
-          inRange: {
-              color: ['#9AC331', '#FFDA00', 'rgb(239, 36, 105)']
-          },
-          textStyle: {
-            color: '#212121',
-            fontWeight: 'bold',
-            fontFamily: 'Roboto-Light'
-          }
+        top: 'middle',
+        right: -5,
+        max: 13,
+        min: 0,
+        text: ['Maximo', 'Minimo'],
+        inRange: {
+          color: ['#9AC331', '#FFDA00', 'rgb(239, 36, 105)']
+        },
+        textStyle: {
+          color: '#212121',
+          fontWeight: 'bold',
+          fontFamily: 'Roboto-Light'
+        }
       },
       series: [
-          {
-              name: 'Dato',
-              type: 'pie',
-              radius: ['30%', '70%'],
-              center: ['50%', '50%'],
-              roseType: 'area',
-              hoverOffset: 12,
-              emphasis: {
-                  label: {
-                      show: true
+        {
+          name: 'Dato',
+          type: 'pie',
+          radius: ['30%', '70%'],
+          center: ['50%', '50%'],
+          roseType: 'area',
+          hoverOffset: 12,
+          emphasis: {
+            label: {
+              show: true
+            }
+          },
+          label: {
+            normal: {
+              show: true,
+              fontSize: 12,
+              fontWeight: 'bold',
+              fontFamily: 'Roboto-Light',
+              formatter: function (d) {
+                var newParamsName = "";
+                var paramsNameNumber = d.name.length;
+                var provideNumber = 6;
+                var rowNumber = Math.ceil(paramsNameNumber / provideNumber);
+                if (paramsNameNumber > provideNumber) {
+                  for (var p = 0; p < rowNumber; p++) {
+                    var tempStr = "";
+                    if (p == rowNumber - 1) {
+                      tempStr = (d.name.length > 6 ? (d.name.slice(0, 6) + "...") : '');
+                    } else { }
+                    newParamsName += tempStr;
                   }
-              },
-              label: {
-                normal: {
-                  show: true,
-                  fontSize: 12,
-                  fontWeight: 'bold',
-                  fontFamily: 'Roboto-Light',
-                  formatter : function(d){
-                    var newParamsName = "";
-                    var paramsNameNumber = d.name.length;
-                    var provideNumber = 6;
-                    var rowNumber = Math.ceil(paramsNameNumber / provideNumber);
-                    if (paramsNameNumber > provideNumber) {
-                        for (var p = 0; p < rowNumber; p++) {
-                            var tempStr = "";
-                            if (p == rowNumber - 1) {
-                                tempStr = (d.name.length > 6 ? (d.name.slice(0,6)+"...") : '' );
-                            } else {}
-                            newParamsName += tempStr;
-                        }
-                    } else {
-                        newParamsName = d.name;
-                    }
-                    return newParamsName
-                  }
-                },
-                emphasis: {
-                  show: true,
-                  fontSize: 12,
-                  fontWeight: 'bold',
-                  fontFamily: 'Roboto-Light'
+                } else {
+                  newParamsName = d.name;
                 }
-              },
-              lableLine: {
-                normal: {
-                  show: false,
-                  fontSize: 12,
-                  fontWeight: 'bold',
-                  fontFamily: 'Roboto-Light'
-                },
-                emphasis: {
-                  show: true,
-                  fontSize: 12,
-                  fontWeight: 'bold',
-                  fontFamily: 'Roboto-Light'
-                }
-              },
-              itemStyle: {
-                borderRadius: 8,
-                normal: {
-                    opacity: 1,
-                    shadowOffsetX: 0,
-                    shadowOffsetY: 0,
-                }
-              },
-              data: [
-                  {value: 11, name: 'CapacitaciónFormación'},
-                  {value: 10, name: 'PlataformaBase'},
-                  {value: 13, name: 'AsesoriaConsultoria'},
-                  {value: 10, name: 'Relacionamiento'},
-                  {value: 3, name: 'financiero'},
-                  {value: 3, name: 'reembolsable'},
-                  {value: 3, name: 'contrapartida'},
-                  {value: 6, name: 'otrostipoapoyo'}
-              ],
-              animationDelay: function (idx) {
-                return idx * 15;
+                return newParamsName
               }
+            },
+            emphasis: {
+              show: true,
+              fontSize: 12,
+              fontWeight: 'bold',
+              fontFamily: 'Roboto-Light'
+            }
+          },
+          lableLine: {
+            normal: {
+              show: false,
+              fontSize: 12,
+              fontWeight: 'bold',
+              fontFamily: 'Roboto-Light'
+            },
+            emphasis: {
+              show: true,
+              fontSize: 12,
+              fontWeight: 'bold',
+              fontFamily: 'Roboto-Light'
+            }
+          },
+          itemStyle: {
+            borderRadius: 8,
+            normal: {
+              opacity: 1,
+              shadowOffsetX: 0,
+              shadowOffsetY: 0,
+            }
+          },
+          data: [
+            { value: 11, name: 'CapacitaciónFormación' },
+            { value: 10, name: 'PlataformaBase' },
+            { value: 13, name: 'AsesoriaConsultoria' },
+            { value: 10, name: 'Relacionamiento' },
+            { value: 3, name: 'financiero' },
+            { value: 3, name: 'reembolsable' },
+            { value: 3, name: 'contrapartida' },
+            { value: 6, name: 'otrostipoapoyo' }
+          ],
+          animationDelay: function (idx) {
+            return idx * 15;
           }
+        }
       ],
       animationEasing: 'elasticOut',
       animationDelayUpdate: function (idx) {
-          return idx * 5;
+        return idx * 5;
       }
-  };
+    };
 
     optionChartOne && chartQuestionTwo.setOption(optionChartOne);
     optionChartTwo && chartTwoQuestionTwo.setOption(optionChartTwo);
 
-    $(window).on('resize', function(){
-        if(chartQuestionTwo != null && chartQuestionTwo != undefined){
-            chartQuestionTwo.resize();
-        }
+    $(window).on('resize', function () {
+      if (chartQuestionTwo != null && chartQuestionTwo != undefined) {
+        chartQuestionTwo.resize();
+      }
     });
 
-    $(window).on('resize', function(){
-        if(chartTwoQuestionTwo != null && chartTwoQuestionTwo != undefined){
-            chartTwoQuestionTwo.resize();
-        }
+    $(window).on('resize', function () {
+      if (chartTwoQuestionTwo != null && chartTwoQuestionTwo != undefined) {
+        chartTwoQuestionTwo.resize();
+      }
     });
 
   }
@@ -1097,223 +1106,223 @@ export class IndicadorDosComponent implements OnInit {
     let optionChartOne;
     let optionChartTwo;
 
-      optionChartOne = {
-        tooltip: {
-          trigger: 'item',
-          showDelay: 0,
-          transitionDuration: 0.2,
-          formatter: "{a} <br/>{b} : {c}",
-          backgroundColor: '#FFFFFF',
-          padding: 5,
-          textStyle: {
-            color: '#212121',
-            fontSize: 13,
-            lineHeight:10,
-            fontWeight: 'bold',
-            fontFamily: 'Roboto-Light',
-          },
-          extraCssText: 'box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);'
-        },
-        animation: true,
-        animationThreshold: 2000,
-        animationDuration: 1000,
-        animationEasing: 'bounceIn',
-        animationDelay: 0,
-        animationDurationUpdate: 400,
-        animationEasingUpdate: 'bounceIn',
-        animationDelayUpdate: 0,
-        color: ['#fff', '#fff', '#fff'],
+    optionChartOne = {
+      tooltip: {
+        trigger: 'item',
+        showDelay: 0,
+        transitionDuration: 0.2,
+        formatter: "{a} <br/>{b} : {c}",
+        backgroundColor: '#FFFFFF',
+        padding: 5,
         textStyle: {
+          color: '#212121',
+          fontSize: 13,
+          lineHeight: 10,
           fontWeight: 'bold',
           fontFamily: 'Roboto-Light',
         },
-        toolbox: {
-            show: true,
-            feature: {
-                mark: {show: true},
-                dataView: {show: false, readOnly: false},
-                restore: {show: false},
-                saveAsImage: {show: false}
-            }
+        extraCssText: 'box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);'
+      },
+      animation: true,
+      animationThreshold: 2000,
+      animationDuration: 1000,
+      animationEasing: 'bounceIn',
+      animationDelay: 0,
+      animationDurationUpdate: 400,
+      animationEasingUpdate: 'bounceIn',
+      animationDelayUpdate: 0,
+      color: ['#fff', '#fff', '#fff'],
+      textStyle: {
+        fontWeight: 'bold',
+        fontFamily: 'Roboto-Light',
+      },
+      toolbox: {
+        show: true,
+        feature: {
+          mark: { show: true },
+          dataView: { show: false, readOnly: false },
+          restore: { show: false },
+          saveAsImage: { show: false }
+        }
+      },
+      visualMap: {
+        top: 'middle',
+        right: -5,
+        max: 59,
+        min: 0,
+        text: ['Maximo', 'Minimo'],
+        inRange: {
+          color: ['#9AC331', '#FFDA00', 'rgb(239, 36, 105)']
         },
-        visualMap: {
-            top: 'middle',
-            right: -5,
-            max:59,
-            min:0,
-            text: ['Maximo', 'Minimo'],
-            inRange: {
-                color: ['#9AC331', '#FFDA00', 'rgb(239, 36, 105)']
+        textStyle: {
+          color: '#212121',
+          fontWeight: 'bold',
+          fontFamily: 'Roboto-Light'
+        }
+      },
+      series: [
+        {
+          name: 'Tipo de empresa',
+          type: 'graph',
+          layout: 'force',
+          force: {
+            repulsion: 150,
+            edgeLength: 10,
+            gravity: 0.1,
+          },
+          roam: true,
+          label: {
+            normal: {
+              show: true,
+              position: 'top',
+              fontSize: 12,
+              fontWeight: 'bold',
+              fontFamily: 'Roboto-Light',
+              formatter: function (d) {
+                var newParamsName = "";
+                var paramsNameNumber = d.name.length;
+                var provideNumber = 6;
+                var rowNumber = Math.ceil(paramsNameNumber / provideNumber);
+                if (paramsNameNumber > provideNumber) {
+                  for (var p = 0; p < rowNumber; p++) {
+                    var tempStr = "";
+                    if (p == rowNumber - 1) {
+                      tempStr = (d.name.length > 6 ? (d.name.slice(0, 6) + "...") : '');
+                    } else { }
+                    newParamsName += tempStr;
+                  }
+                } else {
+                  newParamsName = d.name;
+                }
+                return newParamsName
+              }
             },
-            textStyle: {
-              color: '#212121',
+            emphasis: {
+              show: true,
+              position: 'top',
+              fontSize: 12,
               fontWeight: 'bold',
               fontFamily: 'Roboto-Light'
             }
-        },
-        series: [
-          {
-            name:'Tipo de empresa',
-            type: 'graph',
-            layout: 'force',
-            force: {
-                repulsion: 150,
-                edgeLength: 10,
-                gravity: 0.1,
-            },
-            roam: true,
-            label: {
-              normal: {
-                show: true,
-                position: 'top',
-                fontSize: 12,
-                fontWeight: 'bold',
-                fontFamily: 'Roboto-Light',
-                formatter : function(d){
-                  var newParamsName = "";
-                  var paramsNameNumber = d.name.length;
-                  var provideNumber = 6;
-                  var rowNumber = Math.ceil(paramsNameNumber / provideNumber);
-                  if (paramsNameNumber > provideNumber) {
-                      for (var p = 0; p < rowNumber; p++) {
-                          var tempStr = "";
-                          if (p == rowNumber - 1) {
-                              tempStr = (d.name.length > 6 ? (d.name.slice(0,6)+"...") : '' );
-                          } else {}
-                          newParamsName += tempStr;
-                      }
-                  } else {
-                      newParamsName = d.name;
-                  }
-                  return newParamsName
-                }
-              },
-              emphasis: {
-                show: true,
-                position: 'top',
-                fontSize: 12,
-                fontWeight: 'bold',
-                fontFamily: 'Roboto-Light'
-              }
-            },
-            data:[
-              {
-                "name": "Emprendedor",
-                "value": 37,
-                "symbolSize": 48,
-                "draggable": true,
-                "itemStyle": {
-                    "normal": {
-                        "shadowBlur": 0
-                    }
-                }
-              },
-              {
-                "name": "Micro empresas",
-                "value": 42,
-                "symbolSize": 73,
-                "draggable": true,
-                "itemStyle": {
-                    "normal": {
-                        "shadowBlur": 0
-                    }
-                }
-              },
-              {
-                "name": "Empresas pequeñas",
-                "value": 44,
-                "symbolSize": 67,
-                "draggable": true,
-                "itemStyle": {
-                    "normal": {
-                        "shadowBlur": 0
-                    }
-                }
-              },
-              {
-                "name": "Medianas empresas",
-                "value": 63,
-                "symbolSize": 50,
-                "draggable": true,
-                "itemStyle": {
-                    "normal": {
-                        "shadowBlur": 0
-                    }
-                }
-              },
-              {
-                "name": "Grandes empresas",
-                "value": 57,
-                "symbolSize": 88,
-                "draggable": true,
-                "itemStyle": {
-                    "normal": {
-                        "shadowBlur": 0
-                    }
-                }
-              },
-              {
-                "name": "Gobierno",
-                "value": 57,
-                "symbolSize": 55,
-                "draggable": true,
-                "itemStyle": {
-                    "normal": {
-                        "shadowBlur": 0
-                    }
-                }
-              },
-              {
-                "name": "Academia",
-                "value": 54,
-                "symbolSize": 70,
-                "draggable": true,
-                "itemStyle": {
-                    "normal": {
-                        "shadowBlur": 0
-                    }
-                }
-              },
-              {
-                "name": "Entidad soporte",
-                "value": 43,
-                "symbolSize": 67,
-                "draggable": true,
-                "itemStyle": {
-                    "normal": {
-                        "shadowBlur": 0
-                    }
-                }
-              },
-              {
-                "name": "Personas naturales",
-                "value": 32,
-                "symbolSize": 47,
-                "draggable": true,
-                "itemStyle": {
-                    "normal": {
-                        "shadowBlur": 0
-                    }
-                }
-              },
-              {
-                "name": "Otros usuarios",
-                "value": 8,
-                "symbolSize": 82,
-                "draggable": true,
-                "itemStyle": {
-                    "normal": {
-                        "shadowBlur": 0
-                    }
+          },
+          data: [
+            {
+              "name": "Emprendedor",
+              "value": 37,
+              "symbolSize": 48,
+              "draggable": true,
+              "itemStyle": {
+                "normal": {
+                  "shadowBlur": 0
                 }
               }
-            ],
-            animationEasing: 'elasticOut',
-            animationDelayUpdate: function (idx) {
-                return idx * 5;
+            },
+            {
+              "name": "Micro empresas",
+              "value": 42,
+              "symbolSize": 73,
+              "draggable": true,
+              "itemStyle": {
+                "normal": {
+                  "shadowBlur": 0
+                }
+              }
+            },
+            {
+              "name": "Empresas pequeñas",
+              "value": 44,
+              "symbolSize": 67,
+              "draggable": true,
+              "itemStyle": {
+                "normal": {
+                  "shadowBlur": 0
+                }
+              }
+            },
+            {
+              "name": "Medianas empresas",
+              "value": 63,
+              "symbolSize": 50,
+              "draggable": true,
+              "itemStyle": {
+                "normal": {
+                  "shadowBlur": 0
+                }
+              }
+            },
+            {
+              "name": "Grandes empresas",
+              "value": 57,
+              "symbolSize": 88,
+              "draggable": true,
+              "itemStyle": {
+                "normal": {
+                  "shadowBlur": 0
+                }
+              }
+            },
+            {
+              "name": "Gobierno",
+              "value": 57,
+              "symbolSize": 55,
+              "draggable": true,
+              "itemStyle": {
+                "normal": {
+                  "shadowBlur": 0
+                }
+              }
+            },
+            {
+              "name": "Academia",
+              "value": 54,
+              "symbolSize": 70,
+              "draggable": true,
+              "itemStyle": {
+                "normal": {
+                  "shadowBlur": 0
+                }
+              }
+            },
+            {
+              "name": "Entidad soporte",
+              "value": 43,
+              "symbolSize": 67,
+              "draggable": true,
+              "itemStyle": {
+                "normal": {
+                  "shadowBlur": 0
+                }
+              }
+            },
+            {
+              "name": "Personas naturales",
+              "value": 32,
+              "symbolSize": 47,
+              "draggable": true,
+              "itemStyle": {
+                "normal": {
+                  "shadowBlur": 0
+                }
+              }
+            },
+            {
+              "name": "Otros usuarios",
+              "value": 8,
+              "symbolSize": 82,
+              "draggable": true,
+              "itemStyle": {
+                "normal": {
+                  "shadowBlur": 0
+                }
+              }
             }
+          ],
+          animationEasing: 'elasticOut',
+          animationDelayUpdate: function (idx) {
+            return idx * 5;
           }
-        ]
+        }
+      ]
     };
 
     optionChartTwo = {
@@ -1327,7 +1336,7 @@ export class IndicadorDosComponent implements OnInit {
         textStyle: {
           color: '#212121',
           fontSize: 13,
-          lineHeight:10,
+          lineHeight: 10,
           fontWeight: 'bold',
           fontFamily: 'Roboto-Light'
         },
@@ -1339,35 +1348,35 @@ export class IndicadorDosComponent implements OnInit {
         textStyle: {
           color: '#212121',
           fontSize: 13,
-          lineHeight:10,
+          lineHeight: 10,
           fontWeight: 'bold',
           fontFamily: 'Roboto-Light'
         },
         icon: 'rect'
       },
       toolbox: {
-          show: true,
-          feature: {
-              mark: {show: true},
-              dataView: {show: false, readOnly: false},
-              restore: {show: false},
-              saveAsImage: {show: false}
-          }
+        show: true,
+        feature: {
+          mark: { show: true },
+          dataView: { show: false, readOnly: false },
+          restore: { show: false },
+          saveAsImage: { show: false }
+        }
       },
       visualMap: {
-          top: 'middle',
-          right: -5,
-          max:59,
-          min:0,
-          text: ['Maximo', 'Minimo'],
-          inRange: {
-              color: ['#9AC331', '#FFDA00', 'rgb(239, 36, 105)']
-          },
-          textStyle: {
-            color: '#212121',
-            fontWeight: 'bold',
-            fontFamily: 'Roboto-Light'
-          }
+        top: 'middle',
+        right: -5,
+        max: 59,
+        min: 0,
+        text: ['Maximo', 'Minimo'],
+        inRange: {
+          color: ['#9AC331', '#FFDA00', 'rgb(239, 36, 105)']
+        },
+        textStyle: {
+          color: '#212121',
+          fontWeight: 'bold',
+          fontFamily: 'Roboto-Light'
+        }
       },
       grid: [
         {
@@ -1383,12 +1392,12 @@ export class IndicadorDosComponent implements OnInit {
           bottom: 15,
           height: 22,
           itemStyle: {
-              color: '#1D244A'
+            color: '#1D244A'
           },
           textStyle: {
             color: '#FAFAFA',
             fontSize: 12,
-            lineHeight:10,
+            lineHeight: 10,
             fontWeight: 'bold',
             fontFamily: 'Roboto-Light'
           }
@@ -1406,7 +1415,7 @@ export class IndicadorDosComponent implements OnInit {
             position: 'inside',
             color: '#FAFAFA',
             fontSize: 11,
-            lineHeight:10,
+            lineHeight: 10,
             fontWeight: 'bold',
             fontFamily: 'Roboto-Light'
           }
@@ -1419,7 +1428,7 @@ export class IndicadorDosComponent implements OnInit {
             position: 'inside',
             color: '#FAFAFA',
             fontSize: 11,
-            lineHeight:10,
+            lineHeight: 10,
             fontWeight: 'bold',
             fontFamily: 'Roboto-Light'
           }
@@ -1432,7 +1441,7 @@ export class IndicadorDosComponent implements OnInit {
             position: 'inside',
             color: '#FAFAFA',
             fontSize: 11,
-            lineHeight:10,
+            lineHeight: 10,
             fontWeight: 'bold',
             fontFamily: 'Roboto-Light'
           }
@@ -1445,7 +1454,7 @@ export class IndicadorDosComponent implements OnInit {
             position: 'inside',
             color: '#FAFAFA',
             fontSize: 11,
-            lineHeight:10,
+            lineHeight: 10,
             fontWeight: 'bold',
             fontFamily: 'Roboto-Light'
           }
@@ -1458,7 +1467,7 @@ export class IndicadorDosComponent implements OnInit {
             position: 'inside',
             color: '#FAFAFA',
             fontSize: 11,
-            lineHeight:10,
+            lineHeight: 10,
             fontWeight: 'bold',
             fontFamily: 'Roboto-Light'
           }
@@ -1471,7 +1480,7 @@ export class IndicadorDosComponent implements OnInit {
             position: 'inside',
             color: '#FAFAFA',
             fontSize: 11,
-            lineHeight:10,
+            lineHeight: 10,
             fontWeight: 'bold',
             fontFamily: 'Roboto-Light'
           }
@@ -1484,7 +1493,7 @@ export class IndicadorDosComponent implements OnInit {
             position: 'inside',
             color: '#FAFAFA',
             fontSize: 11,
-            lineHeight:10,
+            lineHeight: 10,
             fontWeight: 'bold',
             fontFamily: 'Roboto-Light'
           }
@@ -1497,7 +1506,7 @@ export class IndicadorDosComponent implements OnInit {
             position: 'inside',
             color: '#FAFAFA',
             fontSize: 11,
-            lineHeight:10,
+            lineHeight: 10,
             fontWeight: 'bold',
             fontFamily: 'Roboto-Light'
           }
@@ -1510,7 +1519,7 @@ export class IndicadorDosComponent implements OnInit {
             position: 'inside',
             color: '#FAFAFA',
             fontSize: 11,
-            lineHeight:10,
+            lineHeight: 10,
             fontWeight: 'bold',
             fontFamily: 'Roboto-Light'
           }
@@ -1523,7 +1532,7 @@ export class IndicadorDosComponent implements OnInit {
             position: 'inside',
             color: '#FAFAFA',
             fontSize: 11,
-            lineHeight:10,
+            lineHeight: 10,
             fontWeight: 'bold',
             fontFamily: 'Roboto-Light'
           }
@@ -1531,23 +1540,23 @@ export class IndicadorDosComponent implements OnInit {
       }],
       animationEasing: 'elasticOut',
       animationDelayUpdate: function (idx) {
-          return idx * 5;
+        return idx * 5;
       }
-  };
+    };
 
     optionChartOne && chartQuestionThree.setOption(optionChartOne);
     optionChartTwo && chartTwoQuestionThree.setOption(optionChartTwo);
 
-    $(window).on('resize', function(){
-        if(chartQuestionThree != null && chartQuestionThree != undefined){
-            chartQuestionThree.resize();
-        }
+    $(window).on('resize', function () {
+      if (chartQuestionThree != null && chartQuestionThree != undefined) {
+        chartQuestionThree.resize();
+      }
     });
 
-    $(window).on('resize', function(){
-        if(chartTwoQuestionThree != null && chartTwoQuestionThree != undefined){
-            chartTwoQuestionThree.resize();
-        }
+    $(window).on('resize', function () {
+      if (chartTwoQuestionThree != null && chartTwoQuestionThree != undefined) {
+        chartTwoQuestionThree.resize();
+      }
     });
 
   }
@@ -1559,223 +1568,223 @@ export class IndicadorDosComponent implements OnInit {
     let optionChartOne;
     let optionChartTwo;
 
-      optionChartOne = {
-        tooltip: {
-          trigger: 'item',
-          showDelay: 0,
-          transitionDuration: 0.2,
-          formatter: "{a} <br/>{b} : {c}",
-          backgroundColor: '#FFFFFF',
-          padding: 5,
-          textStyle: {
-            color: '#212121',
-            fontSize: 13,
-            lineHeight:10,
-            fontWeight: 'bold',
-            fontFamily: 'Roboto-Light',
-          },
-          extraCssText: 'box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);'
-        },
-        animation: true,
-        animationThreshold: 2000,
-        animationDuration: 1000,
-        animationEasing: 'bounceIn',
-        animationDelay: 0,
-        animationDurationUpdate: 400,
-        animationEasingUpdate: 'bounceIn',
-        animationDelayUpdate: 0,
-        color: ['#fff', '#fff', '#fff'],
+    optionChartOne = {
+      tooltip: {
+        trigger: 'item',
+        showDelay: 0,
+        transitionDuration: 0.2,
+        formatter: "{a} <br/>{b} : {c}",
+        backgroundColor: '#FFFFFF',
+        padding: 5,
         textStyle: {
+          color: '#212121',
+          fontSize: 13,
+          lineHeight: 10,
           fontWeight: 'bold',
           fontFamily: 'Roboto-Light',
         },
-        toolbox: {
-            show: true,
-            feature: {
-                mark: {show: true},
-                dataView: {show: false, readOnly: false},
-                restore: {show: false},
-                saveAsImage: {show: false}
-            }
+        extraCssText: 'box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);'
+      },
+      animation: true,
+      animationThreshold: 2000,
+      animationDuration: 1000,
+      animationEasing: 'bounceIn',
+      animationDelay: 0,
+      animationDurationUpdate: 400,
+      animationEasingUpdate: 'bounceIn',
+      animationDelayUpdate: 0,
+      color: ['#fff', '#fff', '#fff'],
+      textStyle: {
+        fontWeight: 'bold',
+        fontFamily: 'Roboto-Light',
+      },
+      toolbox: {
+        show: true,
+        feature: {
+          mark: { show: true },
+          dataView: { show: false, readOnly: false },
+          restore: { show: false },
+          saveAsImage: { show: false }
+        }
+      },
+      visualMap: {
+        top: 'middle',
+        right: -5,
+        max: 3865,
+        min: 0,
+        text: ['Maximo', 'Minimo'],
+        inRange: {
+          color: ['#9AC331', '#FFDA00', 'rgb(239, 36, 105)']
         },
-        visualMap: {
-            top: 'middle',
-            right: -5,
-            max:3865,
-            min:0,
-            text: ['Maximo', 'Minimo'],
-            inRange: {
-                color: ['#9AC331', '#FFDA00', 'rgb(239, 36, 105)']
+        textStyle: {
+          color: '#212121',
+          fontWeight: 'bold',
+          fontFamily: 'Roboto-Light'
+        }
+      },
+      series: [
+        {
+          name: 'Tipo de oferta',
+          type: 'graph',
+          layout: 'force',
+          force: {
+            repulsion: 150,
+            edgeLength: 10,
+            gravity: 0.1,
+          },
+          roam: true,
+          label: {
+            normal: {
+              show: true,
+              position: 'top',
+              fontSize: 12,
+              fontWeight: 'bold',
+              fontFamily: 'Roboto-Light',
+              formatter: function (d) {
+                var newParamsName = "";
+                var paramsNameNumber = d.name.length;
+                var provideNumber = 6;
+                var rowNumber = Math.ceil(paramsNameNumber / provideNumber);
+                if (paramsNameNumber > provideNumber) {
+                  for (var p = 0; p < rowNumber; p++) {
+                    var tempStr = "";
+                    if (p == rowNumber - 1) {
+                      tempStr = (d.name.length > 6 ? (d.name.slice(0, 6) + "...") : '');
+                    } else { }
+                    newParamsName += tempStr;
+                  }
+                } else {
+                  newParamsName = d.name;
+                }
+                return newParamsName
+              }
             },
-            textStyle: {
-              color: '#212121',
+            emphasis: {
+              show: true,
+              position: 'top',
+              fontSize: 12,
               fontWeight: 'bold',
               fontFamily: 'Roboto-Light'
             }
-        },
-        series: [
-          {
-            name:'Tipo de oferta',
-            type: 'graph',
-            layout: 'force',
-            force: {
-                repulsion: 150,
-                edgeLength: 10,
-                gravity: 0.1,
-            },
-            roam: true,
-            label: {
-              normal: {
-                show: true,
-                position: 'top',
-                fontSize: 12,
-                fontWeight: 'bold',
-                fontFamily: 'Roboto-Light',
-                formatter : function(d){
-                  var newParamsName = "";
-                  var paramsNameNumber = d.name.length;
-                  var provideNumber = 6;
-                  var rowNumber = Math.ceil(paramsNameNumber / provideNumber);
-                  if (paramsNameNumber > provideNumber) {
-                      for (var p = 0; p < rowNumber; p++) {
-                          var tempStr = "";
-                          if (p == rowNumber - 1) {
-                              tempStr = (d.name.length > 6 ? (d.name.slice(0,6)+"...") : '' );
-                          } else {}
-                          newParamsName += tempStr;
-                      }
-                  } else {
-                      newParamsName = d.name;
-                  }
-                  return newParamsName
-                }
-              },
-              emphasis: {
-                show: true,
-                position: 'top',
-                fontSize: 12,
-                fontWeight: 'bold',
-                fontFamily: 'Roboto-Light'
-              }
-            },
-            data:[
-              {
-                "name": "innovación",
-                "value": 2181,
-                "symbolSize": 48,
-                "draggable": true,
-                "itemStyle": {
-                    "normal": {
-                        "shadowBlur": 0
-                    }
-                }
-              },
-              {
-                "name": "Emprendimiento",
-                "value": 1386,
-                "symbolSize": 73,
-                "draggable": true,
-                "itemStyle": {
-                    "normal": {
-                        "shadowBlur": 0
-                    }
-                }
-              },
-              {
-                "name": "Transferencia de conocimiento",
-                "value": 2055,
-                "symbolSize": 67,
-                "draggable": true,
-                "itemStyle": {
-                    "normal": {
-                        "shadowBlur": 0
-                    }
-                }
-              },
-              {
-                "name": "Investigación",
-                "value": 2518,
-                "symbolSize": 50,
-                "draggable": true,
-                "itemStyle": {
-                    "normal": {
-                        "shadowBlur": 0
-                    }
-                }
-              },
-              {
-                "name": "Formación capital humano",
-                "value": 3730,
-                "symbolSize": 88,
-                "draggable": true,
-                "itemStyle": {
-                    "normal": {
-                        "shadowBlur": 0
-                    }
-                }
-              },
-              {
-                "name": "Tipo de formación",
-                "value": 1952,
-                "symbolSize": 55,
-                "draggable": true,
-                "itemStyle": {
-                    "normal": {
-                        "shadowBlur": 0
-                    }
-                }
-              },
-              {
-                "name": "Calidad",
-                "value": 1898,
-                "symbolSize": 70,
-                "draggable": true,
-                "itemStyle": {
-                    "normal": {
-                        "shadowBlur": 0
-                    }
-                }
-              },
-              {
-                "name": "Entidad soporte",
-                "value": 1484,
-                "symbolSize": 67,
-                "draggable": true,
-                "itemStyle": {
-                    "normal": {
-                        "shadowBlur": 0
-                    }
-                }
-              },
-              {
-                "name": "Cluster de encadenamiento",
-                "value": 3865,
-                "symbolSize": 47,
-                "draggable": true,
-                "itemStyle": {
-                    "normal": {
-                        "shadowBlur": 0
-                    }
-                }
-              },
-              {
-                "name": "Financiación",
-                "value": 493,
-                "symbolSize": 82,
-                "draggable": true,
-                "itemStyle": {
-                    "normal": {
-                        "shadowBlur": 0
-                    }
+          },
+          data: [
+            {
+              "name": "innovación",
+              "value": 2181,
+              "symbolSize": 48,
+              "draggable": true,
+              "itemStyle": {
+                "normal": {
+                  "shadowBlur": 0
                 }
               }
-            ],
-            animationEasing: 'elasticOut',
-            animationDelayUpdate: function (idx) {
-                return idx * 5;
+            },
+            {
+              "name": "Emprendimiento",
+              "value": 1386,
+              "symbolSize": 73,
+              "draggable": true,
+              "itemStyle": {
+                "normal": {
+                  "shadowBlur": 0
+                }
+              }
+            },
+            {
+              "name": "Transferencia de conocimiento",
+              "value": 2055,
+              "symbolSize": 67,
+              "draggable": true,
+              "itemStyle": {
+                "normal": {
+                  "shadowBlur": 0
+                }
+              }
+            },
+            {
+              "name": "Investigación",
+              "value": 2518,
+              "symbolSize": 50,
+              "draggable": true,
+              "itemStyle": {
+                "normal": {
+                  "shadowBlur": 0
+                }
+              }
+            },
+            {
+              "name": "Formación capital humano",
+              "value": 3730,
+              "symbolSize": 88,
+              "draggable": true,
+              "itemStyle": {
+                "normal": {
+                  "shadowBlur": 0
+                }
+              }
+            },
+            {
+              "name": "Tipo de formación",
+              "value": 1952,
+              "symbolSize": 55,
+              "draggable": true,
+              "itemStyle": {
+                "normal": {
+                  "shadowBlur": 0
+                }
+              }
+            },
+            {
+              "name": "Calidad",
+              "value": 1898,
+              "symbolSize": 70,
+              "draggable": true,
+              "itemStyle": {
+                "normal": {
+                  "shadowBlur": 0
+                }
+              }
+            },
+            {
+              "name": "Entidad soporte",
+              "value": 1484,
+              "symbolSize": 67,
+              "draggable": true,
+              "itemStyle": {
+                "normal": {
+                  "shadowBlur": 0
+                }
+              }
+            },
+            {
+              "name": "Cluster de encadenamiento",
+              "value": 3865,
+              "symbolSize": 47,
+              "draggable": true,
+              "itemStyle": {
+                "normal": {
+                  "shadowBlur": 0
+                }
+              }
+            },
+            {
+              "name": "Financiación",
+              "value": 493,
+              "symbolSize": 82,
+              "draggable": true,
+              "itemStyle": {
+                "normal": {
+                  "shadowBlur": 0
+                }
+              }
             }
+          ],
+          animationEasing: 'elasticOut',
+          animationDelayUpdate: function (idx) {
+            return idx * 5;
           }
-        ]
+        }
+      ]
     };
 
     optionChartTwo = {
@@ -1789,7 +1798,7 @@ export class IndicadorDosComponent implements OnInit {
         textStyle: {
           color: '#212121',
           fontSize: 13,
-          lineHeight:10,
+          lineHeight: 10,
           fontWeight: 'bold',
           fontFamily: 'Roboto-Light'
         },
@@ -1801,35 +1810,35 @@ export class IndicadorDosComponent implements OnInit {
         textStyle: {
           color: '#212121',
           fontSize: 13,
-          lineHeight:10,
+          lineHeight: 10,
           fontWeight: 'bold',
           fontFamily: 'Roboto-Light'
         },
         icon: 'rect'
       },
       toolbox: {
-          show: true,
-          feature: {
-              mark: {show: true},
-              dataView: {show: false, readOnly: false},
-              restore: {show: false},
-              saveAsImage: {show: false}
-          }
+        show: true,
+        feature: {
+          mark: { show: true },
+          dataView: { show: false, readOnly: false },
+          restore: { show: false },
+          saveAsImage: { show: false }
+        }
       },
       visualMap: {
-          top: 'middle',
-          right: -5,
-          max:40,
-          min:28,
-          text: ['Maximo', 'Minimo'],
-          inRange: {
-              color: ['#9AC331', '#FFDA00', 'rgb(239, 36, 105)']
-          },
-          textStyle: {
-            color: '#212121',
-            fontWeight: 'bold',
-            fontFamily: 'Roboto-Light'
-          }
+        top: 'middle',
+        right: -5,
+        max: 40,
+        min: 28,
+        text: ['Maximo', 'Minimo'],
+        inRange: {
+          color: ['#9AC331', '#FFDA00', 'rgb(239, 36, 105)']
+        },
+        textStyle: {
+          color: '#212121',
+          fontWeight: 'bold',
+          fontFamily: 'Roboto-Light'
+        }
       },
       grid: [
         {
@@ -1845,12 +1854,12 @@ export class IndicadorDosComponent implements OnInit {
           bottom: 15,
           height: 22,
           itemStyle: {
-              color: '#1D244A'
+            color: '#1D244A'
           },
           textStyle: {
             color: '#FAFAFA',
             fontSize: 12,
-            lineHeight:10,
+            lineHeight: 10,
             fontWeight: 'bold',
             fontFamily: 'Roboto-Light'
           }
@@ -1868,7 +1877,7 @@ export class IndicadorDosComponent implements OnInit {
             position: 'inside',
             color: '#FAFAFA',
             fontSize: 11,
-            lineHeight:10,
+            lineHeight: 10,
             fontWeight: 'bold',
             fontFamily: 'Roboto-Light'
           }
@@ -1881,7 +1890,7 @@ export class IndicadorDosComponent implements OnInit {
             position: 'inside',
             color: '#FAFAFA',
             fontSize: 11,
-            lineHeight:10,
+            lineHeight: 10,
             fontWeight: 'bold',
             fontFamily: 'Roboto-Light'
           }
@@ -1894,7 +1903,7 @@ export class IndicadorDosComponent implements OnInit {
             position: 'inside',
             color: '#FAFAFA',
             fontSize: 11,
-            lineHeight:10,
+            lineHeight: 10,
             fontWeight: 'bold',
             fontFamily: 'Roboto-Light'
           }
@@ -1907,7 +1916,7 @@ export class IndicadorDosComponent implements OnInit {
             position: 'inside',
             color: '#FAFAFA',
             fontSize: 11,
-            lineHeight:10,
+            lineHeight: 10,
             fontWeight: 'bold',
             fontFamily: 'Roboto-Light'
           }
@@ -1920,7 +1929,7 @@ export class IndicadorDosComponent implements OnInit {
             position: 'inside',
             color: '#FAFAFA',
             fontSize: 11,
-            lineHeight:10,
+            lineHeight: 10,
             fontWeight: 'bold',
             fontFamily: 'Roboto-Light'
           }
@@ -1933,7 +1942,7 @@ export class IndicadorDosComponent implements OnInit {
             position: 'inside',
             color: '#FAFAFA',
             fontSize: 11,
-            lineHeight:10,
+            lineHeight: 10,
             fontWeight: 'bold',
             fontFamily: 'Roboto-Light'
           }
@@ -1946,7 +1955,7 @@ export class IndicadorDosComponent implements OnInit {
             position: 'inside',
             color: '#FAFAFA',
             fontSize: 11,
-            lineHeight:10,
+            lineHeight: 10,
             fontWeight: 'bold',
             fontFamily: 'Roboto-Light'
           }
@@ -1959,7 +1968,7 @@ export class IndicadorDosComponent implements OnInit {
             position: 'inside',
             color: '#FAFAFA',
             fontSize: 11,
-            lineHeight:10,
+            lineHeight: 10,
             fontWeight: 'bold',
             fontFamily: 'Roboto-Light'
           }
@@ -1972,7 +1981,7 @@ export class IndicadorDosComponent implements OnInit {
             position: 'inside',
             color: '#FAFAFA',
             fontSize: 11,
-            lineHeight:10,
+            lineHeight: 10,
             fontWeight: 'bold',
             fontFamily: 'Roboto-Light'
           }
@@ -1985,7 +1994,7 @@ export class IndicadorDosComponent implements OnInit {
             position: 'inside',
             color: '#FAFAFA',
             fontSize: 11,
-            lineHeight:10,
+            lineHeight: 10,
             fontWeight: 'bold',
             fontFamily: 'Roboto-Light'
           }
@@ -1993,23 +2002,23 @@ export class IndicadorDosComponent implements OnInit {
       }],
       animationEasing: 'elasticOut',
       animationDelayUpdate: function (idx) {
-          return idx * 5;
+        return idx * 5;
       }
-  };
+    };
 
     optionChartOne && chartQuestionFour.setOption(optionChartOne);
     optionChartTwo && chartTwoQuestionFour.setOption(optionChartTwo);
 
-    $(window).on('resize', function(){
-        if(chartQuestionFour != null && chartQuestionFour != undefined){
-            chartQuestionFour.resize();
-        }
+    $(window).on('resize', function () {
+      if (chartQuestionFour != null && chartQuestionFour != undefined) {
+        chartQuestionFour.resize();
+      }
     });
 
-    $(window).on('resize', function(){
-        if(chartTwoQuestionFour != null && chartTwoQuestionFour != undefined){
-            chartTwoQuestionFour.resize();
-        }
+    $(window).on('resize', function () {
+      if (chartTwoQuestionFour != null && chartTwoQuestionFour != undefined) {
+        chartTwoQuestionFour.resize();
+      }
     });
 
   }
