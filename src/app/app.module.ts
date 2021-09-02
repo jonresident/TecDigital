@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
 // Routs Global
 import { AppRoutingModule } from './app-routing.module';
@@ -24,7 +25,8 @@ import { AppComponent } from './app.component';
     FormsModule,
     LandingModule,
     DashboardModule,
-    ShareModule
+    ShareModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
