@@ -13,6 +13,22 @@ export interface IndicadorUnoDetail {
     nivel_3_avanzadas: number;
     nivel_4_avanzadas: number;
     beneficiario_departamento: Beneficiario_departamento;
+    tabla: Tabla;
+}
+
+export interface Tabla {
+    NombreEmpresa: string[];
+    Direccion: string[];
+    Departamento: string[];
+    Telefono: string[];
+    CorreoElectronico: string[];
+    NombresRepresentanteLegal: string[];
+    ApellidosRepresentanteLegal: string[];
+    NombresPersonaEncargadaProceso: string[];
+    ApellidosPersonaE: string[];
+    CorreoElectronicoPersonaEncargadaProceso: string[];
+    TelefonoPersonaEncargadaProceso: string[];
+    SitioWeb: string[];
 }
 
 export interface Beneficiario_departamento {

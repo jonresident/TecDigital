@@ -1,5 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import {PaginationInstance} from 'ngx-pagination/dist/ngx-pagination.module';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { PaginationInstance } from 'ngx-pagination/dist/ngx-pagination.module';
+import { IndicadoresService } from '../indicadores/indicadores.service';
+import { Tabla, IndicadorUnoDetail } from '../indicadores/indicadores.models';
+import { IndicadorUnoComponent } from '../indicadores/indicadorUno/indicador-uno.component';
+import { Subscription } from 'rxjs';
+import { PreloadService } from '../dashboard.service';
+
 declare var $: any;
 
 @Component({
@@ -8,114 +14,15 @@ declare var $: any;
   styles: [
   ]
 })
-export class EmpresasComponent implements OnInit {
+export class EmpresasComponent implements OnInit, OnDestroy {
 
-  datos = [
-    {
-      "Usuario":"Jothas",
-      "Nombre": "Jonathan",
-      "Apellido": "Ospina Garcia",
-      "Correo": "jonresident@hotmail.com",
-      "Entidad": "Sura",
-      "Rol": "Administrador",
-      "Registro": "Fecha de Registro",
-      "Ingreso": "Fecha ultimo ingreso"
-    },
-    {
-      "Usuario":"Clau",
-      "Nombre": "Claudia Natalia",
-      "Apellido": "Ospina Garcia",
-      "Correo": "claudia@hotmail.com",
-      "Entidad": "Sura",
-      "Rol": "HMO",
-      "Registro": "Fecha de Registro",
-      "Ingreso": "Fecha ultimo ingreso"
-    },
-    {
-      "Usuario":"Mau",
-      "Nombre": "Mauricio",
-      "Apellido": "Ospina Garcia",
-      "Correo": "mauro@hotmail.com",
-      "Entidad": "Sura",
-      "Rol": "HMO",
-      "Registro": "Fecha de Registro",
-      "Ingreso": "Fecha ultimo ingreso"
-    },
-    {
-      "Usuario":"Carlitos",
-      "Nombre": "Carlos",
-      "Apellido": "Ospina Garcia",
-      "Correo": "carlos@hotmail.com",
-      "Entidad": "Sanitas",
-      "Rol": "Administrador",
-      "Registro": "Fecha de Registro",
-      "Ingreso": "Fecha ultimo ingreso"
-    },
-    {
-      "Usuario":"Rubi",
-      "Nombre": "Rubiela",
-      "Apellido": "Ospina Garcia",
-      "Correo": "rubiela@hotmail.com",
-      "Entidad": "Sanitas",
-      "Rol": "Administrador",
-      "Registro": "Fecha de Registro",
-      "Ingreso": "Fecha ultimo ingreso"
-    },
-    {
-      "Usuario":"Yake",
-      "Nombre": "Yakeline",
-      "Apellido": "Ospina Garcia",
-      "Correo": "yake@hotmail.com",
-      "Entidad": "Nueva Eps",
-      "Rol": "Administrador",
-      "Registro": "Fecha de Registro",
-      "Ingreso": "Fecha ultimo ingreso"
-    },
-    {
-      "Usuario":"Eulo",
-      "Nombre": "Eulogia",
-      "Apellido": "Ospina Garcia",
-      "Correo": "eulogia@hotmail.com",
-      "Entidad": "Sura",
-      "Rol": "Visitante",
-      "Registro": "Fecha de Registro",
-      "Ingreso": "Fecha ultimo ingreso"
-    },
-    {
-      "Usuario":"Pau",
-      "Nombre": "Paulo",
-      "Apellido": "Ospina Garcia",
-      "Correo": "paulo@hotmail.com",
-      "Entidad": "Sura",
-      "Rol": "Administrador",
-      "Registro": "Fecha de Registro",
-      "Ingreso": "Fecha ultimo ingreso"
-    },
-    {
-      "Usuario":"Andresito",
-      "Nombre": "Andres",
-      "Apellido": "Ospina Garcia",
-      "Correo": "andreso@hotmail.com",
-      "Entidad": "Salud total",
-      "Rol": "HMO",
-      "Registro": "Fecha de Registro",
-      "Ingreso": "Fecha ultimo ingreso"
-    },
-    {
-      "Usuario":"Davide",
-      "Nombre": "David",
-      "Apellido": "Ospina Garcia",
-      "Correo": "david@hotmail.com",
-      "Entidad": "Sura",
-      "Rol": "Administrador",
-      "Registro": "Fecha de Registro",
-      "Ingreso": "Fecha ultimo ingreso"
-    }
-  ];
+  datos = [];
+  serviceSubscription = new Subscription();
+
 
   key: string = 'Usuario';
   reverse: boolean = false;
-  sort(key){
+  sort(key) {
     this.key = key;
     this.reverse = !this.reverse;
   }
@@ -126,21 +33,64 @@ export class EmpresasComponent implements OnInit {
   public autoHide: boolean = false;
   public responsive: boolean = false;
   public config: PaginationInstance = {
-      id: 'tableUsers',
-      itemsPerPage: 5,
-      currentPage: 1
+    id: 'tableUsers',
+    itemsPerPage: 5,
+    currentPage: 1
   };
   public labels: any = {
-      previousLabel: 'Anterior',
-      nextLabel: 'Siguiente',
-      screenReaderPaginationLabel: 'Pagination',
-      screenReaderPageLabel: 'page',
-      screenReaderCurrentLabel: `You're on page`
+    previousLabel: 'Anterior',
+    nextLabel: 'Siguiente',
+    screenReaderPaginationLabel: 'Pagination',
+    screenReaderPageLabel: 'page',
+    screenReaderCurrentLabel: `You're on page`
   };
 
-  constructor() { }
+  constructor(
+    private preloadService: PreloadService,
+    private indicadorService: IndicadoresService,
+  ) { }
 
   ngOnInit(): void {
+    this.obtenerDatos();
+  }
+  
+  ngOnDestroy(): void {
+    this.serviceSubscription.unsubscribe();
+  }
+
+  obtenerDatos() {
+    this.serviceSubscription = this.indicadorService.getTabla().subscribe((resp: IndicadorUnoDetail) => {
+
+      let registro = {};
+      let registros = [];
+
+      for (let i = 0; i < resp.tabla.NombreEmpresa.length; i++) {
+        registro = {
+          NombreEmpresa: resp.tabla.NombreEmpresa[i],
+          Direccion: resp.tabla.Direccion[i],
+          Departamento: resp.tabla.Departamento[i],
+          Telefono: resp.tabla.Telefono[i],
+          CorreoElectronico: resp.tabla.CorreoElectronico[i],
+          NombresRepresentanteLegal: resp.tabla.NombresRepresentanteLegal[i],
+          ApellidosRepresentanteLegal: resp.tabla.ApellidosRepresentanteLegal[i],
+          NombresPersonaEncargadaProceso: resp.tabla.NombresPersonaEncargadaProceso[i],
+          ApellidosPersonaE: resp.tabla.ApellidosPersonaE[i],
+          CorreoElectronicoPersonaEncargadaProceso: resp.tabla.CorreoElectronicoPersonaEncargadaProceso[i],
+          TelefonoPersonaEncargadaProceso: resp.tabla.TelefonoPersonaEncargadaProceso[i],
+          SitioWeb: resp.tabla.SitioWeb[i]
+        }
+
+        registros.push(Object.assign({}, registro));
+      }
+
+      this.datos = registros;
+
+    })
+
+  }
+
+  setItemPerPage(event: any) {
+    this.config.itemsPerPage = event.target.value;
   }
 
   onPageChange(number: number) {
@@ -148,7 +98,7 @@ export class EmpresasComponent implements OnInit {
   }
 
   onPageBoundsCorrection(number: number) {
-      this.config.currentPage = number;
+    this.config.currentPage = number;
   }
 
 }

@@ -15,6 +15,7 @@ import 'moment/locale/es-mx';
 import 'hammerjs';
 import * as Vivus from 'vivus';
 import * as Odometer from 'odometer';
+import { PreloadService } from '../../dashboard.service';
 declare var $: any;
 declare const initSidebar: any;
 declare const initFlip: any;
@@ -43,6 +44,7 @@ export class IndicadorUnoComponent implements OnInit {
 
   constructor(
     private indicadorService: IndicadoresService,
+    private preloadService: PreloadService,
     @Inject(DOCUMENT) private document: Document
   ) {
   }
@@ -202,7 +204,6 @@ export class IndicadorUnoComponent implements OnInit {
   }
 
   observeCharts() {
-  
     this.indicadorService.getBeneficiarias().subscribe((resp: any) => {
       this.data = resp;
 
@@ -234,7 +235,8 @@ export class IndicadorUnoComponent implements OnInit {
       this.chartQuestionThree(arrNivelAvanzado);
 
       this.definirTablas(beneficiario_departamento, arrNivelBasico, arrNivelAvanzado);
-
+      
+      
     })
   }
 

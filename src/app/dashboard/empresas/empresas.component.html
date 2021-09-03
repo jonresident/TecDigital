@@ -56,66 +56,78 @@
                           <tr>
                             <th scope="col">
                               <span class="txt_color_negro fs-6 tip_fuen_roboto_l fw-bold text-uppercase"
-                                (click)="sort('ID')">ID</span>&nbsp;
-                              <span class="fa sort-icon" *ngIf="key =='ID'"
+                                (click)="sort('Usuario')">Empresa</span>&nbsp;
+                              <span class="fa sort-icon" *ngIf="key =='NombreEmpresa'"
                                 [ngClass]="{'fa-arrow-up':reverse,'fa-arrow-down':!reverse}"></span>
                             </th>
                             <th scope="col">
                               <span class="txt_color_negro fs-6 tip_fuen_roboto_l fw-bold text-uppercase"
-                                (click)="sort('Usuario')">Nombre</span>&nbsp;
-                              <span class="fa sort-icon" *ngIf="key =='Usuario'"
+                                (click)="sort('Nombre')">Dirección</span>&nbsp;
+                              <span class="fa sort-icon" *ngIf="key =='Direccion'"
                                 [ngClass]="{'fa-arrow-up':reverse,'fa-arrow-down':!reverse}"></span>
                             </th>
                             <th scope="col">
                               <span class="txt_color_negro fs-6 tip_fuen_roboto_l fw-bold text-uppercase"
-                                (click)="sort('Nombre')">Apellidos</span>&nbsp;
-                              <span class="fa sort-icon" *ngIf="key =='Nombre'"
+                                (click)="sort('Apellido')">Departamento</span>&nbsp;
+                              <span class="fa sort-icon" *ngIf="key =='Departamento'"
                                 [ngClass]="{'fa-arrow-up':reverse,'fa-arrow-down':!reverse}"></span>
                             </th>
                             <th scope="col">
                               <span class="txt_color_negro fs-6 tip_fuen_roboto_l fw-bold text-uppercase"
-                                (click)="sort('Apellido')">Usuario</span>&nbsp;
-                              <span class="fa sort-icon" *ngIf="key =='Apellido'"
+                                (click)="sort('Correo')">Teléfono</span>&nbsp;
+                              <span class="fa sort-icon" *ngIf="key =='Telefono'"
                                 [ngClass]="{'fa-arrow-up':reverse,'fa-arrow-down':!reverse}"></span>
                             </th>
                             <th scope="col">
                               <span class="txt_color_negro fs-6 tip_fuen_roboto_l fw-bold text-uppercase"
-                                (click)="sort('Correo')">Correo</span>&nbsp;
-                              <span class="fa sort-icon" *ngIf="key =='Correo'"
+                                (click)="sort('Entidad')">Correo electrónico</span>&nbsp;
+                              <span class="fa sort-icon" *ngIf="key =='CorreoElectronico'"
                                 [ngClass]="{'fa-arrow-up':reverse,'fa-arrow-down':!reverse}"></span>
                             </th>
                             <th scope="col">
                               <span class="txt_color_negro fs-6 tip_fuen_roboto_l fw-bold text-uppercase"
-                                (click)="sort('Entidad')">Contraseña</span>&nbsp;
-                              <span class="fa sort-icon" *ngIf="key =='Entidad'"
+                                (click)="sort('Rol')">Nombre representante legal</span>&nbsp;
+                              <span class="fa sort-icon" *ngIf="key =='NombresRepresentanteLegal'"
                                 [ngClass]="{'fa-arrow-up':reverse,'fa-arrow-down':!reverse}"></span>
                             </th>
                             <th scope="col">
                               <span class="txt_color_negro fs-6 tip_fuen_roboto_l fw-bold text-uppercase"
-                                (click)="sort('Rol')">Rol</span>&nbsp;
-                              <span class="fa sort-icon" *ngIf="key =='Rol'"
+                                (click)="sort('Activo')">Apellidos representante legal</span>&nbsp;
+                              <span class="fa sort-icon" *ngIf="key =='ApellidosRepresentanteLegal'"
                                 [ngClass]="{'fa-arrow-up':reverse,'fa-arrow-down':!reverse}"></span>
                             </th>
                             <th scope="col">
                               <span class="txt_color_negro fs-6 tip_fuen_roboto_l fw-bold text-uppercase"
-                                (click)="sort('Activo')">Activo</span>&nbsp;
-                              <span class="fa sort-icon" *ngIf="key =='Activo'"
+                                (click)="sort('Registro')">Nombre persona encargada</span>&nbsp;
+                              <span class="fa sort-icon" *ngIf="key =='NombresPersonaEncargadaProceso'"
                                 [ngClass]="{'fa-arrow-up':reverse,'fa-arrow-down':!reverse}"></span>
                             </th>
                             <th scope="col">
                               <span class="txt_color_negro fs-6 tip_fuen_roboto_l fw-bold text-uppercase"
-                                (click)="sort('Registro')">Fecha
-                                Registro</span>&nbsp;
-                              <span class="fa sort-icon" *ngIf="key =='Registro'"
+                                (click)="sort('Ingreso')">Apellido persona encargada</span>&nbsp;
+                              <span class="fa sort-icon" *ngIf="key =='ApellidosPersonaE'"
+                                [ngClass]="{'fa-arrow-up':reverse,'fa-arrow-down':!reverse}"></span>
+                            </th>
+
+                            <th scope="col">
+                              <span class="txt_color_negro fs-6 tip_fuen_roboto_l fw-bold text-uppercase"
+                                (click)="sort('Ingreso')">E-mail encargado</span>&nbsp;
+                              <span class="fa sort-icon" *ngIf="key =='CorreoElectronicoPersonaEncargadaProceso'"
                                 [ngClass]="{'fa-arrow-up':reverse,'fa-arrow-down':!reverse}"></span>
                             </th>
                             <th scope="col">
                               <span class="txt_color_negro fs-6 tip_fuen_roboto_l fw-bold text-uppercase"
-                                (click)="sort('Ingreso')">Ultimo
-                                Ingreso</span>&nbsp;
-                              <span class="fa sort-icon" *ngIf="key =='Ingreso'"
+                                (click)="sort('Ingreso')">Teléfono encargado</span>&nbsp;
+                              <span class="fa sort-icon" *ngIf="key =='TelefonoPersonaEncargadaProceso'"
                                 [ngClass]="{'fa-arrow-up':reverse,'fa-arrow-down':!reverse}"></span>
                             </th>
+                            <th scope="col">
+                              <span class="txt_color_negro fs-6 tip_fuen_roboto_l fw-bold text-uppercase"
+                                (click)="sort('Ingreso')">Sitio Web</span>&nbsp;
+                              <span class="fa sort-icon" *ngIf="key =='SitioWeb'"
+                                [ngClass]="{'fa-arrow-up':reverse,'fa-arrow-down':!reverse}"></span>
+                            </th>
+
                             <!--<th scope="col"><span
                                 class="txt_color_negro fs-6 tip_fuen_roboto_l fw-bold text-uppercase">Acciones</span>
                             </th>-->
@@ -125,33 +137,39 @@
                           <tr
                             *ngFor="let dato of datos | orderBy: key : reverse | filter: searchFilterUser | paginate: config; let i = index">
                             <td class="align-middle"><span
-                                class="txt_xs tip_fuen_roboto_l fw-normal text-uppercase">{{ (config.currentPage -1) * config.itemsPerPage + i }}</span>
+                                class="txt_xs tip_fuen_roboto_l fw-normal">{{dato.NombreEmpresa}}</span>
                             </td>
                             <td class="align-middle"><span
-                                class="txt_xs tip_fuen_roboto_l fw-normal">{{dato.Usuario}}</span>
+                                class="txt_xs tip_fuen_roboto_l fw-normal">{{dato.Direccion}}</span>
                             </td>
                             <td class="align-middle"><span
-                                class="txt_xs tip_fuen_roboto_l fw-normal">{{dato.Nombre}}</span>
+                                class="txt_xs tip_fuen_roboto_l fw-normal">{{dato.Departamento}}</span>
                             </td>
                             <td class="align-middle"><span
-                                class="txt_xs tip_fuen_roboto_l fw-normal">{{dato.Apellido}}</span>
+                                class="txt_xs tip_fuen_roboto_l fw-normal">{{dato.Telefono}}</span>
                             </td>
                             <td class="align-middle"><span
-                                class="txt_xs tip_fuen_roboto_l fw-normal">{{dato.Correo}}</span>
+                                class="txt_xs tip_fuen_roboto_l fw-normal">{{dato.CorreoElectronico}}</span>
+                            </td>
+                            <td class="align-middle"><span class="txt_xs tip_fuen_roboto_l fw-normal">{{dato.NombresRepresentanteLegal}}</span>
                             </td>
                             <td class="align-middle"><span
-                                class="txt_xs tip_fuen_roboto_l fw-normal">{{dato.Entidad}}</span>
-                            </td>
-                            <td class="align-middle"><span class="txt_xs tip_fuen_roboto_l fw-normal">{{dato.Rol}}</span>
-                            </td>
-                            <td class="align-middle">
-                              <i class="fa icon-activado pt-2"></i>
+                                class="txt_xs tip_fuen_roboto_l fw-normal">{{dato.ApellidosRepresentanteLegal}}</span>
                             </td>
                             <td class="align-middle"><span
-                                class="txt_xs tip_fuen_roboto_l fw-normal">{{dato.Registro}}</span>
+                                class="txt_xs tip_fuen_roboto_l fw-normal">{{dato.NombresPersonaEncargadaProceso}}</span>
                             </td>
                             <td class="align-middle"><span
-                                class="txt_xs tip_fuen_roboto_l fw-normal">{{dato.Ingreso}}</span>
+                                class="txt_xs tip_fuen_roboto_l fw-normal">{{dato.ApellidosPersonaE}}</span>
+                            </td>
+                            <td class="align-middle"><span
+                                class="txt_xs tip_fuen_roboto_l fw-normal">{{dato.CorreoElectronicoPersonaEncargadaProceso}}</span>
+                            </td>
+                            <td class="align-middle"><span
+                                class="txt_xs tip_fuen_roboto_l fw-normal">{{dato.TelefonoPersonaEncargadaProceso}}</span>
+                            </td>
+                            <td class="align-middle"><span
+                                class="txt_xs tip_fuen_roboto_l fw-normal">{{dato.SitioWeb}}</span>
                             </td>
                             <!--<td class="align-middle">
                               <div class="d-flex flex-row justify-content-center align-items-center align-self-center">
@@ -182,11 +200,11 @@
                     <div class="d-flex flex-row justify-content-center align-items-center align-self-center mt-3 mb-2">
                       <form autocomplete="off">
                         <div class="form-group inner-addon left-addon">
-                          <select class="form-control filterPageTable">
-                            <option class="custom-option">5</option>
-                            <option class="custom-option">10</option>
-                            <option class="custom-option">25</option>
-                            <option class="custom-option">50</option>
+                          <select class="form-control filterPageTable" (change)="setItemPerPage($event)">
+                            <option class="custom-option" value="5">5</option>
+                            <option class="custom-option" value="10">10</option>
+                            <option class="custom-option" value="25">25</option>
+                            <option class="custom-option" value="50">50</option>
                           </select>
                         </div>
                       </form>
@@ -194,7 +212,7 @@
                     <div class="d-flex flex-row justify-content-center align-items-center align-self-center mt-1 mb-1">
                       <p class="txt_color_negro txt_xs tip_fuen_roboto_l fw-bold text-center mb-2">Existen un total
                         de
-                        <span class="txt_azul_claro txt_xs tip_fuen_roboto_l fw-bold">_TOTAL_</span> registros</p>
+                        <span class="txt_azul_claro txt_xs tip_fuen_roboto_l fw-bold">{{datos.length}}</span> registros</p>
                     </div>
                     <div class="d-flex flex-row justify-content-center align-items-center align-self-center">
                       <pagination-controls [id]="config.id" [maxSize]="maxSize" [directionLinks]="directionLinks"

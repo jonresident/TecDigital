@@ -1,4 +1,4 @@
-<div id="preloader-wrapper" *ngIf="cargando">
+<div id="preloader-wrapper" *ngIf="preloadService.cargando$ | async">
   <div class="preloader">
     <div class="spin"></div>
     <div class="txt-loading">

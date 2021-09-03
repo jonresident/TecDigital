@@ -14,6 +14,7 @@ import 'moment/locale/es-mx';
 import 'hammerjs';
 import * as Vivus from 'vivus';
 import * as Odometer from 'odometer';
+import { PreloadService } from '../../dashboard.service';
 declare var $: any;
 declare const initSidebar: any;
 declare const initFlip: any;
@@ -26,46 +27,19 @@ declare const initFlip: any;
 })
 export class IndicadorDosComponent implements OnInit {
 
+  data: IndicadorDosDetail;
+  
   chart: any;
 
-  /* datosSectores = [];
+  datosSectores = [];
   datosMecanismosApoyo = [];
-  datosTipoEmpresa = []; */
-
-  datosSectores = [
-    { Numero_empresas: 4, Sector: 'Manufactura' },
-    { Numero_empresas: 60, Sector: 'Servicios' },
-    { Numero_empresas: 2, Sector: 'Comercialización' }
-  ];
-
-  datosMecanismosApoyo = [
-    { Numero_empresas: 11, Mecanismo: 'CapacitaciónFormación' },
-    { Numero_empresas: 10, Mecanismo: 'PlataformaBase' },
-    { Numero_empresas: 13, Mecanismo: 'AsesoriaConsultoria' },
-    { Numero_empresas: 10, Mecanismo: 'Relacionamiento' },
-    { Numero_empresas: 3, Mecanismo: 'financiero' },
-    { Numero_empresas: 3, Mecanismo: 'reembolsable' },
-    { Numero_empresas: 3, Mecanismo: 'contrapartida' },
-    { Numero_empresas: 6, Mecanismo: 'otrostipoapoyo' }
-  ]
-
-  datosTipoEmpresa = [
-    { Tipo_empresa: 'Emprendedor', Numero_empresas: 37 },
-    { Tipo_empresa: 'Micro empresas', Numero_empresas: 42 },
-    { Tipo_empresa: 'Empresas pequeñas', Numero_empresas: 44 },
-    { Tipo_empresa: 'Medianas empresas', Numero_empresas: 63 },
-    { Tipo_empresa: 'Grandes empresas', Numero_empresas: 57 },
-    { Tipo_empresa: 'Gobierno', Numero_empresas: 57 },
-    { Tipo_empresa: 'Academia', Numero_empresas: 54 },
-    { Tipo_empresa: 'Entidad soporte', Numero_empresas: 43 },
-    { Tipo_empresa: 'Personas naturales', Numero_empresas: 32 },
-    { Tipo_empresa: 'Otros usuarios', Numero_empresas: 8 }
-  ];
+  datosTipoEmpresa = [];
 
   windowScrolled: boolean;
   Vivus: any;
 
   constructor(
+    private preloadService: PreloadService,
     private indicadorService: IndicadoresService,
     @Inject(DOCUMENT) private document: Document) { }
 
@@ -111,13 +85,81 @@ export class IndicadorDosComponent implements OnInit {
 
   ngOnInit(): void {
     initFlip();
-    //this.observeCharts();
-    this.initVivus();
-    this.initializerOdometer();
-    this.chartQuestionOne();
-    this.chartQuestionTwo();
-    this.chartQuestionThree();
-    /this.chartQuestionFour();/
+    this.observeCharts();
+    
+  }
+
+  obtenerObjetosSectores(sectores: Sectores) {
+    let objetos: any = [];
+    let objeto = {};
+
+    for (let i = 0; i < sectores.sectores.length; i++) {
+      objeto = { name: sectores.sectores[i], value: sectores.cantidad[i] }
+      objetos.push(Object.assign({}, objeto));
+    }
+    return objetos;
+  }
+
+  obtenerTablasSectores(sectores: Sectores) {
+    let objetos: any = [];
+    let objeto = {};
+
+    for (let i = 0; i < sectores.sectores.length; i++) {
+      objeto = { Sector: sectores.sectores[i], Numero_empresas: sectores.cantidad[i] }
+      objetos.push(Object.assign({}, objeto));
+    }
+    return objetos;
+  }
+
+  definirTablas(sectores: Sectores, tipoEmpresas: OferentesPorTipoEmpresas, tiposApoyo: CantidadTiposApoyo ) {
+    this.datosSectores = this.obtenerTablasSectores(sectores);
+  
+    this.datosMecanismosApoyo = [
+      { Numero_empresas: tiposApoyo.capacitacionformacion, Mecanismo: 'CapacitaciónFormación' },
+      { Numero_empresas: tiposApoyo.plataformasbasesdatosestudios, Mecanismo: 'PlataformaBase' },
+      { Numero_empresas: tiposApoyo.asesoriaconsultoriaasistenciatecnica, Mecanismo: 'AsesoriaConsultoria' },
+      { Numero_empresas: tiposApoyo.relacionamiento, Mecanismo: 'Relacionamiento' },
+      { Numero_empresas: tiposApoyo.financiero, Mecanismo: 'financiero' },
+      { Numero_empresas: tiposApoyo.reembolsable, Mecanismo: 'reembolsable' },
+      { Numero_empresas: tiposApoyo.contrapartida, Mecanismo: 'contrapartida' },
+      { Numero_empresas: tiposApoyo.otrostipoapoyo, Mecanismo: 'otrostipoapoyo' }
+    ]
+  
+    this.datosTipoEmpresa = [
+      { Tipo_empresa: 'Emprendedor', Numero_empresas: tipoEmpresas.emprendedor },
+      { Tipo_empresa: 'Micro empresas', Numero_empresas: tipoEmpresas.microempresas },
+      { Tipo_empresa: 'Empresas pequeñas', Numero_empresas: tipoEmpresas.empresaspequenas },
+      { Tipo_empresa: 'Medianas empresas', Numero_empresas: tipoEmpresas.medianasempresas },
+      { Tipo_empresa: 'Grandes empresas', Numero_empresas: tipoEmpresas.grandesempresas },
+      { Tipo_empresa: 'Gobierno', Numero_empresas: tipoEmpresas.gobierno },
+      { Tipo_empresa: 'Academia', Numero_empresas: tipoEmpresas.academia },
+      { Tipo_empresa: 'Entidad soporte', Numero_empresas: tipoEmpresas.entidadessoporte },
+      { Tipo_empresa: 'Personas naturales', Numero_empresas: tipoEmpresas.personasnaturales },
+      { Tipo_empresa: 'Otros usuarios', Numero_empresas: tipoEmpresas.otrosusuarioobjetivo }
+    ];
+  }
+
+  observeCharts() {
+
+    this.indicadorService.getOferentes().subscribe((resp: any) => {
+      this.data = resp;
+
+      let registradas: number = this.data.empresasRegistradas;
+      let ofertados: number = this.data.portafoliosOfertados;
+      let sectores: Sectores = this.data.sectores;
+      let tipoEmpresas: OferentesPorTipoEmpresas = this.data.oferentesPorTipoEmpresas;
+      let tiposApoyo: CantidadTiposApoyo = this.data.cantidadTiposApoyo;
+
+
+      this.initVivus();
+      this.initializerOdometer(registradas, ofertados);
+      this.chartQuestionOne(sectores);
+      this.chartQuestionTwo(tiposApoyo);
+      this.chartQuestionThree(tipoEmpresas);
+
+      this.definirTablas(sectores, tipoEmpresas, tiposApoyo);
+
+    })
   }
 
   initVivus() {
@@ -153,11 +195,11 @@ export class IndicadorDosComponent implements OnInit {
     },).reset(); */
   }
 
-  initializerOdometer() {
+  initializerOdometer(registradas: number, ofertados: number) {
     var OdometerUno = document.querySelector('.resultActivityOne');
     let odUno = new Odometer({
       el: OdometerUno,
-      value: 0,
+      value: registradas,
       format: '',
       theme: ''
     });
@@ -166,7 +208,7 @@ export class IndicadorDosComponent implements OnInit {
     var OdometerDos = document.querySelector('.resultActivityTwo');
     let odDos = new Odometer({
       el: OdometerDos,
-      value: 0,
+      value: ofertados,
       format: '',
       theme: ''
     });
@@ -582,7 +624,7 @@ export class IndicadorDosComponent implements OnInit {
 
   }*/
 
-  chartQuestionOne() {
+  chartQuestionOne(sectores: Sectores) {
 
     let chartQuestionOne = echarts.init(document.getElementById('chart-question-one'));
     let chartTwoQuestionOne = echarts.init(document.getElementById('chart-two-question-one'));
@@ -607,7 +649,7 @@ export class IndicadorDosComponent implements OnInit {
       },
       xAxis: {
         type: 'category',
-        data: ['Manufactura', 'Servicios', 'Comercialización'],
+        data: sectores.sectores,
         axisLabel: {
           formatter: function (params, value) {
             var newParamsName = "";
@@ -643,8 +685,8 @@ export class IndicadorDosComponent implements OnInit {
       visualMap: {
         top: 'middle',
         right: -5,
-        min: 0,
-        max: 58,
+        min: Math.min(...sectores.cantidad),
+        max: Math.max(...sectores.cantidad),
         text: ['Maximo', 'Minimo'],
         inRange: {
           color: ['#9AC331', '#FFDA00', 'rgb(239, 36, 105)']
@@ -662,7 +704,7 @@ export class IndicadorDosComponent implements OnInit {
       ],
       series: [
         {
-          data: [4, 60, 2],
+          data: sectores.cantidad,
           name: '',
           type: 'bar',
           label: {
@@ -726,8 +768,8 @@ export class IndicadorDosComponent implements OnInit {
       visualMap: {
         top: 'middle',
         right: -5,
-        max: 58,
-        min: 0,
+        max: Math.max(...sectores.cantidad),
+        min: Math.min(...sectores.cantidad),
         text: ['Maximo', 'Minimo'],
         inRange: {
           color: ['#9AC331', '#FFDA00', 'rgb(239, 36, 105)']
@@ -805,11 +847,7 @@ export class IndicadorDosComponent implements OnInit {
               shadowOffsetY: 0,
             }
           },
-          data: [
-            { value: 4, name: 'Manufactura' },
-            { value: 60, name: 'Servicios' },
-            { value: 2, name: 'Comercialización' }
-          ],
+          data: this.obtenerObjetosSectores(sectores),
           animationDelay: function (idx) {
             return idx * 15;
           }
@@ -838,7 +876,7 @@ export class IndicadorDosComponent implements OnInit {
 
   }
 
-  chartQuestionTwo() {
+  chartQuestionTwo(tiposApoyo: CantidadTiposApoyo) {
 
     let chartQuestionTwo = echarts.init(document.getElementById('chart-question-two'));
     let chartTwoQuestionTwo = echarts.init(document.getElementById('chart-two-question-two'));
@@ -899,8 +937,8 @@ export class IndicadorDosComponent implements OnInit {
       visualMap: {
         top: 'middle',
         right: -5,
-        min: 0,
-        max: 13,
+        min: Math.min(...Object.values(tiposApoyo)),
+        max: Math.max(...Object.values(tiposApoyo)),
         text: ['Maximo', 'Minimo'],
         inRange: {
           color: ['#9AC331', '#FFDA00', 'rgb(239, 36, 105)']
@@ -982,8 +1020,8 @@ export class IndicadorDosComponent implements OnInit {
       visualMap: {
         top: 'middle',
         right: -5,
-        max: 13,
-        min: 0,
+        max: Math.max(...Object.values(tiposApoyo)),
+        min: Math.min(...Object.values(tiposApoyo)),
         text: ['Maximo', 'Minimo'],
         inRange: {
           color: ['#9AC331', '#FFDA00', 'rgb(239, 36, 105)']
@@ -1062,14 +1100,14 @@ export class IndicadorDosComponent implements OnInit {
             }
           },
           data: [
-            { value: 11, name: 'CapacitaciónFormación' },
-            { value: 10, name: 'PlataformaBase' },
-            { value: 13, name: 'AsesoriaConsultoria' },
-            { value: 10, name: 'Relacionamiento' },
-            { value: 3, name: 'financiero' },
-            { value: 3, name: 'reembolsable' },
-            { value: 3, name: 'contrapartida' },
-            { value: 6, name: 'otrostipoapoyo' }
+            { value: tiposApoyo.capacitacionformacion, name: 'CapacitaciónFormación' },
+            { value: tiposApoyo.plataformasbasesdatosestudios, name: 'PlataformaBase' },
+            { value: tiposApoyo.asesoriaconsultoriaasistenciatecnica, name: 'AsesoriaConsultoria' },
+            { value: tiposApoyo.relacionamiento, name: 'Relacionamiento' },
+            { value: tiposApoyo.financiero, name: 'financiero' },
+            { value: tiposApoyo.reembolsable, name: 'reembolsable' },
+            { value: tiposApoyo.contrapartida, name: 'contrapartida' },
+            { value: tiposApoyo.otrostipoapoyo, name: 'otrostipoapoyo' }
           ],
           animationDelay: function (idx) {
             return idx * 15;
@@ -1099,7 +1137,7 @@ export class IndicadorDosComponent implements OnInit {
 
   }
 
-  chartQuestionThree() {
+  chartQuestionThree(tipoEmpresas: OferentesPorTipoEmpresas) {
 
     let chartQuestionThree = echarts.init(document.getElementById('chart-question-three'));
     let chartTwoQuestionThree = echarts.init(document.getElementById('chart-two-question-three'));
@@ -1148,8 +1186,8 @@ export class IndicadorDosComponent implements OnInit {
       visualMap: {
         top: 'middle',
         right: -5,
-        max: 59,
-        min: 0,
+        max: Math.max(...Object.values(tipoEmpresas)),
+        min: Math.min(...Object.values(tipoEmpresas)),
         text: ['Maximo', 'Minimo'],
         inRange: {
           color: ['#9AC331', '#FFDA00', 'rgb(239, 36, 105)']
@@ -1208,8 +1246,8 @@ export class IndicadorDosComponent implements OnInit {
           data: [
             {
               "name": "Emprendedor",
-              "value": 37,
-              "symbolSize": 48,
+              "value": tipoEmpresas.emprendedor,
+              "symbolSize": tipoEmpresas.emprendedor + 20,
               "draggable": true,
               "itemStyle": {
                 "normal": {
@@ -1219,8 +1257,8 @@ export class IndicadorDosComponent implements OnInit {
             },
             {
               "name": "Micro empresas",
-              "value": 42,
-              "symbolSize": 73,
+              "value": tipoEmpresas.microempresas,
+              "symbolSize": tipoEmpresas.microempresas + 20,
               "draggable": true,
               "itemStyle": {
                 "normal": {
@@ -1230,8 +1268,8 @@ export class IndicadorDosComponent implements OnInit {
             },
             {
               "name": "Empresas pequeñas",
-              "value": 44,
-              "symbolSize": 67,
+              "value": tipoEmpresas.empresaspequenas,
+              "symbolSize": tipoEmpresas.empresaspequenas + 20,
               "draggable": true,
               "itemStyle": {
                 "normal": {
@@ -1241,8 +1279,8 @@ export class IndicadorDosComponent implements OnInit {
             },
             {
               "name": "Medianas empresas",
-              "value": 63,
-              "symbolSize": 50,
+              "value": tipoEmpresas.medianasempresas,
+              "symbolSize": tipoEmpresas.medianasempresas + 20,
               "draggable": true,
               "itemStyle": {
                 "normal": {
@@ -1252,8 +1290,8 @@ export class IndicadorDosComponent implements OnInit {
             },
             {
               "name": "Grandes empresas",
-              "value": 57,
-              "symbolSize": 88,
+              "value": tipoEmpresas.grandesempresas,
+              "symbolSize": tipoEmpresas.grandesempresas + 20,
               "draggable": true,
               "itemStyle": {
                 "normal": {
@@ -1263,8 +1301,8 @@ export class IndicadorDosComponent implements OnInit {
             },
             {
               "name": "Gobierno",
-              "value": 57,
-              "symbolSize": 55,
+              "value": tipoEmpresas.gobierno,
+              "symbolSize": tipoEmpresas.gobierno + 20,
               "draggable": true,
               "itemStyle": {
                 "normal": {
@@ -1274,8 +1312,8 @@ export class IndicadorDosComponent implements OnInit {
             },
             {
               "name": "Academia",
-              "value": 54,
-              "symbolSize": 70,
+              "value": tipoEmpresas.academia,
+              "symbolSize": tipoEmpresas.academia + 20,
               "draggable": true,
               "itemStyle": {
                 "normal": {
@@ -1285,8 +1323,8 @@ export class IndicadorDosComponent implements OnInit {
             },
             {
               "name": "Entidad soporte",
-              "value": 43,
-              "symbolSize": 67,
+              "value": tipoEmpresas.entidadessoporte,
+              "symbolSize": tipoEmpresas.entidadessoporte + 20,
               "draggable": true,
               "itemStyle": {
                 "normal": {
@@ -1296,8 +1334,8 @@ export class IndicadorDosComponent implements OnInit {
             },
             {
               "name": "Personas naturales",
-              "value": 32,
-              "symbolSize": 47,
+              "value": tipoEmpresas.personasnaturales,
+              "symbolSize": tipoEmpresas.personasnaturales + 20,
               "draggable": true,
               "itemStyle": {
                 "normal": {
@@ -1307,8 +1345,8 @@ export class IndicadorDosComponent implements OnInit {
             },
             {
               "name": "Otros usuarios",
-              "value": 8,
-              "symbolSize": 82,
+              "value": tipoEmpresas.otrosusuarioobjetivo,
+              "symbolSize": tipoEmpresas.otrosusuarioobjetivo + 20,
               "draggable": true,
               "itemStyle": {
                 "normal": {
@@ -1366,8 +1404,8 @@ export class IndicadorDosComponent implements OnInit {
       visualMap: {
         top: 'middle',
         right: -5,
-        max: 59,
-        min: 0,
+        max: Math.max(...Object.values(tipoEmpresas)),
+        min: Math.min(...Object.values(tipoEmpresas)),
         text: ['Maximo', 'Minimo'],
         inRange: {
           color: ['#9AC331', '#FFDA00', 'rgb(239, 36, 105)']
@@ -1422,7 +1460,7 @@ export class IndicadorDosComponent implements OnInit {
         },
         {
           name: 'Micro empresas',
-          value: 42,
+          value: tipoEmpresas.microempresas,
           label: {
             show: true,
             position: 'inside',
@@ -1435,7 +1473,7 @@ export class IndicadorDosComponent implements OnInit {
         },
         {
           name: 'Empresas pequeñas',
-          value: 44,
+          value: tipoEmpresas.empresaspequenas,
           label: {
             show: true,
             position: 'inside',
@@ -1448,7 +1486,7 @@ export class IndicadorDosComponent implements OnInit {
         },
         {
           name: 'Medianas empresas',
-          value: 63,
+          value: tipoEmpresas.medianasempresas,
           label: {
             show: true,
             position: 'inside',
@@ -1461,7 +1499,7 @@ export class IndicadorDosComponent implements OnInit {
         },
         {
           name: 'Grandes empresas',
-          value: 57,
+          value: tipoEmpresas.grandesempresas,
           label: {
             show: true,
             position: 'inside',
@@ -1474,7 +1512,7 @@ export class IndicadorDosComponent implements OnInit {
         },
         {
           name: 'Gobierno',
-          value: 57,
+          value: tipoEmpresas.gobierno,
           label: {
             show: true,
             position: 'inside',
@@ -1487,7 +1525,7 @@ export class IndicadorDosComponent implements OnInit {
         },
         {
           name: 'Academia',
-          value: 54,
+          value: tipoEmpresas.academia,
           label: {
             show: true,
             position: 'inside',
@@ -1500,7 +1538,7 @@ export class IndicadorDosComponent implements OnInit {
         },
         {
           name: 'Entidad soporte',
-          value: 43,
+          value: tipoEmpresas.entidadessoporte,
           label: {
             show: true,
             position: 'inside',
@@ -1513,7 +1551,7 @@ export class IndicadorDosComponent implements OnInit {
         },
         {
           name: 'Personas naturales',
-          value: 32,
+          value: tipoEmpresas.personasnaturales,
           label: {
             show: true,
             position: 'inside',
@@ -1526,7 +1564,7 @@ export class IndicadorDosComponent implements OnInit {
         },
         {
           name: 'Otros usuarios',
-          value: 8,
+          value: tipoEmpresas.otrosusuarioobjetivo,
           label: {
             show: true,
             position: 'inside',
