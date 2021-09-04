@@ -51,6 +51,9 @@ export class EmpresasComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    setTimeout(() => {
+      this.preloadService.cargando$.emit(true);
+    });
     this.obtenerDatos();
   }
   
@@ -84,6 +87,12 @@ export class EmpresasComponent implements OnInit, OnDestroy {
       }
 
       this.datos = registros;
+
+      setTimeout(() => {
+        this.preloadService.cargando$.emit(false);
+      });
+
+      /* this.preloadService.cargando$.emit(false); */
 
     })
 

@@ -106,6 +106,9 @@ export class IndicadorUnoComponent implements OnInit {
 
   ngOnInit(): void {
     initFlip();
+    setTimeout(() => {
+      this.preloadService.cargando$.emit(true);
+    });
     this.observeCharts();
   }
 
@@ -236,6 +239,11 @@ export class IndicadorUnoComponent implements OnInit {
 
       this.definirTablas(beneficiario_departamento, arrNivelBasico, arrNivelAvanzado);
       
+      setTimeout(() => {
+        this.preloadService.cargando$.emit(false);
+      });
+
+      /* this.preloadService.cargando$.emit(false); */
       
     })
   }

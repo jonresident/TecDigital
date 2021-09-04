@@ -85,6 +85,9 @@ export class IndicadorDosComponent implements OnInit {
 
   ngOnInit(): void {
     initFlip();
+    setTimeout(() => {
+      this.preloadService.cargando$.emit(true);
+    });
     this.observeCharts();
     
   }
@@ -159,6 +162,11 @@ export class IndicadorDosComponent implements OnInit {
 
       this.definirTablas(sectores, tipoEmpresas, tiposApoyo);
 
+      setTimeout(() => {
+        this.preloadService.cargando$.emit(false);
+      });
+
+      /* this.preloadService.cargando$.emit(false); */
     })
   }
 

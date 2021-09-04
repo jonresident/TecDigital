@@ -12,6 +12,7 @@ import 'moment/locale/es-mx';
 import 'hammerjs';
 import * as Vivus from 'vivus';
 import * as Odometer from 'odometer';
+import { PreloadService } from '../../dashboard.service';
 declare var $: any;
 declare const initSidebar: any;
 declare const initFlip: any;
@@ -38,7 +39,9 @@ export class IndicadorTresComponent implements OnInit {
   windowScrolled: boolean;
   Vivus: any;
 
-  constructor(@Inject(DOCUMENT) private document: Document) { }
+  constructor(
+    private preloadService: PreloadService,
+    @Inject(DOCUMENT) private document: Document) { }
 
   @HostListener("window:scroll")
   onWindowScroll() {
@@ -82,9 +85,16 @@ export class IndicadorTresComponent implements OnInit {
 
   ngOnInit(): void {
     initFlip();
+    setTimeout(() => {
+      this.preloadService.cargando$.emit(true);
+    });
     this.initVivus();
     this.initializerOdometer();
     this.chartQuestionOne();
+
+    setTimeout(() => {
+      this.preloadService.cargando$.emit(false);
+    });
   }
 
   initVivus() {

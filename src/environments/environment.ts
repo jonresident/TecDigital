@@ -5,8 +5,10 @@
 
 export const environment = {
   production: false,
-  apiBeneficiarias: 'http://localhost:8000/api/resultados/data_beneficiarias/',
-  apiOferentes: 'http://localhost:8000/api/resultados/data_oferentes/'
+  /* apiBeneficiarias: 'http://localhost:8000/api/resultados/data_beneficiarias/',
+  apiOferentes: 'http://localhost:8000/api/resultados/data_oferentes/' */
+  apiBeneficiarias: 'http://localhost:3000/data_beneficiarias',
+  apiOferentes: 'http://localhost:3000/data_oferentes'
 };
 
 

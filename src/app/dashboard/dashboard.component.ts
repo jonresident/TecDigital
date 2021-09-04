@@ -15,8 +15,8 @@ export class DashboardComponent implements OnInit {
   constructor(public preloadService: PreloadService) { }
 
   ngOnInit(): void {
-    /* this.preloadService.cargando$.subscribe(resp => {
+    this.preloadService.cargando$.subscribe(resp => {
       this.cargando = resp;
-    }); */
+    });
   }
 }
