@@ -10,6 +10,9 @@ import { IndicadorTresComponent } from './indicadores/indicadorTres/indicador-tr
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { EmpresasComponent } from './empresas/empresas.component';
 
+// guards
+import { AdminGuard } from '../guards/admin.guard';
+
 
 const routes: Routes = [
     {
