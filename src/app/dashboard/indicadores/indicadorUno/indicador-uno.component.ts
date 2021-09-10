@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, HostListener } from '@angular/core';
+import { Component, OnInit, Inject, HostListener, OnDestroy } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { IndicadoresService } from '../indicadores.service';
 import { IndicadorUnoDetail, Beneficiario_departamento } from '../indicadores.models';
@@ -16,6 +16,9 @@ import 'hammerjs';
 import * as Vivus from 'vivus';
 import * as Odometer from 'odometer';
 import { PreloadService } from '../../dashboard.service';
+import { Subscription } from 'rxjs';
+import Swal from 'sweetalert2';
+import { SidebarService } from 'src/app/share/sidebar/sidebar.service';
 declare var $: any;
 declare const initSidebar: any;
 declare const initFlip: any;
@@ -26,23 +29,29 @@ declare const initFlip: any;
   styles: [
   ]
 })
-export class IndicadorUnoComponent implements OnInit {
+export class IndicadorUnoComponent implements OnInit, OnDestroy {
 
   data: IndicadorUnoDetail;
+  fecha: Date = new Date();
+  indicadorSubscription = new Subscription();
+  filterSubscription = new Subscription();
+
+  subs = new Subscription();
 
   chart: any;
 
-  datosDepartamento: any = [ ];
+  datosDepartamento: any = [];
 
-  datosNivelMadurezBasico = [ ];
+  datosNivelMadurezBasico = [];
 
-  datosNivelMadurezAvanzadado = [ ];
+  datosNivelMadurezAvanzadado = [];
 
 
   windowScrolled: boolean;
   Vivus: any;
 
   constructor(
+    private sidebarService: SidebarService,
     private indicadorService: IndicadoresService,
     private preloadService: PreloadService,
     @Inject(DOCUMENT) private document: Document
@@ -110,7 +119,57 @@ export class IndicadorUnoComponent implements OnInit {
       this.preloadService.cargando$.emit(true);
     });
     this.observeCharts();
+    this.loadFilters();
   }
+
+  ngOnDestroy(): void {
+    this.indicadorSubscription.unsubscribe();
+    this.filterSubscription.unsubscribe();
+  }
+
+  loadFilters() {
+    this.filterSubscription = this.sidebarService.dataUno$.subscribe(resp => {
+      this.data = resp;
+      this.sidebarService.dataUno = resp;
+
+      let diagnostico: number = this.data.faseDiagnostico;
+      let mapeo: number = this.data.faseMapeo;
+      let evaluacion: number = this.data.faseEvaluacion;
+      let consolidacion: number = this.data.faseConsolidacion;
+      let despegue: number = this.data.faseDespegue;
+
+      let beneficiario_departamento = this.data.beneficiario_departamento;
+
+      let arrNivelBasico: number[] = [
+        this.data.nivel_1_basicas,
+        this.data.nivel_2_basicas,
+        this.data.nivel_3_basicas,
+        this.data.nivel_4_basicas];
+
+      let arrNivelAvanzado: number[] = [
+        this.data.nivel_1_avanzadas,
+        this.data.nivel_2_avanzadas,
+        this.data.nivel_3_avanzadas,
+        this.data.nivel_4_avanzadas];
+
+      this.definirTablas(beneficiario_departamento, arrNivelBasico, arrNivelAvanzado);
+
+      this.initVivus();
+      this.initializerOdometer(diagnostico, mapeo, evaluacion, consolidacion, despegue);
+      this.chartQuestionOne(beneficiario_departamento);
+      this.chartQuestionTwo(arrNivelBasico);
+      this.chartQuestionThree(arrNivelAvanzado);
+
+
+
+      setTimeout(() => {
+        this.preloadService.cargando$.emit(false);
+      });
+      this.indicadorSubscription.unsubscribe();
+    }
+    );
+  }
+
 
   initVivus() {
     new Vivus('icono_business', {
@@ -207,45 +266,63 @@ export class IndicadorUnoComponent implements OnInit {
   }
 
   observeCharts() {
-    this.indicadorService.getBeneficiarias().subscribe((resp: any) => {
-      this.data = resp;
+    this.indicadorSubscription = this.indicadorService.getBeneficiarias().subscribe({
+      next: (resp: any) => {
+        this.data = resp;
+        this.sidebarService.dataUno = resp;
 
-      let diagnostico: number = this.data.faseDiagnostico;
-      let mapeo: number = this.data.faseMapeo;
-      let evaluacion: number = this.data.faseEvaluacion;
-      let consolidacion: number = this.data.faseConsolidacion;
-      let despegue: number = this.data.faseDespegue;
+        let diagnostico: number = this.data.faseDiagnostico;
+        let mapeo: number = this.data.faseMapeo;
+        let evaluacion: number = this.data.faseEvaluacion;
+        let consolidacion: number = this.data.faseConsolidacion;
+        let despegue: number = this.data.faseDespegue;
 
-      let beneficiario_departamento = this.data.beneficiario_departamento;
-      
+        let beneficiario_departamento = this.data.beneficiario_departamento;
 
-      let arrNivelBasico: number[] = [
-        this.data.nivel_1_basicas,
-        this.data.nivel_2_basicas,
-        this.data.nivel_3_basicas,
-        this.data.nivel_4_basicas];
+        let arrNivelBasico: number[] = [
+          this.data.nivel_1_basicas,
+          this.data.nivel_2_basicas,
+          this.data.nivel_3_basicas,
+          this.data.nivel_4_basicas];
 
-      let arrNivelAvanzado: number[] = [
-        this.data.nivel_1_avanzadas,
-        this.data.nivel_2_avanzadas,
-        this.data.nivel_3_avanzadas,
-        this.data.nivel_4_avanzadas];
+        let arrNivelAvanzado: number[] = [
+          this.data.nivel_1_avanzadas,
+          this.data.nivel_2_avanzadas,
+          this.data.nivel_3_avanzadas,
+          this.data.nivel_4_avanzadas];
 
-      this.initVivus();
-      this.initializerOdometer(diagnostico, mapeo, evaluacion, consolidacion, despegue);
-      this.chartQuestionOne(beneficiario_departamento);
-      this.chartQuestionTwo(arrNivelBasico);
-      this.chartQuestionThree(arrNivelAvanzado);
+        this.definirTablas(beneficiario_departamento, arrNivelBasico, arrNivelAvanzado);
 
-      this.definirTablas(beneficiario_departamento, arrNivelBasico, arrNivelAvanzado);
-      
-      setTimeout(() => {
-        this.preloadService.cargando$.emit(false);
-      });
-
-      /* this.preloadService.cargando$.emit(false); */
-      
-    })
+          
+        this.initVivus();
+        this.initializerOdometer(diagnostico, mapeo, evaluacion, consolidacion, despegue);
+        this.chartQuestionOne(beneficiario_departamento);
+        this.chartQuestionTwo(arrNivelBasico);
+        this.chartQuestionThree(arrNivelAvanzado);
+        
+        setTimeout(() => {
+          this.preloadService.cargando$.emit(false);
+        });
+      },
+      error: (e) => {
+        setTimeout(() => {
+          this.preloadService.cargando$.emit(false);
+        });
+        if (e.error && e.error.Error) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: e.error.Error
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Servidor sin respuesta. Intentelo más tarde.'
+          });
+        }
+      }
+    });
   }
 
   initializerOdometer(diagnostico: number, mapeo: number, evaluacion: number, consolidacion: number, despegue: number) {

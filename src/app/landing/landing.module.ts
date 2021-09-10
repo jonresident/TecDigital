@@ -8,7 +8,7 @@ import { NgwWowModule } from 'ngx-wow';
 import { RouterModule } from '@angular/router';
 
 // Services
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // landing components
 import { LandingComponent } from './landing.component';
@@ -32,7 +32,8 @@ import { RecoverpasswordComponent } from './recoverpassword/recoverpassword.comp
     CommonModule,
     NgwWowModule,
     RouterModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class LandingModule { }

@@ -29,6 +29,9 @@ export interface Tabla {
     CorreoElectronicoPersonaEncargadaProceso: string[];
     TelefonoPersonaEncargadaProceso: string[];
     SitioWeb: string[];
+    categoria: string[];
+    TamanoEmpresa: string[];
+    FechaFinDatosBasicos: Date[];
 }
 
 export interface Beneficiario_departamento {
@@ -71,4 +74,22 @@ export interface CantidadTiposApoyo {
     reembolsable: number;
     contrapartida: number;
     otrostipoapoyo: number;
+}
+
+export interface IndicadorTresDetail { 
+    cantidad_emails: number;
+    cantidad_telefono: number;
+    cantidad_registrado: number;
+    datos_leads: DatosLeads;
+}
+
+export interface DatosLeads {
+    fecha_creacion_lead: Date;
+    nombre: string;
+    genero_municipio: string;
+    mail: string;
+    telefono: string;
+    contacto_previo: string;
+    fecha_contacto_anterior: Date;
+    fecha_nuevo_contacto: Date;
 }

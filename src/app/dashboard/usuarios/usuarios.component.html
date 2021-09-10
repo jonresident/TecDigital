@@ -35,7 +35,7 @@
                       <div
                         class="col-12 d-flex flex-row justify-content-start align-items-center align-self-center mt-2 p-2">
                         <h1 class="txt_color_negro txt_lg tip_fuen_roboto_l fw-bold">Gestión de Usuarios</h1>
-                        <button class="button-add-custom set_cursor ms-3" data-bs-toggle="modal"
+                        <button class="button-add-custom set_cursor ms-3" data-bs-toggle="modal" (click)="formCreateUserInit()"
                           data-bs-target="#modalAddEditUser">
                           <div class="d-flex flex-row justify-content-center align-items-center align-self-center">
                             <span class="tip_fuen_helvetica_l"><i class="fa icon-icono-agregar-usuario"></i></span><span
@@ -56,64 +56,44 @@
                         <tr>
                           <th scope="col">
                             <span class="txt_color_negro fs-6 tip_fuen_roboto_l fw-bold text-uppercase"
-                              (click)="sort('ID')">ID</span>&nbsp;
-                            <span class="fa sort-icon" *ngIf="key =='ID'"
+                              (click)="sort('first_name')">Nombre</span>&nbsp;
+                            <span class="fa sort-icon" *ngIf="key =='first_name'"
                               [ngClass]="{'fa-arrow-up':reverse,'fa-arrow-down':!reverse}"></span>
                           </th>
                           <th scope="col">
                             <span class="txt_color_negro fs-6 tip_fuen_roboto_l fw-bold text-uppercase"
-                              (click)="sort('Usuario')">Nombre</span>&nbsp;
-                            <span class="fa sort-icon" *ngIf="key =='Usuario'"
+                              (click)="sort('username')">Usuario</span>&nbsp;
+                            <span class="fa sort-icon" *ngIf="key =='username'"
                               [ngClass]="{'fa-arrow-up':reverse,'fa-arrow-down':!reverse}"></span>
                           </th>
                           <th scope="col">
                             <span class="txt_color_negro fs-6 tip_fuen_roboto_l fw-bold text-uppercase"
-                              (click)="sort('Nombre')">Apellidos</span>&nbsp;
-                            <span class="fa sort-icon" *ngIf="key =='Nombre'"
+                              (click)="sort('email')">Email</span>&nbsp;
+                            <span class="fa sort-icon" *ngIf="key =='email'"
                               [ngClass]="{'fa-arrow-up':reverse,'fa-arrow-down':!reverse}"></span>
                           </th>
                           <th scope="col">
                             <span class="txt_color_negro fs-6 tip_fuen_roboto_l fw-bold text-uppercase"
-                              (click)="sort('Apellido')">Usuario</span>&nbsp;
-                            <span class="fa sort-icon" *ngIf="key =='Apellido'"
+                              (click)="sort('rol')">Rol</span>&nbsp;
+                            <span class="fa sort-icon" *ngIf="key =='rol'"
                               [ngClass]="{'fa-arrow-up':reverse,'fa-arrow-down':!reverse}"></span>
                           </th>
                           <th scope="col">
                             <span class="txt_color_negro fs-6 tip_fuen_roboto_l fw-bold text-uppercase"
-                              (click)="sort('Correo')">Correo</span>&nbsp;
-                            <span class="fa sort-icon" *ngIf="key =='Correo'"
+                              (click)="sort('is_active')">Activo</span>&nbsp;
+                            <span class="fa sort-icon" *ngIf="key =='is_active'"
                               [ngClass]="{'fa-arrow-up':reverse,'fa-arrow-down':!reverse}"></span>
                           </th>
                           <th scope="col">
                             <span class="txt_color_negro fs-6 tip_fuen_roboto_l fw-bold text-uppercase"
-                              (click)="sort('Entidad')">Contraseña</span>&nbsp;
-                            <span class="fa sort-icon" *ngIf="key =='Entidad'"
+                              (click)="sort('date_joined')">Fecha registro</span>&nbsp;
+                            <span class="fa sort-icon" *ngIf="key =='date_joined'"
                               [ngClass]="{'fa-arrow-up':reverse,'fa-arrow-down':!reverse}"></span>
                           </th>
                           <th scope="col">
                             <span class="txt_color_negro fs-6 tip_fuen_roboto_l fw-bold text-uppercase"
-                              (click)="sort('Rol')">Rol</span>&nbsp;
-                            <span class="fa sort-icon" *ngIf="key =='Rol'"
-                              [ngClass]="{'fa-arrow-up':reverse,'fa-arrow-down':!reverse}"></span>
-                          </th>
-                          <th scope="col">
-                            <span class="txt_color_negro fs-6 tip_fuen_roboto_l fw-bold text-uppercase"
-                              (click)="sort('Activo')">Activo</span>&nbsp;
-                            <span class="fa sort-icon" *ngIf="key =='Activo'"
-                              [ngClass]="{'fa-arrow-up':reverse,'fa-arrow-down':!reverse}"></span>
-                          </th>
-                          <th scope="col">
-                            <span class="txt_color_negro fs-6 tip_fuen_roboto_l fw-bold text-uppercase"
-                              (click)="sort('Registro')">Fecha
-                              Registro</span>&nbsp;
-                            <span class="fa sort-icon" *ngIf="key =='Registro'"
-                              [ngClass]="{'fa-arrow-up':reverse,'fa-arrow-down':!reverse}"></span>
-                          </th>
-                          <th scope="col">
-                            <span class="txt_color_negro fs-6 tip_fuen_roboto_l fw-bold text-uppercase"
-                              (click)="sort('Ingreso')">Ultimo
-                              Ingreso</span>&nbsp;
-                            <span class="fa sort-icon" *ngIf="key =='Ingreso'"
+                              (click)="sort('last_login')">Último Ingreso</span>&nbsp;
+                            <span class="fa sort-icon" *ngIf="key =='last_login'"
                               [ngClass]="{'fa-arrow-up':reverse,'fa-arrow-down':!reverse}"></span>
                           </th>
                           <th scope="col"><span
@@ -123,35 +103,30 @@
                       </thead>
                       <tbody>
                         <tr
-                          *ngFor="let dato of datos | orderBy: key : reverse | filter: searchFilterUser | paginate: config; let i = index">
+                          *ngFor="let user of users | orderBy: key : reverse | filter: searchFilterUser | paginate: config; let i = index">
                           <td class="align-middle"><span
-                              class="txt_xs tip_fuen_roboto_l fw-normal text-uppercase">{{ (config.currentPage -1) * config.itemsPerPage + i }}</span>
+                              class="txt_xs tip_fuen_roboto_l fw-normal">{{user.first_name}}</span>
                           </td>
                           <td class="align-middle"><span
-                              class="txt_xs tip_fuen_roboto_l fw-normal">{{dato.Usuario}}</span>
+                              class="txt_xs tip_fuen_roboto_l fw-normal">{{user.username}}</span>
                           </td>
                           <td class="align-middle"><span
-                              class="txt_xs tip_fuen_roboto_l fw-normal">{{dato.Nombre}}</span>
+                              class="txt_xs tip_fuen_roboto_l fw-normal">{{user.email}}</span>
                           </td>
                           <td class="align-middle"><span
-                              class="txt_xs tip_fuen_roboto_l fw-normal">{{dato.Apellido}}</span>
-                          </td>
-                          <td class="align-middle"><span
-                              class="txt_xs tip_fuen_roboto_l fw-normal">{{dato.Correo}}</span>
-                          </td>
-                          <td class="align-middle"><span
-                              class="txt_xs tip_fuen_roboto_l fw-normal">{{dato.Entidad}}</span>
-                          </td>
-                          <td class="align-middle"><span class="txt_xs tip_fuen_roboto_l fw-normal">{{dato.Rol}}</span>
+                              class="txt_xs tip_fuen_roboto_l fw-normal">{{user.rol}}</span>
                           </td>
                           <td class="align-middle">
-                            <i class="fa icon-activado pt-2"></i>
+                            <i class="fa pt-2" [ngClass]="{'icon-activado': user.is_active, 'icon-desactivado': !user.is_active}"></i>
+                          </td>
+
+                          <!-- <td class="align-middle"><span class="txt_xs tip_fuen_roboto_l fw-normal">{{user.is_active}}</span>
+                          </td> -->
+                          <td class="align-middle"><span
+                              class="txt_xs tip_fuen_roboto_l fw-normal">{{user.date_joined | date:'yyyy-MM-dd HH:mm'}}</span>
                           </td>
                           <td class="align-middle"><span
-                              class="txt_xs tip_fuen_roboto_l fw-normal">{{dato.Registro}}</span>
-                          </td>
-                          <td class="align-middle"><span
-                              class="txt_xs tip_fuen_roboto_l fw-normal">{{dato.Ingreso}}</span>
+                              class="txt_xs tip_fuen_roboto_l fw-normal">{{user.last_login | date:'yyyy-MM-dd HH:mm'}}</span>
                           </td>
                           <td class="align-middle">
                             <div class="d-flex flex-row justify-content-center align-items-center align-self-center">
@@ -194,7 +169,7 @@
                   <div class="d-flex flex-row justify-content-center align-items-center align-self-center mt-1 mb-1">
                     <p class="txt_color_negro txt_xs tip_fuen_roboto_l fw-bold text-center mb-2">Existen un total
                       de
-                      <span class="txt_azul_claro txt_xs tip_fuen_roboto_l fw-bold">_TOTAL_</span> registros</p>
+                      <span class="txt_azul_claro txt_xs tip_fuen_roboto_l fw-bold">{{users.length}}</span> registros</p>
                   </div>
                   <div class="d-flex flex-row justify-content-center align-items-center align-self-center">
                     <pagination-controls [id]="config.id" [maxSize]="maxSize" [directionLinks]="directionLinks"
@@ -227,43 +202,26 @@
       <div class="modal-body pb-1">
         <div class="row ps-2 pe-2 ps-sm-2 pe-sm-2 ps-md-4 pe-md-4 ps-lg-4 pe-lg-4">
           <div class="col-12 mb-3">
-            <form class="forms-custom add_edit_user" autocomplete="nope">
+            <!-- <form [formGroup]="formCreateUser" class="forms-custom add_edit_user" autocomplete="nope"> -->
+              <form class="forms-custom add_edit_user" autocomplete="nope">
               <div class="row">
                 <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
                   <div class="form-group inner-addon left-addon mt-4">
-                    <input type="text" class="form-control" name="nombre" id="nombre" required
-                      data-validation-required-message="Porfavor escriba su nombre">
+                    <input type="text" class="form-control" formControlName="first_name" name="nombre" id="nombre" required
+                      data-validation-required-message="Porfavor escriba su nombre completo">
                     <i class="fa icon-icono-username"></i>
                     <span class="form-bar"></span>
                     <label class="float-label m-0" for="nombre"><span
-                        class="tip_fuen_roboto_l fw-bold">Nombre</span></label>
-                    <p class="help-block text-danger"></p>
-                    <div class="valid-feedback"></div>
-                    <div class="invalid-feedback">
-                      <span class="txt_xs tip_fuen_roboto_l">Por favor ingresa tu nombre</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
-                  <div class="form-group inner-addon left-addon mt-4">
-                    <input type="text" class="form-control" name="apellidos" id="apellidos" required
-                      data-validation-required-message="Porfavor escriba sus apellidos">
-                    <i class="fa icon-icono-username"></i>
-                    <span class="form-bar"></span>
-                    <label class="float-label m-0" for="apellidos"><span
-                        class="tip_fuen_roboto_l fw-bold">Apellidos</span></label>
-                    <p class="help-block text-danger"></p>
-                    <div class="valid-feedback"></div>
-                    <div class="invalid-feedback">
-                      <span class="txt_xs tip_fuen_roboto_l">Por favor ingresa tus apellidos</span>
-                    </div>
+                        class="tip_fuen_roboto_l fw-bold">Nombre completo</span></label>
+                        <p class="help-block text-danger" *ngIf="(formCreateUser.get('first_name').value !== null) && formCreateUser.get('first_name').errors && formCreateUser.get('first_name').errors.required">Este campo es requerido</p>
+                        <p class="help-block text-danger" *ngIf="formCreateUser.get('first_name').errors && formCreateUser.get('first_name').errors.maxlength">El nombre es demasiado largo</p>
                   </div>
                 </div>
               </div>
               <div class="row">
                 <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
                   <div class="form-group inner-addon left-addon mt-4">
-                    <input type="text" class="form-control" name="nombre_usuario" id="nombre_usuario" required
+                    <input type="text" class="form-control"  formControlName="username" name="nombre_usuario" id="nombre_usuario" required
                       data-validation-required-message="Porfavor escriba su nombre de usuario">
                     <i class="fa icon-icono-nombre-usuario"></i>
                     <span class="form-bar"></span>
@@ -271,10 +229,6 @@
                         de
                         usuario</span></label>
                     <p class="help-block text-danger"></p>
-                    <div class="valid-feedback"></div>
-                    <div class="invalid-feedback">
-                      <span class="txt_xs tip_fuen_roboto_l">Por favor ingresa tu nombre de usuario</span>
-                    </div>
                   </div>
                 </div>
                 <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">

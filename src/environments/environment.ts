@@ -7,8 +7,24 @@ export const environment = {
   production: false,
   /* apiBeneficiarias: 'http://localhost:8000/api/resultados/data_beneficiarias/',
   apiOferentes: 'http://localhost:8000/api/resultados/data_oferentes/' */
-  apiBeneficiarias: 'http://localhost:3000/data_beneficiarias',
-  apiOferentes: 'http://localhost:3000/data_oferentes'
+  /*apiBeneficiarias: 'http://localhost:3000/data_beneficiarias',
+  apiOferentes: 'http://localhost:3000/data_oferentes'*/
+
+  api: 'http://localhost:7000/api/',
+  apiResultados: 'resultados/',
+  apiBeneficiarias: 'data_beneficiarias/',
+  apiOferentes: 'data_oferentes/',
+  apiLeads: 'data_leads/',
+  apiLogin: 'login/',
+  apiUsuarios: 'usuarios/',
+  apiCrearUsuario: 'create_user/',
+  apiActualizarUsuario: 'update_user/',
+  apiListarUsuarios: 'list_user/',
+  apiCambiarPassword: 'change_password/',
+  apiToken: 'token/',
+  apiVerificarTokenAcceso: 'verify/',
+  apiActualizarToken: 'token-refresh/'
+ 
 };
 
 

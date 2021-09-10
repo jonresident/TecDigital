@@ -12,16 +12,35 @@ export class IndicadoresService {
         private http: HttpClient
     ) { }
 
-    getBeneficiarias(){
-        return this.http.get(environment.apiBeneficiarias);
+    /* getBeneficiarias(){
+        return this.http.get(environment.api + environment.apiResultados + environment.apiBeneficiarias);
     }
 
     getOferentes(){
-        return this.http.get(environment.apiOferentes);
+        return this.http.get(environment.api + environment.apiResultados + environment.apiOferentes);
+    } */
+
+    getBeneficiarias(){
+        let ruta: string = environment.api + environment.apiResultados + environment.apiBeneficiarias;
+        let body = 
+        {
+            "idUser": sessionStorage.getItem('id')
+        };
+        return this.http.post(ruta, body);
     }
 
-    getTabla(): Observable<IndicadorUnoDetail> {
-        return this.http.get<IndicadorUnoDetail>(environment.apiBeneficiarias);
+    getOferentes(){
+        let ruta: string = environment.api + environment.apiResultados + environment.apiOferentes;
+        let body = 
+        {
+            "idUser": sessionStorage.getItem('id')
+        };
+        return this.http.post(ruta, body);
+    }
+
+    getLeads(){
+        let ruta: string = environment.api + environment.apiResultados + environment.apiLeads;
+        return this.http.get(ruta);
     }
 
 }

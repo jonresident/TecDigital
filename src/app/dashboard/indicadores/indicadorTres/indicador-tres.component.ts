@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, HostListener} from '@angular/core';
+import { Component, OnInit, Inject, HostListener } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Chart } from "chart.js";
 import * as echarts from 'echarts';
@@ -13,6 +13,9 @@ import 'hammerjs';
 import * as Vivus from 'vivus';
 import * as Odometer from 'odometer';
 import { PreloadService } from '../../dashboard.service';
+import { Subscription } from 'rxjs';
+import { IndicadoresService } from '../indicadores.service';
+import { IndicadorTresDetail } from '../indicadores.models';
 declare var $: any;
 declare const initSidebar: any;
 declare const initFlip: any;
@@ -26,61 +29,67 @@ declare const initFlip: any;
 export class IndicadorTresComponent implements OnInit {
 
   chart: any;
+  data: IndicadorTresDetail;
+  indicadorSubscription = new Subscription();
 
-  datosReportOne = [
-    {
-      Total_contactados: '1894',
-      Contacto_inicial_email: '151',
-      contacto_inicial_telefono: '815',
-      registros_plataforma: '105',
-    }
-  ];
+  fecha: Date;
+
+  /* datosIndicadorTres = {
+    Total_contactados: 0,
+    Contacto_inicial_email: 0,
+    contacto_inicial_telefono: 0,
+    proceso_registro: 0,
+    inscritos_interes: 0
+  }; */
+
+  datosIndicadorTres: any = []
 
   windowScrolled: boolean;
   Vivus: any;
 
   constructor(
+    private indicadorService: IndicadoresService,
     private preloadService: PreloadService,
     @Inject(DOCUMENT) private document: Document) { }
 
   @HostListener("window:scroll")
   onWindowScroll() {
     if (window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop > 100) {
-        this.windowScrolled = true;
-      }
-     else if (this.windowScrolled && window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop < 10) {
-          this.windowScrolled = false;
-          new Vivus('icono_leads',{
-            duration: 50,
-            reverse: true,
-            dashGap: 20
-          },).reset();
-          new Vivus('icono_email',{
-            duration: 50,
-            reverse: true,
-            dashGap: 20
-          },).reset();
-          new Vivus('icono_phone',{
-            duration: 50,
-            reverse: true,
-            dashGap: 20
-          },).reset();
-          new Vivus('icono_register',{
-            duration: 50,
-            reverse: true,
-            dashGap: 20
-          },).reset();
-          new Vivus('icono_consolidacion',{
-            duration: 50,
-            reverse: true,
-            dashGap: 20
-          },).reset();
-          new Vivus('icono_treemap',{
-            duration: 50,
-            reverse: true,
-            dashGap: 20
-          },).reset();
-      }
+      this.windowScrolled = true;
+    }
+    else if (this.windowScrolled && window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop < 10) {
+      this.windowScrolled = false;
+      new Vivus('icono_leads', {
+        duration: 50,
+        reverse: true,
+        dashGap: 20
+      }).reset();
+      new Vivus('icono_email', {
+        duration: 50,
+        reverse: true,
+        dashGap: 20
+      }).reset();
+      new Vivus('icono_phone', {
+        duration: 50,
+        reverse: true,
+        dashGap: 20
+      }).reset();
+      new Vivus('icono_register', {
+        duration: 50,
+        reverse: true,
+        dashGap: 20
+      }).reset();
+      new Vivus('icono_consolidacion', {
+        duration: 50,
+        reverse: true,
+        dashGap: 20
+      }).reset();
+      new Vivus('icono_treemap', {
+        duration: 50,
+        reverse: true,
+        dashGap: 20
+      }).reset();
+    }
   }
 
   ngOnInit(): void {
@@ -88,49 +97,82 @@ export class IndicadorTresComponent implements OnInit {
     setTimeout(() => {
       this.preloadService.cargando$.emit(true);
     });
-    this.initVivus();
-    this.initializerOdometer();
-    this.chartQuestionOne();
+    this.observeCharts();
 
-    setTimeout(() => {
-      this.preloadService.cargando$.emit(false);
-    });
+
   }
+
+  observeCharts() {
+
+    this.indicadorSubscription = this.indicadorService.getLeads().subscribe({
+      next: (resp: any) => {
+        this.data = resp;
+        let email: number = this.data.cantidad_emails;
+        let telefono: number = this.data.cantidad_telefono;
+        let procesoRegistro: number = this.data.cantidad_registrado;
+        let interes: number = 0;
+
+        let Total_contactados: number = email + telefono + procesoRegistro + interes;
+
+        let tabla = {
+          Total_contactados: Total_contactados,
+          Contacto_inicial_email: email,
+          contacto_inicial_telefono: telefono,
+          proceso_registro: procesoRegistro,
+          inscrito_interes: interes
+        }
+        this.datosIndicadorTres.push(Object.assign({}, tabla));
+
+        this.initVivus();
+        this.initializerOdometer(email, telefono, procesoRegistro, interes);
+        this.chartQuestionOne(email, telefono, procesoRegistro, interes);
+
+        setTimeout(() => {
+          this.preloadService.cargando$.emit(false);
+        });
+      },
+      error: (e) => { }
+    });
+
+
+  }
+
 
   initVivus() {
-    new Vivus('icono_leads',{
+    new Vivus('icono_leads', {
       duration: 50,
       reverse: true,
       dashGap: 20
-    },).reset();
-    new Vivus('icono_email',{
+    }).reset();
+    new Vivus('icono_email', {
       duration: 50,
       reverse: true,
       dashGap: 20
-    },).reset();
-    new Vivus('icono_phone',{
+    }).reset();
+    new Vivus('icono_phone', {
       duration: 50,
       reverse: true,
       dashGap: 20
-    },).reset();
-    new Vivus('icono_register',{
+    }).reset();
+    new Vivus('icono_register', {
       duration: 50,
       reverse: true,
       dashGap: 20
-    },).reset();
-    new Vivus('icono_consolidacion',{
+    }).reset();
+    new Vivus('icono_consolidacion', {
       duration: 50,
       reverse: true,
       dashGap: 20
-    },).reset();
-    new Vivus('icono_treemap',{
+    }).reset();
+    new Vivus('icono_treemap', {
       duration: 50,
       reverse: true,
       dashGap: 20
-    },).reset();
+    }).reset();
   }
 
-  initializerOdometer() {
+  initializerOdometer(email: number, telefono: number, procesoRegistro: number, inscritos: number) {
+    let totalLeads: number = email + telefono + procesoRegistro + inscritos;
     var OdometerUno = document.querySelector('.resultActivityOne');
     let odUno = new Odometer({
       el: OdometerUno,
@@ -138,7 +180,7 @@ export class IndicadorTresComponent implements OnInit {
       format: '',
       theme: ''
     });
-    odUno.update(1894)
+    odUno.update(totalLeads)
 
     var OdometerDos = document.querySelector('.resultActivityTwo');
     let odDos = new Odometer({
@@ -147,7 +189,7 @@ export class IndicadorTresComponent implements OnInit {
       format: '',
       theme: ''
     });
-    odDos.update(151)
+    odDos.update(email)
 
     var OdometerTres = document.querySelector('.resultActivityThree');
     let odTres = new Odometer({
@@ -156,7 +198,7 @@ export class IndicadorTresComponent implements OnInit {
       format: '',
       theme: ''
     });
-    odTres.update(815)
+    odTres.update(telefono)
 
     var OdometerFour = document.querySelector('.resultActivityFour');
     let odFour = new Odometer({
@@ -165,7 +207,7 @@ export class IndicadorTresComponent implements OnInit {
       format: '',
       theme: ''
     });
-    odFour.update(338)
+    odFour.update(procesoRegistro)
 
     var OdometerFive = document.querySelector('.resultActivityFive');
     let odFive = new Odometer({
@@ -174,15 +216,15 @@ export class IndicadorTresComponent implements OnInit {
       format: '',
       theme: ''
     });
-    odFive.update(590)
+    odFive.update(inscritos)
   }
 
-  chartQuestionOne(){
-
-  let chartQuestionOne = echarts.init(document.getElementById('chart-question-one'));
-  let chartTwoQuestionOne = echarts.init(document.getElementById('chart-two-question-one'));
-  let optionChartOne;
-  let optionChartTwo;
+  chartQuestionOne(email: number, telefono: number, procesoRegistro: number, interes: number) {
+    let totalLeads: number = email + telefono + procesoRegistro + interes;
+    let chartQuestionOne = echarts.init(document.getElementById('chart-question-one'));
+    let chartTwoQuestionOne = echarts.init(document.getElementById('chart-two-question-one'));
+    let optionChartOne;
+    let optionChartTwo;
 
     optionChartOne = {
       tooltip: {
@@ -195,7 +237,7 @@ export class IndicadorTresComponent implements OnInit {
         textStyle: {
           color: '#212121',
           fontSize: 13,
-          lineHeight:10,
+          lineHeight: 10,
           fontWeight: 'bold',
           fontFamily: 'Roboto-Light'
         },
@@ -207,35 +249,35 @@ export class IndicadorTresComponent implements OnInit {
         textStyle: {
           color: '#212121',
           fontSize: 13,
-          lineHeight:10,
+          lineHeight: 10,
           fontWeight: 'bold',
           fontFamily: 'Roboto-Light'
         },
         icon: 'rect'
       },
       toolbox: {
-          show: true,
-          feature: {
-              mark: {show: true},
-              dataView: {show: false, readOnly: false},
-              restore: {show: false},
-              saveAsImage: {show: false}
-          }
+        show: true,
+        feature: {
+          mark: { show: true },
+          dataView: { show: false, readOnly: false },
+          restore: { show: false },
+          saveAsImage: { show: false }
+        }
       },
       visualMap: {
-          top: 'middle',
-          right: -5,
-          max:1501,
-          min:0,
-          text: ['Maximo', 'Minimo'],
-          inRange: {
-              color: ['#9AC331', '#FFDA00', 'rgb(239, 36, 105)']
-          },
-          textStyle: {
-            color: '#212121',
-            fontWeight: 'bold',
-            fontFamily: 'Roboto-Light'
-          }
+        top: 'middle',
+        right: -5,
+        max: totalLeads,
+        min: 0,
+        text: ['Maximo', 'Minimo'],
+        inRange: {
+          color: ['#9AC331', '#FFDA00', 'rgb(239, 36, 105)']
+        },
+        textStyle: {
+          color: '#212121',
+          fontWeight: 'bold',
+          fontFamily: 'Roboto-Light'
+        }
       },
       grid: [
         {
@@ -251,12 +293,12 @@ export class IndicadorTresComponent implements OnInit {
           bottom: 15,
           height: 22,
           itemStyle: {
-              color: '#1D244A'
+            color: '#1D244A'
           },
           textStyle: {
             color: '#FAFAFA',
             fontSize: 12,
-            lineHeight:10,
+            lineHeight: 10,
             fontWeight: 'bold',
             fontFamily: 'Roboto-Light'
           }
@@ -267,136 +309,148 @@ export class IndicadorTresComponent implements OnInit {
         type: 'treemap',
         leafDepth: 1,
         data: [{
-            name: 'Total contactados',
-            value: 1511,
+          name: 'Total contactados',
+          value: totalLeads,
+          label: {
+            show: true,
+            position: 'inside',
+            color: '#FAFAFA',
+            fontSize: 11,
+            lineHeight: 10,
+            fontWeight: 'bold',
+            fontFamily: 'Roboto-Light'
+          },
+          children: [{
+            name: 'Contacto inicial (Email)',
+            value: email,
             label: {
               show: true,
               position: 'inside',
               color: '#FAFAFA',
               fontSize: 11,
-              lineHeight:10,
+              lineHeight: 10,
               fontWeight: 'bold',
               fontFamily: 'Roboto-Light'
-            },
-            children: [{
-              name: 'Contacto inicial (Email)',
-              value: 593,
-              label: {
-                show: true,
-                position: 'inside',
-                color: '#FAFAFA',
-                fontSize: 11,
-                lineHeight:10,
-                fontWeight: 'bold',
-                fontFamily: 'Roboto-Light'
-              }
-            }, {
-              name: 'Contacto inicial (Telefono)',
-              value: 812,
-              label: {
-                show: true,
-                position: 'inside',
-                color: '#FAFAFA',
-                fontSize: 11,
-                lineHeight:10,
-                fontWeight: 'bold',
-                fontFamily: 'Roboto-Light'
-              }
-            }, {
-              name: 'Registrados plataforma',
-              value: 113,
-              label: {
-                show: true,
-                position: 'inside',
-                color: '#FAFAFA',
-                fontSize: 11,
-                lineHeight:10,
-                fontWeight: 'bold',
-                fontFamily: 'Roboto-Light'
-              }
-            }]
+            }
+          }, {
+            name: 'Contacto inicial (Telefono)',
+            value: telefono,
+            label: {
+              show: true,
+              position: 'inside',
+              color: '#FAFAFA',
+              fontSize: 11,
+              lineHeight: 10,
+              fontWeight: 'bold',
+              fontFamily: 'Roboto-Light'
+            }
+          }, {
+            name: 'Registrados plataforma',
+            value: procesoRegistro,
+            label: {
+              show: true,
+              position: 'inside',
+              color: '#FAFAFA',
+              fontSize: 11,
+              lineHeight: 10,
+              fontWeight: 'bold',
+              fontFamily: 'Roboto-Light'
+            }
+          }, {
+            name: 'Inscritos - interés',
+            value: interes,
+            label: {
+              show: true,
+              position: 'inside',
+              color: '#FAFAFA',
+              fontSize: 11,
+              lineHeight: 10,
+              fontWeight: 'bold',
+              fontFamily: 'Roboto-Light'
+            }
+          }]
         }]
       }],
       animationEasing: 'elasticOut',
       animationDelayUpdate: function (idx) {
-          return idx * 5;
+        return idx * 5;
       }
-  };
+    };
 
-  optionChartTwo = {
-    tooltip: {
-      trigger: 'item',
-      showDelay: 0,
-      transitionDuration: 0.2,
-      backgroundColor: '#FFFFFF',
-      padding: 5,
-      textStyle: {
-        color: '#212121',
-        fontSize: 13,
-        lineHeight:10,
-        fontWeight: 'bold',
-        fontFamily: 'Roboto-Light'
+    optionChartTwo = {
+      tooltip: {
+        trigger: 'item',
+        showDelay: 0,
+        transitionDuration: 0.2,
+        backgroundColor: '#FFFFFF',
+        padding: 5,
+        textStyle: {
+          color: '#212121',
+          fontSize: 13,
+          lineHeight: 10,
+          fontWeight: 'bold',
+          fontFamily: 'Roboto-Light'
+        },
+        extraCssText: 'box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);'
       },
-      extraCssText: 'box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);'
-    },
-    legend: {
-      show: false,
-      top: 'top',
-      textStyle: {
-        color: '#212121',
-        fontSize: 13,
-        lineHeight:10,
-        fontWeight: 'bold',
-        fontFamily: 'Roboto-Light'
+      legend: {
+        show: false,
+        top: 'top',
+        textStyle: {
+          color: '#212121',
+          fontSize: 13,
+          lineHeight: 10,
+          fontWeight: 'bold',
+          fontFamily: 'Roboto-Light'
+        },
+        icon: 'rect'
       },
-      icon: 'rect'
-    },
-    dataset: {
+      dataset: {
         source: [
-            ['label', 'Contacto inicial (Email)', 'Contacto inicial (Telefono)', 'Registros plataforma'],
-            ['', 593, 812, 113]
+          ['label', 'Contacto inicial (Email)', 'Contacto inicial (Telefono)', 'Registros plataforma', 'Inscritos - interés'],
+          ['', email, telefono, procesoRegistro, interes]
         ]
-    },
-    xAxis: {
+      },
+      xAxis: {
         type: 'category',
         axisLabel: {
-          formatter : function(params, value){
+          formatter: function (params, value) {
             var newParamsName = "";
             var paramsNameNumber = params.length;
             var provideNumber = 6;
             var rowNumber = Math.ceil(paramsNameNumber / provideNumber);
             if (paramsNameNumber > provideNumber) {
-                for (var p = 0; p < rowNumber; p++) {
-                    var tempStr = "";
-                    if (p == rowNumber - 1) {
-                        tempStr = (params.length > 6 ? (params.slice(0,6)+"...") : '' );
-                    } else {}
-                    newParamsName += tempStr;
-                }
+              for (var p = 0; p < rowNumber; p++) {
+                var tempStr = "";
+                if (p == rowNumber - 1) {
+                  tempStr = (params.length > 6 ? (params.slice(0, 6) + "...") : '');
+                } else { }
+                newParamsName += tempStr;
+              }
             } else {
-                newParamsName = params;
+              newParamsName = params;
             }
             return newParamsName
           },
           color: '#212121',
           fontWeight: 'bold',
           fontFamily: 'Roboto-Light'
-      }
-    },
-    yAxis: {
+        }
+      },
+      yAxis: {
         type: 'value',
         axisLabel: {
           color: '#212121',
           fontWeight: 'bold',
           fontFamily: 'Roboto-Light'
         }
-    },
-    grid: [
-      {
-        right: '14%'
-      }
-    ],
-    series: [
+      },
+      grid: [
+        {
+          right: '14%'
+        }
+      ],
+      series: [
         {
           name: '',
           type: 'bar',
@@ -408,7 +462,7 @@ export class IndicadorTresComponent implements OnInit {
             show: true
           },
           itemStyle: {
-              color: '#1d244a'
+            color: '#1d244a'
           },
           animationDelay: function (idx) {
             return idx * 15;
@@ -425,7 +479,7 @@ export class IndicadorTresComponent implements OnInit {
             show: true
           },
           itemStyle: {
-              color: '#1d3982'
+            color: '#1d3982'
           },
           animationDelay: function (idx) {
             return idx * 15;
@@ -442,33 +496,33 @@ export class IndicadorTresComponent implements OnInit {
             show: true
           },
           itemStyle: {
-              color: '#2a52bb'
+            color: '#2a52bb'
           },
           animationDelay: function (idx) {
             return idx * 15;
           }
         }
-    ],
-    animationEasing: 'elasticOut',
-    animationDelayUpdate: function (idx) {
+      ],
+      animationEasing: 'elasticOut',
+      animationDelayUpdate: function (idx) {
         return idx * 5;
-    }
-};
-
-  optionChartOne && chartQuestionOne.setOption(optionChartOne);
-  optionChartTwo && chartTwoQuestionOne.setOption(optionChartTwo);
-
-  $(window).on('resize', function(){
-      if(chartQuestionOne != null && chartQuestionOne != undefined){
-          chartQuestionOne.resize();
       }
-  });
+    };
 
-  $(window).on('resize', function(){
-      if(chartTwoQuestionOne != null && chartTwoQuestionOne != undefined){
-          chartTwoQuestionOne.resize();
+    optionChartOne && chartQuestionOne.setOption(optionChartOne);
+    optionChartTwo && chartTwoQuestionOne.setOption(optionChartTwo);
+
+    $(window).on('resize', function () {
+      if (chartQuestionOne != null && chartQuestionOne != undefined) {
+        chartQuestionOne.resize();
       }
-  });
+    });
+
+    $(window).on('resize', function () {
+      if (chartTwoQuestionOne != null && chartTwoQuestionOne != undefined) {
+        chartTwoQuestionOne.resize();
+      }
+    });
   }
 
   /*chartQuestionOne() {

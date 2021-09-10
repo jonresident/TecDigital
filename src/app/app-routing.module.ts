@@ -8,14 +8,21 @@ import { DashboardRoutingModule } from './dashboard/dashboard.routing';
 import {LandingComponent} from './landing/landing.component';
 import { RecoverpasswordComponent } from './landing/recoverpassword/recoverpassword.component';
 import { ChangepasswordComponent } from './landing/changepassword/changepassword.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+
+// guards
+import { AuthGuard } from './guards/auth.guard';
+import { LoginGuard } from './guards/login.guard';
 
 
 const routes: Routes = [
-  {path: 'landing', component: LandingComponent},
+  {path: 'landing', component: LandingComponent, canActivate: [LoginGuard]},
   {path: 'recoverpassword', component: RecoverpasswordComponent},
   {path: 'changepassword', component: ChangepasswordComponent},
   {path: '', redirectTo: '/landing', pathMatch: 'full'},
-  {path: '**', component: LandingComponent}
+  {path: '**', component: LandingComponent},
+  {path: 'login', component: LandingComponent, canActivate: [LoginGuard]},
+  {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

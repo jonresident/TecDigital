@@ -4,6 +4,10 @@ import { NgwWowService } from 'ngx-wow';
 import * as Vivus from 'vivus';
 import * as bodymovin from "bodymovin";
 import lottie from "lottie-web";
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { LandingService } from '../landing.service';
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 declare var $: any;
 
 @Component({
@@ -15,11 +19,16 @@ declare var $: any;
 export class RecoverpasswordComponent implements OnInit {
 
   cargando = false;
+  formRecoverPassword: FormGroup;
 
   windowScrolled: boolean;
   Vivus: any;
 
-  constructor(private wowService: NgwWowService, @Inject(DOCUMENT) private document: Document) {
+  constructor(
+    private router: Router,    
+    private landingService: LandingService,
+    private wowService: NgwWowService, 
+    @Inject(DOCUMENT) private document: Document) {
     this.wowService.init();
   }
 
@@ -41,6 +50,7 @@ export class RecoverpasswordComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.formRecoverPasswordInit();
     this.initbodymovin();
     this.wowService.init();
   }
@@ -57,6 +67,29 @@ export class RecoverpasswordComponent implements OnInit {
 
   reset() {
     this.wowService.init();
+  }
+
+  formRecoverPasswordInit() {
+    this.formRecoverPassword = new FormGroup({
+      email: new FormControl(null, [Validators.required])
+    });
+  }
+
+
+  onRecover(values: { email: string }) {
+    /* this.cargando = true;
+    this.landingService.recoverPassword(values.email)
+    .then(ans => {
+      this.cargando = false;
+    }).catch(err => this.cargando = false); */
+    console.log("ENVIAR CORREO")
+    Swal.fire({
+      icon: 'info',
+      title: 'Restablecer contraseña',
+      text: 'Se enviará un enlace de restablecimiento de contraseña a este correo si está registrado en el sistema'
+    }).then( () => {
+      this.router.navigate(['landing']);
+    });
   }
 
 }

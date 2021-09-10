@@ -28,6 +28,8 @@ declare const initFlip: any;
 export class IndicadorDosComponent implements OnInit {
 
   data: IndicadorDosDetail;
+  fecha: Date;
+
   
   chart: any;
 
@@ -89,7 +91,6 @@ export class IndicadorDosComponent implements OnInit {
       this.preloadService.cargando$.emit(true);
     });
     this.observeCharts();
-    
   }
 
   obtenerObjetosSectores(sectores: Sectores) {
@@ -207,20 +208,20 @@ export class IndicadorDosComponent implements OnInit {
     var OdometerUno = document.querySelector('.resultActivityOne');
     let odUno = new Odometer({
       el: OdometerUno,
-      value: registradas,
+      value: 0,
       format: '',
       theme: ''
     });
-    odUno.update(35)
+    odUno.update(registradas)
 
     var OdometerDos = document.querySelector('.resultActivityTwo');
     let odDos = new Odometer({
       el: OdometerDos,
-      value: ofertados,
+      value: 0,
       format: '',
       theme: ''
     });
-    odDos.update(72)
+    odDos.update(ofertados)
   }
 
   /*chartQuestionOne() {

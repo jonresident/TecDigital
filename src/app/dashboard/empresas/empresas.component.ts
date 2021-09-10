@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PaginationInstance } from 'ngx-pagination/dist/ngx-pagination.module';
-import { IndicadoresService } from '../indicadores/indicadores.service';
 import { Tabla, IndicadorUnoDetail } from '../indicadores/indicadores.models';
 import { IndicadorUnoComponent } from '../indicadores/indicadorUno/indicador-uno.component';
 import { Subscription } from 'rxjs';
 import { PreloadService } from '../dashboard.service';
+import { EmpresasService } from './empresas.service';
 
 declare var $: any;
 
@@ -47,7 +47,7 @@ export class EmpresasComponent implements OnInit, OnDestroy {
 
   constructor(
     private preloadService: PreloadService,
-    private indicadorService: IndicadoresService,
+    private empresasService: EmpresasService,
   ) { }
 
   ngOnInit(): void {
@@ -62,7 +62,7 @@ export class EmpresasComponent implements OnInit, OnDestroy {
   }
 
   obtenerDatos() {
-    this.serviceSubscription = this.indicadorService.getTabla().subscribe((resp: IndicadorUnoDetail) => {
+    this.serviceSubscription = this.empresasService.getEmpresasBeneficiarias().subscribe((resp: IndicadorUnoDetail) => {
 
       let registro = {};
       let registros = [];
@@ -95,6 +95,7 @@ export class EmpresasComponent implements OnInit, OnDestroy {
       /* this.preloadService.cargando$.emit(false); */
 
     })
+    
 
   }
 

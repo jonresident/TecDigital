@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 declare var $: any;
 
 @Component({
@@ -8,10 +9,20 @@ declare var $: any;
   ]
 })
 export class NavigationComponent implements OnInit {
+  rol = "";
 
-  constructor() { }
+  constructor(
+    private router: Router
+  ) { 
+    this.rol = sessionStorage.getItem('rol');
+  }
 
   ngOnInit(): void {
+  }
+
+  logout() {
+    sessionStorage.clear();
+    this.router.navigate(['/login']);
   }
 
 }
