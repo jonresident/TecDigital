@@ -75,8 +75,8 @@ video::-webkit-media-controls {
 
 @font-face {
   font-family: 'icomoon';
-  src:  url('assets/icons/icomoon.eot?vhpb9c');
-  src:  url('assets/icons/icomoon.eot?vhpb9c#iefix') format('embedded-opentype'),
+  src: url('assets/icons/icomoon.eot?vhpb9c');
+  src: url('assets/icons/icomoon.eot?vhpb9c#iefix') format('embedded-opentype'),
     url('assets/icons/icomoon.ttf?vhpb9c') format('truetype'),
     url('assets/icons/icomoon.woff?vhpb9c') format('woff'),
     url('assets/icons/icomoon.svg?vhpb9c#icomoon') format('svg');
@@ -682,6 +682,20 @@ input-placeholder {
 textarea:focus {
   outline: none !important;
   /*border: 2px solid #00CCFF !important;*/
+}
+
+::-webkit-datetime-edit-year-field:not([aria-valuenow]),
+::-webkit-datetime-edit-month-field:not([aria-valuenow]),
+::-webkit-datetime-edit-day-field:not([aria-valuenow]) {
+  color: transparent !important;
+}
+
+input[type=date]:required:invalid::-webkit-datetime-edit {
+  color: transparent !important;
+}
+
+input[type=date]:focus:invalid::-webkit-datetime-edit {
+  color: transparent !important;
 }
 
 .overflow-x-hidden {
