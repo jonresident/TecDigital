@@ -38,25 +38,24 @@
           <div class="pl-0 pl-sm-0 pl-md-0 pl-lg-0 pl-xl-0 filters-dashboard mx-auto mt-2 mb-2">
             <div
               class="form-group inner-addon left-addon mt-2 mb-2 mt-sm-2 mb-sm-2 mt-md-2 mb-md-2 mt-lg-2 mb-lg-2 mt-xl-0 mb-xl-0">
-              <input type="date" class="form-control" name="dateInit" id="dateInit" required
-                      data-validation-required-message="" [(ngModel)]="dateInitFilter"
-                      (change)="fn_setFilter('dateInitFilter',dateInitFilter)">
+              <input type="date" class="form-control" name="date-start" id="date-start" required
+                      data-validation-required-message="">
               <!--<i class="fa icon-icono-semana"></i>-->
               <span class="form-bar"></span>
-              <!-- <label class="float-label m-0" for="name"><span>Fecha</span></label> -->
+              <label class="float-label m-0" for="name"><span>Fecha inicial</span></label>
             </div>
           </div>
         </div>
-        <div class="accordion-body border-0 rounded-0 ps-3 pt-4 pb-4">
+
+        <div class="accordion-body border-0 rounded-0 ps-3 pt-0 pb-4">
           <div class="pl-0 pl-sm-0 pl-md-0 pl-lg-0 pl-xl-0 filters-dashboard mx-auto mt-2 mb-2">
             <div
               class="form-group inner-addon left-addon mt-2 mb-2 mt-sm-2 mb-sm-2 mt-md-2 mb-md-2 mt-lg-2 mb-lg-2 mt-xl-0 mb-xl-0">
-              <input type="date" class="form-control" name="dateFin" id="dateFin" required
-                      data-validation-required-message="" [(ngModel)]="dateFinFilter"
-                      (change)="fn_setFilter('dateFinFilter',dateFinFilter)">
+              <input type="date" class="form-control" name="date-end" id="date-end" required
+                      data-validation-required-message="">
               <!--<i class="fa icon-icono-semana"></i>-->
               <span class="form-bar"></span>
-              <!-- <label class="float-label m-0" for="name"><span>Fecha</span></label> -->
+              <label class="float-label m-0" for="name"><span>Fecha final</span></label>
             </div>
           </div>
         </div>
