@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 // Services
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // External Modules
 import { ShareModule } from '../share/share.module';
@@ -41,7 +41,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     Ng2OrderModule,
     NgxPaginationModule,
     ShareModule,
-    IndicadoresModule
+    IndicadoresModule,
+    ReactiveFormsModule
   ]
 })
 export class DashboardModule { }

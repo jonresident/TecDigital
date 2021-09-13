@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, HostListener} from '@angular/core';
+import { Component, OnInit, Inject, HostListener, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DOCUMENT } from '@angular/common';
 import { NgwWowService } from 'ngx-wow';
@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 
 import { LandingService } from '../landing/landing.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 declare var $: any;
 
@@ -18,10 +19,11 @@ declare var $: any;
   styles: [
   ]
 })
-export class LandingComponent implements OnInit {
+export class LandingComponent implements OnInit, OnDestroy {
 
   cargando = false;
   formLogin: FormGroup;
+  landingSubscription = new Subscription();
 
   windowScrolled: boolean;
   Vivus: any;
@@ -29,25 +31,29 @@ export class LandingComponent implements OnInit {
   constructor(
     private router: Router,
     private landingService: LandingService,
-    private wowService: NgwWowService, 
-    @Inject(DOCUMENT) private document: Document) { 
+    private wowService: NgwWowService,
+    @Inject(DOCUMENT) private document: Document) {
     this.wowService.init();
   }
 
   @HostListener("window:scroll")
   onWindowScroll() {
     if (window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop > 100) {
-        this.windowScrolled = true;
-      }
-     else if (this.windowScrolled && window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop < 10) {
-          this.windowScrolled = false;
-      }
+      this.windowScrolled = true;
+    }
+    else if (this.windowScrolled && window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop < 10) {
+      this.windowScrolled = false;
+    }
   }
 
   ngOnInit(): void {
     this.formLoginInit();
     this.initbodymovin();
     this.wowService.init();
+  }
+
+  ngOnDestroy(): void {
+    this.landingSubscription.unsubscribe();
   }
 
   formLoginInit() {
@@ -59,7 +65,7 @@ export class LandingComponent implements OnInit {
 
   initbodymovin() {
     lottie.loadAnimation({
-      container:document.getElementById('logoBiosAnimated'),
+      container: document.getElementById('logoBiosAnimated'),
       renderer: 'svg',
       loop: true,
       autoplay: true,
@@ -73,16 +79,42 @@ export class LandingComponent implements OnInit {
 
   onSumbit(values: { username: string; password: string; }) {
     this.cargando = true;
-    /* this.landingService.login(values.username, values.password).subscribe((resp) => {
-      this.cargando = false;
-      sessionStorage.setItem('refresh', resp['refresh']);
-      sessionStorage.setItem('access', resp['access']);
-      sessionStorage.setItem('username', resp['username']);
-      sessionStorage.setItem('id', resp['id']);
-      sessionStorage.setItem('first_session', resp['first_session']);
-      sessionStorage.setItem('rol', resp['rol']);
-      this.router.navigate(['dashboard']);
-    }); */
+    this.landingSubscription = this.landingService.login(values.username, values.password).subscribe({
+      next: (resp: any) => {
+        this.cargando = false;
+        if (resp.message) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'El usuario no se encuentra activo'
+          });
+        } else {
+          sessionStorage.setItem('refresh', resp['refresh']);
+          sessionStorage.setItem('access', resp['access']);
+          sessionStorage.setItem('username', resp['username']);
+          sessionStorage.setItem('id', resp['id']);
+          sessionStorage.setItem('first_session', resp['first_session']);
+          sessionStorage.setItem('rol', resp['rol']);
+          this.router.navigate(['dashboard']);
+        }
+      },
+      error: (e) => {
+        this.cargando = false;
+        if (e.error && e.error.Error) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Las credenciales no son válidas, intente de nuevo.'
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Servidor sin respuesta. Intentelo más tarde.'
+          });
+        }
+      }
+    });
 
 
 
@@ -94,7 +126,7 @@ export class LandingComponent implements OnInit {
 
 
 
-    this.landingService.login(values.username, values.password)
+    /* this.landingService.login(values.username, values.password)
     .then(ans => {
       this.cargando = false;
       sessionStorage.setItem('refresh', ans['refresh']);
@@ -119,7 +151,7 @@ export class LandingComponent implements OnInit {
           text: 'Servidor sin respuesta. Intentelo más tarde.'
         });
       }
-    });
+    }); */
   }
 
 }

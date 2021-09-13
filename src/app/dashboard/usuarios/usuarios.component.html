@@ -1,5 +1,7 @@
 <div class="container overflow-x-hidden position-relative mt-5">
   <div class="row pt-5 ps-5 pe-5 w-95 mx-auto">
+
+    <!-- CAMPO PARA BUSCAR EN TABLA -->
     <div class="row p-0 m-0">
       <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
         <form class="forms-custom" autocomplete="nope" #searchRecords="ngForm">
@@ -23,6 +25,8 @@
         </form>
       </div>
     </div>
+
+    <!-- GESTIÓN O CREACIÓN DE USUARIOS -->
     <div class="row">
       <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
         <div class="card-container mt-2 mb-5">
@@ -35,11 +39,12 @@
                       <div
                         class="col-12 d-flex flex-row justify-content-start align-items-center align-self-center mt-2 p-2">
                         <h1 class="txt_color_negro txt_lg tip_fuen_roboto_l fw-bold">Gestión de Usuarios</h1>
-                        <button class="button-add-custom set_cursor ms-3" data-bs-toggle="modal" (click)="formCreateUserInit()"
-                          data-bs-target="#modalAddEditUser">
+                        <button class="button-add-custom set_cursor ms-3" data-bs-toggle="modal"
+                          (click)="formCreateUserInit()" data-bs-target="#modalAddEditUser">
                           <div class="d-flex flex-row justify-content-center align-items-center align-self-center">
                             <span class="tip_fuen_helvetica_l"><i class="fa icon-icono-agregar-usuario"></i></span><span
-                              class="tip_fuen_helvetica_l"><i class="fa icon-icono-agregar-usuario"></i></span></div>
+                              class="tip_fuen_helvetica_l"><i class="fa icon-icono-agregar-usuario"></i></span>
+                          </div>
                         </button>
                       </div>
                     </div>
@@ -103,7 +108,7 @@
                       </thead>
                       <tbody>
                         <tr
-                          *ngFor="let user of users | orderBy: key : reverse | filter: searchFilterUser | paginate: config; let i = index">
+                          *ngFor="let user of usuarios | orderBy: key : reverse | filter: searchFilterUser | paginate: config; let i = index">
                           <td class="align-middle"><span
                               class="txt_xs tip_fuen_roboto_l fw-normal">{{user.first_name}}</span>
                           </td>
@@ -113,25 +118,25 @@
                           <td class="align-middle"><span
                               class="txt_xs tip_fuen_roboto_l fw-normal">{{user.email}}</span>
                           </td>
-                          <td class="align-middle"><span
-                              class="txt_xs tip_fuen_roboto_l fw-normal">{{user.rol}}</span>
+                          <td class="align-middle"><span class="txt_xs tip_fuen_roboto_l fw-normal">{{user.rol}}</span>
                           </td>
                           <td class="align-middle">
-                            <i class="fa pt-2" [ngClass]="{'icon-activado': user.is_active, 'icon-desactivado': !user.is_active}"></i>
+                            <i class="fa pt-2"
+                              [ngClass]="{'icon-activado': user.is_active, 'icon-desactivado': !user.is_active}"></i>
                           </td>
 
                           <!-- <td class="align-middle"><span class="txt_xs tip_fuen_roboto_l fw-normal">{{user.is_active}}</span>
                           </td> -->
-                          <td class="align-middle"><span
-                              class="txt_xs tip_fuen_roboto_l fw-normal">{{user.date_joined | date:'yyyy-MM-dd HH:mm'}}</span>
+                          <td class="align-middle"><span class="txt_xs tip_fuen_roboto_l fw-normal">{{user.date_joined |
+                              date:'yyyy-MM-dd HH:mm'}}</span>
                           </td>
-                          <td class="align-middle"><span
-                              class="txt_xs tip_fuen_roboto_l fw-normal">{{user.last_login | date:'yyyy-MM-dd HH:mm'}}</span>
+                          <td class="align-middle"><span class="txt_xs tip_fuen_roboto_l fw-normal">{{user.last_login |
+                              date:'yyyy-MM-dd HH:mm'}}</span>
                           </td>
                           <td class="align-middle">
                             <div class="d-flex flex-row justify-content-center align-items-center align-self-center">
                               <button class="button-edit-custom set_cursor me-2" data-bs-toggle="modal"
-                                data-bs-target="#modalAddEditUser">
+                                data-bs-target="#modalEditUser" (click)="initEditUserModal(user)">
                                 <div
                                   class="d-flex flex-row justify-content-center align-items-center align-self-center">
                                   <span class="tip_fuen_helvetica_l"><i
@@ -140,7 +145,7 @@
                                 </div>
                               </button>
                               <button class="button-desactivate-custom set_cursor" data-bs-toggle="modal"
-                                data-bs-target="#modalChangePassword">
+                                data-bs-target="#modalChangePassword" (click)="initChangePasswordModal(user)">
                                 <div
                                   class="d-flex flex-row justify-content-center align-items-center align-self-center">
                                   <span class="tip_fuen_helvetica_l"><i
@@ -157,7 +162,7 @@
                   <div class="d-flex flex-row justify-content-center align-items-center align-self-center mt-3 mb-2">
                     <form autocomplete="off">
                       <div class="form-group inner-addon left-addon">
-                        <select class="form-control filterPageTable">
+                        <select class="form-control filterPageTable" (change)="setItemPerPage($event)">
                           <option class="custom-option">5</option>
                           <option class="custom-option">10</option>
                           <option class="custom-option">25</option>
@@ -169,7 +174,8 @@
                   <div class="d-flex flex-row justify-content-center align-items-center align-self-center mt-1 mb-1">
                     <p class="txt_color_negro txt_xs tip_fuen_roboto_l fw-bold text-center mb-2">Existen un total
                       de
-                      <span class="txt_azul_claro txt_xs tip_fuen_roboto_l fw-bold">{{users.length}}</span> registros</p>
+                      <span class="txt_azul_claro txt_xs tip_fuen_roboto_l fw-bold">{{usuarios.length}}</span> registros
+                    </p>
                   </div>
                   <div class="d-flex flex-row justify-content-center align-items-center align-self-center">
                     <pagination-controls [id]="config.id" [maxSize]="maxSize" [directionLinks]="directionLinks"
@@ -190,7 +196,7 @@
   </div>
 </div>
 
-<!-- Modal -->
+<!-- Modal Agregar Usuario -->
 <div class="modal animated fade fast" id="modalAddEditUser" tabindex="-1" aria-labelledby="exampleModalCenterTitle"
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -202,44 +208,65 @@
       <div class="modal-body pb-1">
         <div class="row ps-2 pe-2 ps-sm-2 pe-sm-2 ps-md-4 pe-md-4 ps-lg-4 pe-lg-4">
           <div class="col-12 mb-3">
-            <!-- <form [formGroup]="formCreateUser" class="forms-custom add_edit_user" autocomplete="nope"> -->
-              <form class="forms-custom add_edit_user" autocomplete="nope">
+            <form [formGroup]="formCreateUser" class="forms-custom add_edit_user" autocomplete="nope">
+              <!-- <form class="forms-custom add_edit_user" autocomplete="nope"> -->
               <div class="row">
                 <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
                   <div class="form-group inner-addon left-addon mt-4">
-                    <input type="text" class="form-control" formControlName="first_name" name="nombre" id="nombre" required
+                    <input type="text" class="form-control" formControlName="first_name" name="nombre"
+                      id="nombre_create" required
                       data-validation-required-message="Porfavor escriba su nombre completo">
                     <i class="fa icon-icono-username"></i>
                     <span class="form-bar"></span>
-                    <label class="float-label m-0" for="nombre"><span
-                        class="tip_fuen_roboto_l fw-bold">Nombre completo</span></label>
-                        <p class="help-block text-danger" *ngIf="(formCreateUser.get('first_name').value !== null) && formCreateUser.get('first_name').errors && formCreateUser.get('first_name').errors.required">Este campo es requerido</p>
-                        <p class="help-block text-danger" *ngIf="formCreateUser.get('first_name').errors && formCreateUser.get('first_name').errors.maxlength">El nombre es demasiado largo</p>
+                    <label class="float-label m-0" for="nombre_create"><span class="tip_fuen_roboto_l fw-bold">Nombre
+                        completo</span></label>
+                    <p class="help-block text-danger"
+                      *ngIf="(formCreateUser.get('first_name').value !== null) && formCreateUser.get('first_name').errors && formCreateUser.get('first_name').errors.required">
+                      Este campo es requerido</p>
+                    <p class="help-block text-danger"
+                      *ngIf="formCreateUser.get('first_name').errors && formCreateUser.get('first_name').errors.maxlength">
+                      El nombre es demasiado largo</p>
                   </div>
                 </div>
               </div>
               <div class="row">
                 <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
                   <div class="form-group inner-addon left-addon mt-4">
-                    <input type="text" class="form-control"  formControlName="username" name="nombre_usuario" id="nombre_usuario" required
+                    <input type="text" class="form-control" formControlName="username" name="nombre_usuario"
+                      id="nombre_usuario_create" required
                       data-validation-required-message="Porfavor escriba su nombre de usuario">
                     <i class="fa icon-icono-nombre-usuario"></i>
                     <span class="form-bar"></span>
-                    <label class="float-label m-0" for="nombre_usuario"><span class="tip_fuen_roboto_l fw-bold">Nombre
+                    <label class="float-label m-0" for="nombre_usuario_create"><span
+                        class="tip_fuen_roboto_l fw-bold">Nombre
                         de
                         usuario</span></label>
-                    <p class="help-block text-danger"></p>
+                    <p class="help-block text-danger"
+                      *ngIf="(formCreateUser.get('username').value !== null) && formCreateUser.get('username').errors && formCreateUser.get('username').errors.required">
+                      Este campo es requerido</p>
+                    <p class="help-block text-danger"
+                      *ngIf="formCreateUser.get('username').errors && formCreateUser.get('username').errors.maxlength">
+                      El nombre de usuario es demasiado largo</p>
+
                   </div>
                 </div>
                 <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
                   <div class="form-group inner-addon left-addon mt-4">
-                    <input type="email" class="form-control" name="correo" id="correo" required
-                      data-validation-required-message="Porfavor escriba su correo">
+                    <input type="email" class="form-control" formControlName="email" name="correo" id="correo_create"
+                      required data-validation-required-message="Porfavor escriba su correo">
                     <i class="fa icon-icono-correo"></i>
                     <span class="form-bar"></span>
-                    <label class="float-label m-0" for="correo"><span
+                    <label class="float-label m-0" for="correo_create"><span
                         class="tip_fuen_roboto_l fw-bold">Correo</span></label>
-                    <p class="help-block text-danger"></p>
+                    <p class="help-block text-danger"
+                      *ngIf="(formCreateUser.get('email').value !== null) && formCreateUser.get('email').errors && formCreateUser.get('email').errors.required">
+                      Este campo es requerido</p>
+                    <p class="help-block text-danger"
+                      *ngIf="(formCreateUser.get('email').value !== null) &&  formCreateUser.errors && formCreateUser.errors.failEmail">
+                      Ingrese una dirección de correo válida</p>
+                    <p class="help-block text-danger"
+                      *ngIf="formCreateUser.get('email').errors && formCreateUser.get('email').errors.maxlength">El
+                      correo es demasiado largo</p>
                     <div class="valid-feedback"></div>
                     <div class="invalid-feedback">
                       <span class="txt_xs tip_fuen_roboto_l">Por favor ingresa tu correo</span>
@@ -250,13 +277,24 @@
               <div class="row">
                 <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
                   <div class="form-group inner-addon left-addon mt-4">
-                    <input type="password" class="form-control" name="contrasena" id="contrasena" required
-                      data-validation-required-message="Porfavor escriba su contraseña" autocomplete>
+                    <input type="password" class="form-control" formControlName="password" name="contrasena"
+                      id="contrasena_create" required data-validation-required-message="Porfavor escriba su contraseña"
+                      autocomplete>
                     <i class="fa icon-icono-contrasena"></i>
                     <span class="form-bar"></span>
-                    <label class="float-label m-0" for="contrasena"><span
+                    <label class="float-label m-0" for="contrasena_email"><span
                         class="tip_fuen_roboto_l fw-bold">Contraseña</span></label>
-                    <p class="help-block text-danger"></p>
+                    <p class="help-block text-danger"
+                      *ngIf="(formCreateUser.get('password').value !== null) && formCreateUser.get('password').errors && formCreateUser.get('password').errors.required">
+                      Este campo es requerido</p>
+                    <p class="help-block text-danger" *ngIf="formCreateUser.errors && formCreateUser.errors.notSame">Las
+                      contraseñas no coinciden</p>
+                    <p class="help-block text-danger"
+                      *ngIf="formCreateUser.get('password').errors && formCreateUser.get('password').errors.maxlength">
+                      La contraseña es demasiado larga</p>
+                    <p class="help-block text-danger"
+                      *ngIf="formCreateUser.get('password').errors && formCreateUser.get('password').errors.minlength">
+                      La contraseña debe ser mayor o igual a 8 caracteres</p>
                     <div class="valid-feedback"></div>
                     <div class="invalid-feedback">
                       <span class="txt_xs tip_fuen_roboto_l">Por favor ingresa tu contraseña</span>
@@ -265,11 +303,11 @@
                 </div>
                 <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
                   <div class="form-group inner-addon left-addon mt-4">
-                    <input type="password" class="form-control" name="confirmar_contrasena" id="confirmar_contrasena"
+                    <input type="password" class="form-control" formControlName="confirmPassword" name="confirmar_contrasena_create" id="confirmar_contrasena"
                       required data-validation-required-message="Porfavor confirme su contraseña" autocomplete>
                     <i class="fa icon-icono-contrasena"></i>
                     <span class="form-bar"></span>
-                    <label class="float-label m-0" for="confirmar_contrasena"><span
+                    <label class="float-label m-0" for="confirmar_contrasena_create"><span
                         class="tip_fuen_roboto_l fw-bold">Confirmar
                         contraseña</span></label>
                     <p class="help-block text-danger"></p>
@@ -283,19 +321,16 @@
               <div class="row">
                 <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-12">
                   <div class="form-group inner-addon left-addon mt-4">
-                    <select class="form-control classic" id="selectrol" required>
+                    <select class="form-control classic" formControlName="rol" id="selectrol_create" required>
                       <option class="" hidden></option>
-                      <option class="custom-option">Roluno</option>
-                      <option class="custom-option">Roldos</option>
-                      <option class="custom-option">Roltres</option>
-                      <option class="custom-option">Rolcuatro</option>
+                      <option class="custom-option" *ngFor="let role of enumRoles | keyvalue"  [value]="role.value">{{role.value | titlecase}}</option>
                     </select>
                     <i class="fa icon-icono-rol"></i>
                     <span class="form-bar"></span>
-                    <label class="float-label m-0" for="name">
+                    <label class="float-label m-0" for="selectrol_create">
                       <span class="tip_fuen_roboto_l fw-bold">Rol</span>
                     </label>
-                    <p class="help-block text-danger"></p>
+                    <p class="help-block text-danger" *ngIf="(formCreateUser.get('rol').value !== null) && formCreateUser.get('rol').errors && formCreateUser.get('rol').errors.required">Este campo es requerido</p>
                     <div class="valid-feedback"></div>
                     <div class="invalid-feedback">
                       <span class="txt_xs tip_fuen_roboto_l">Por favor selecciona un tipo de rol</span>
@@ -310,15 +345,15 @@
                       usuario?</span>
                     <div
                       class="container-radiobuttons d-flex flex-row justify-content-center align-items-center align-self-center mt-2">
-                      <label for="opt1"
+                      <label for="opt1_create"
                         class="radio d-flex flex-row justify-content-center align-items-center align-self-center m-1">
-                        <input type="radio" name="rdo" id="opt1" class="hidden" />
+                        <input type="radio" name="rdo" id="opt1_create" class="hidden" [checked]="true" (click)="changeActiveNew(true)"/>
                         <span class="label"></span>
                         <span class="txt_color_negro txt_xs tip_fuen_roboto_l fw-bold">Activarlo</span>
                       </label>
-                      <label for="opt2"
+                      <label for="opt2_create"
                         class="radio d-flex flex-row justify-content-center align-items-center align-self-center m-1">
-                        <input type="radio" name="rdo" id="opt2" class="hidden" />
+                        <input type="radio" name="rdo" id="opt2_create" class="hidden" (click)="changeActiveNew(false)"/>
                         <span class="label"></span>
                         <span class="txt_color_negro txt_xs tip_fuen_roboto_l fw-bold">Desactivarlo</span>
                       </label>
@@ -327,8 +362,146 @@
                 </div>
               </div>
               <div class="d-grid gap-2 d-flex justify-content-center align-items-center p-0">
-                <button type="submit" class="btn btn-primary me-2"><span
+                <button type="submit" class="btn btn-primary me-2" (click)="createUser(formCreateUser.value)" [disabled]="!formCreateUser.valid"><span
                     class="txt_sm tip_fuen_roboto_l fw-bold">Guardar</span></button>
+                <button type="button" class="btn btn-outline-cancel" data-bs-dismiss="modal"><span
+                    class="txt_sm tip_fuen_roboto_l fw-bold">Cancelar</span></button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Editar Usuario -->
+<div class="modal animated fade fast" id="modalEditUser" tabindex="-1" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title txt_color_negro txt_lg tip_fuen_roboto_l fw-bold pl-3">Editar Usuarios</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body pb-1">
+        <div class="row ps-2 pe-2 ps-sm-2 pe-sm-2 ps-md-4 pe-md-4 ps-lg-4 pe-lg-4">
+          <div class="col-12 mb-3">
+            <form [formGroup]="formEditUser" class="forms-custom add_edit_user" autocomplete="nope">
+              <!-- <form class="forms-custom add_edit_user" autocomplete="nope"> -->
+              <div class="row">
+                <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                  <div class="form-group inner-addon left-addon mt-4">
+                    <input type="text" formControlName="first_name" class="form-control" name="nombre" id="nombre_edit"
+                      required data-validation-required-message="Porfavor escriba su nombre completo">
+                    <i class="fa icon-icono-username"></i>
+                    <span class="form-bar"></span>
+                    <label class="float-label m-0" for="nombre_edit"><span class="tip_fuen_roboto_l fw-bold">Nombre
+                        completo</span></label>
+                    <p class="help-block text-danger"
+                      *ngIf="formEditUser.get('first_name').errors && formEditUser.get('first_name').errors.required">
+                      Este campo es requerido</p>
+                    <p class="help-block text-danger"
+                      *ngIf="formEditUser.get('first_name').errors && formEditUser.get('first_name').errors.maxlength">
+                      El nombre es demasiado largo</p>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                  <div class="form-group inner-addon left-addon mt-4">
+                    <input type="text" class="form-control" formControlName="username" name="nombre_usuario"
+                      id="nombre_usuario_edit" required
+                      data-validation-required-message="Porfavor escriba su nombre de usuario">
+                    <i class="fa icon-icono-nombre-usuario"></i>
+                    <span class="form-bar"></span>
+                    <label class="float-label m-0" for="nombre_usuario_edit"><span
+                        class="tip_fuen_roboto_l fw-bold">Nombre
+                        de usuario</span></label>
+                    <p class="help-block text-danger"
+                      *ngIf="formEditUser.get('username').errors && formEditUser.get('username').errors.required">
+                      Este campo es requerido</p>
+                    <p class="help-block text-danger"
+                      *ngIf="formEditUser.get('username').errors && formEditUser.get('username').errors.maxlength">
+                      El nombre de usuario es demasiado largo</p>
+                  </div>
+                </div>
+                <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                  <div class="form-group inner-addon left-addon mt-4">
+                    <input type="email" class="form-control" formControlName="email" name="correo" id="correo_edit"
+                      required data-validation-required-message="Porfavor escriba su correo">
+                    <i class="fa icon-icono-correo"></i>
+                    <span class="form-bar"></span>
+                    <label class="float-label m-0" for="correo_edit"><span
+                        class="tip_fuen_roboto_l fw-bold">Correo</span></label>
+                    <p class="help-block text-danger"
+                      *ngIf="formEditUser.get('email').errors && formEditUser.get('email').errors.required">Este
+                      campo es requerido</p>
+                    <p class="help-block text-danger" *ngIf="formEditUser.errors && formEditUser.errors.failEmail">
+                      Ingrese una dirección de correo válida</p>
+                    <p class="help-block text-danger"
+                      *ngIf="formEditUser.get('email').errors && formEditUser.get('email').errors.maxlength">El
+                      correo es demasiado largo</p>
+                    <div class="valid-feedback"></div>
+                    <div class="invalid-feedback">
+                      <span class="txt_xs tip_fuen_roboto_l">Por favor ingresa tu correo</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-12">
+                  <div class="form-group inner-addon left-addon mt-4">
+                    <select class="form-control classic" formControlName="rol" id="selectrol_edit"
+                      [value]="selectedUser.rol" required>
+                      <option class="" hidden></option>
+                      <option class="custom-option" *ngFor="let role of enumRoles | keyvalue" [value]="role.value">
+                        {{role.value | titlecase}}</option>
+                    </select>
+                    <i class="fa icon-icono-rol"></i>
+                    <span class="form-bar"></span>
+                    <label class="float-label m-0" for="name">
+                      <span class="tip_fuen_roboto_l fw-bold">Rol</span>
+                    </label>
+                    <p class="help-block text-danger"
+                      *ngIf="formEditUser.get('rol').errors && formEditUser.get('rol').errors.required">Este campo
+                      es requerido</p>
+                    <div class="valid-feedback"></div>
+                    <div class="invalid-feedback">
+                      <span class="txt_xs tip_fuen_roboto_l">Por favor selecciona un tipo de rol</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 m-auto">
+                  <div class="form-group container-custom-radio mt-0">
+                    <span class="txt_color_negro txt_sm tip_fuen_roboto_l fw-bold">¿Desea activar este
+                      usuario?</span>
+                    <div
+                      class="container-radiobuttons d-flex flex-row justify-content-center align-items-center align-self-center mt-2">
+                      <label for="opt1_edit"
+                        class="radio d-flex flex-row justify-content-center align-items-center align-self-center m-1">
+                        <input type="radio" name="rdo" id="opt1_edit" class="hidden" [checked]="editIsActive"
+                          (click)="changeActiveUser(true)" />
+                        <span class="label"></span>
+                        <span class="txt_color_negro txt_xs tip_fuen_roboto_l fw-bold">Activarlo</span>
+                      </label>
+                      <label for="opt2_edit"
+                        class="radio d-flex flex-row justify-content-center align-items-center align-self-center m-1">
+                        <input type="radio" name="rdo" id="opt2_edit" class="hidden" [checked]="!editIsActive"
+                          (click)="changeActiveUser(false)" />
+                        <span class="label"></span>
+                        <span class="txt_color_negro txt_xs tip_fuen_roboto_l fw-bold">Desactivarlo</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="d-grid gap-2 d-flex justify-content-center align-items-center p-0">
+                <button type="submit" class="btn btn-primary me-2" (click)="editUser(formEditUser.value)"
+                  [disabled]="!formEditUser.valid" data-bs-dismiss="modal"><span
+                    class="txt_sm tip_fuen_roboto_l fw-bold">Editar</span></button>
                 <button type="button" class="btn btn-outline-cancel" data-bs-dismiss="modal"><span
                     class="txt_sm tip_fuen_roboto_l fw-bold">Cancelar</span></button>
               </div>
@@ -352,17 +525,29 @@
       <div class="modal-body pb-1">
         <div class="row ps-2 pe-2 ps-sm-2 pe-sm-2 ps-md-4 pe-md-4 ps-lg-4 pe-lg-4">
           <div class="col-12 mb-3">
-            <form class="forms-custom change_password_user" autocomplete="nope">
+            <form [formGroup]="formChangePassword" class="forms-custom change_password_user" autocomplete="nope">
               <div class="row">
                 <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
                   <div class="form-group inner-addon left-addon mt-4">
-                    <input type="password" class="form-control" name="cambiar_contrasena" id="cambiar_contrasena"
-                      required data-validation-required-message="Porfavor escriba su contraseña" autocomplete>
+                    <input type="password" class="form-control" formControlName="password" name="cambiar_contrasena"
+                      id="cambiar_contrasena" required data-validation-required-message="Porfavor escriba su contraseña"
+                      autocomplete>
                     <i class="fa icon-icono-contrasena"></i>
                     <span class="form-bar"></span>
                     <label class="float-label m-0" for="cambiar_contrasena"><span
                         class="tip_fuen_roboto_l fw-bold">Contraseña</span></label>
-                    <p class="help-block text-danger"></p>
+                    <p class="help-block text-danger"
+                      *ngIf="(formChangePassword.get('password').value !== null) && formChangePassword.get('password').errors && formChangePassword.get('password').errors.required">
+                      Este campo es requerido</p>
+                    <p class="help-block text-danger"
+                      *ngIf="formChangePassword.errors && formChangePassword.errors.notSame">Las contraseñas no
+                      coinciden</p>
+                    <p class="help-block text-danger"
+                      *ngIf="formChangePassword.get('password').errors && formChangePassword.get('password').errors.maxlength">
+                      La contraseña es demasiado larga</p>
+                    <p class="help-block text-danger"
+                      *ngIf="formChangePassword.get('password').errors && formChangePassword.get('password').errors.minlength">
+                      La contraseña debe ser mayor o igual a 8 caracteres</p>
                     <div class="valid-feedback"></div>
                     <div class="invalid-feedback">
                       <span class="txt_xs tip_fuen_roboto_l">Por favor ingresa tu contraseña</span>
@@ -371,8 +556,8 @@
                 </div>
                 <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
                   <div class="form-group inner-addon left-addon mt-4">
-                    <input type="password" class="form-control" name="confirmar_cambiar_contrasena"
-                      id="confirmar_cambiar_contrasena" required
+                    <input type="password" class="form-control" formControlName="confirmPassword"
+                      name="confirmar_cambiar_contrasena" id="confirmar_cambiar_contrasena" required
                       data-validation-required-message="Porfavor confirme su contraseña" autocomplete>
                     <i class="fa icon-icono-contrasena"></i>
                     <span class="form-bar"></span>
@@ -388,7 +573,8 @@
                 </div>
               </div>
               <div class="d-grid gap-2 d-flex justify-content-center align-items-center p-0">
-                <button type="submit" class="btn btn-primary me-2"><span
+                <button type="submit" class="btn btn-primary me-2" (click)="changePassword(formChangePassword.value)"
+                  [disabled]="!formChangePassword.valid"><span
                     class="txt_sm tip_fuen_roboto_l fw-bold">Cambiar</span></button>
                 <button type="button" class="btn btn-outline-cancel" data-bs-dismiss="modal"><span
                     class="txt_sm tip_fuen_roboto_l fw-bold">Cancelar</span></button>

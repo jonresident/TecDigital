@@ -5,6 +5,7 @@ import { IndicadorUnoComponent } from '../indicadores/indicadorUno/indicador-uno
 import { Subscription } from 'rxjs';
 import { PreloadService } from '../dashboard.service';
 import { EmpresasService } from './empresas.service';
+import Swal from 'sweetalert2';
 
 declare var $: any;
 
@@ -56,47 +57,64 @@ export class EmpresasComponent implements OnInit, OnDestroy {
     });
     this.obtenerDatos();
   }
-  
+
   ngOnDestroy(): void {
     this.serviceSubscription.unsubscribe();
   }
 
   obtenerDatos() {
-    this.serviceSubscription = this.empresasService.getEmpresasBeneficiarias().subscribe((resp: IndicadorUnoDetail) => {
+    this.serviceSubscription = this.empresasService.getEmpresasBeneficiarias().subscribe({
+      next: (resp: any) => {
+        let registro = {};
+        let registros = [];
 
-      let registro = {};
-      let registros = [];
+        for (let i = 0; i < resp.tabla.NombreEmpresa.length; i++) {
+          registro = {
+            NombreEmpresa: resp.tabla.NombreEmpresa[i],
+            Direccion: resp.tabla.Direccion[i],
+            Departamento: resp.tabla.Departamento[i],
+            Telefono: resp.tabla.Telefono[i],
+            CorreoElectronico: resp.tabla.CorreoElectronico[i],
+            NombresRepresentanteLegal: resp.tabla.NombresRepresentanteLegal[i],
+            ApellidosRepresentanteLegal: resp.tabla.ApellidosRepresentanteLegal[i],
+            NombresPersonaEncargadaProceso: resp.tabla.NombresPersonaEncargadaProceso[i],
+            ApellidosPersonaE: resp.tabla.ApellidosPersonaE[i],
+            CorreoElectronicoPersonaEncargadaProceso: resp.tabla.CorreoElectronicoPersonaEncargadaProceso[i],
+            TelefonoPersonaEncargadaProceso: resp.tabla.TelefonoPersonaEncargadaProceso[i],
+            SitioWeb: resp.tabla.SitioWeb[i],
+            categoria: resp.tabla.categoria[i],
+            TamanoEmpresa: resp.tabla.TamanoEmpresa[i],
+            FechaFinDatosBasicos: resp.tabla.FechaFinDatosBasicos[i]
+          }
 
-      for (let i = 0; i < resp.tabla.NombreEmpresa.length; i++) {
-        registro = {
-          NombreEmpresa: resp.tabla.NombreEmpresa[i],
-          Direccion: resp.tabla.Direccion[i],
-          Departamento: resp.tabla.Departamento[i],
-          Telefono: resp.tabla.Telefono[i],
-          CorreoElectronico: resp.tabla.CorreoElectronico[i],
-          NombresRepresentanteLegal: resp.tabla.NombresRepresentanteLegal[i],
-          ApellidosRepresentanteLegal: resp.tabla.ApellidosRepresentanteLegal[i],
-          NombresPersonaEncargadaProceso: resp.tabla.NombresPersonaEncargadaProceso[i],
-          ApellidosPersonaE: resp.tabla.ApellidosPersonaE[i],
-          CorreoElectronicoPersonaEncargadaProceso: resp.tabla.CorreoElectronicoPersonaEncargadaProceso[i],
-          TelefonoPersonaEncargadaProceso: resp.tabla.TelefonoPersonaEncargadaProceso[i],
-          SitioWeb: resp.tabla.SitioWeb[i]
+          registros.push(Object.assign({}, registro));
         }
 
-        registros.push(Object.assign({}, registro));
+        this.datos = registros;
+
+        setTimeout(() => {
+          this.preloadService.cargando$.emit(false);
+        });
+      },
+      error: (e) => {
+        setTimeout(() => {
+          this.preloadService.cargando$.emit(false);
+        });
+        if (e.error && e.error.Error) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: e.error.Error
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Servidor sin respuesta. Intentelo más tarde.'
+          });
+        }
       }
-
-      this.datos = registros;
-
-      setTimeout(() => {
-        this.preloadService.cargando$.emit(false);
-      });
-
-      /* this.preloadService.cargando$.emit(false); */
-
-    })
-    
-
+    });
   }
 
   setItemPerPage(event: any) {

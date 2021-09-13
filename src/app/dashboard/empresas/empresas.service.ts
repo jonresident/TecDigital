@@ -12,13 +12,24 @@ export class EmpresasService {
         private http: HttpClient
     ) { }
 
-    getEmpresasBeneficiarias(): Observable<IndicadorUnoDetail> {
+    /* getEmpresasBeneficiarias(): Observable<IndicadorUnoDetail> {
         let ruta: string = environment.api + environment.apiResultados + environment.apiBeneficiarias;
         let body = 
         {
             "idUser": sessionStorage.getItem('id')
         };
         return this.http.post<IndicadorUnoDetail>(ruta, body);
+    } */
+
+    getEmpresasBeneficiarias() {
+        let ruta: string = environment.api + environment.apiResultados + environment.apiBeneficiarias;
+        let body = 
+        {
+            "idUser": sessionStorage.getItem('id'),
+            "fecha": "2021-09-13",
+            "departamento": "todos"
+        };
+        return this.http.post(ruta, body);
     }
 
 }

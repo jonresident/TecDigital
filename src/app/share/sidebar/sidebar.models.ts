@@ -1,6 +1,7 @@
-export interface PathData {
-    ruta: string;
-    ciclos: Cycle[];
+export interface FilterData {
+    idUser: string;
+    fecha: string;
+    departamento: string;
 }
 
 export interface Cycle {

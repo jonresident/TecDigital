@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, HostListener, OnDestroy } from '@angular/core';
+import { Component, OnInit, Inject, HostListener, OnDestroy, RendererType2 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { IndicadoresService } from '../indicadores.service';
 import { IndicadorUnoDetail, Beneficiario_departamento } from '../indicadores.models';
@@ -35,6 +35,17 @@ export class IndicadorUnoComponent implements OnInit, OnDestroy {
   fecha: Date = new Date();
   indicadorSubscription = new Subscription();
   filterSubscription = new Subscription();
+  varChartTwoQuestionOne: any;
+  varChartQuestionTwo: any;
+  varChartTwoQuestionTwo: any;
+  varChartQuestionThree: any;
+  varChartTwoQuestionThree: any;
+
+  bodyPeticion = {
+    "idUser": sessionStorage.getItem('id'),
+    "fecha": new Date().toISOString().substr(0, 10),
+    "departamento": "todos"
+  };
 
   subs = new Subscription();
 
@@ -118,7 +129,7 @@ export class IndicadorUnoComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.preloadService.cargando$.emit(true);
     });
-    this.observeCharts();
+    this.observeCharts(this.bodyPeticion);
     this.loadFilters();
   }
 
@@ -128,8 +139,13 @@ export class IndicadorUnoComponent implements OnInit, OnDestroy {
   }
 
   loadFilters() {
-    this.filterSubscription = this.sidebarService.dataUno$.subscribe(resp => {
-      this.data = resp;
+    this.filterSubscription = this.sidebarService.filterData$.subscribe(resp => {
+      setTimeout(() => {
+        this.preloadService.cargando$.emit(true);
+      });
+      this.observeCharts(resp);
+
+      /* this.data = resp;
       this.sidebarService.dataUno = resp;
 
       let diagnostico: number = this.data.faseDiagnostico;
@@ -165,7 +181,7 @@ export class IndicadorUnoComponent implements OnInit, OnDestroy {
       setTimeout(() => {
         this.preloadService.cargando$.emit(false);
       });
-      this.indicadorSubscription.unsubscribe();
+      this.indicadorSubscription.unsubscribe(); */
     }
     );
   }
@@ -265,11 +281,11 @@ export class IndicadorUnoComponent implements OnInit, OnDestroy {
     ];
   }
 
-  observeCharts() {
-    this.indicadorSubscription = this.indicadorService.getBeneficiarias().subscribe({
+  observeCharts(body) {
+
+    this.indicadorSubscription = this.indicadorService.getBeneficiarias(body).subscribe({
       next: (resp: any) => {
         this.data = resp;
-        this.sidebarService.dataUno = resp;
 
         let diagnostico: number = this.data.faseDiagnostico;
         let mapeo: number = this.data.faseMapeo;
@@ -293,13 +309,12 @@ export class IndicadorUnoComponent implements OnInit, OnDestroy {
 
         this.definirTablas(beneficiario_departamento, arrNivelBasico, arrNivelAvanzado);
 
-          
         this.initVivus();
         this.initializerOdometer(diagnostico, mapeo, evaluacion, consolidacion, despegue);
         this.chartQuestionOne(beneficiario_departamento);
         this.chartQuestionTwo(arrNivelBasico);
         this.chartQuestionThree(arrNivelAvanzado);
-        
+
         setTimeout(() => {
           this.preloadService.cargando$.emit(false);
         });
@@ -384,13 +399,28 @@ export class IndicadorUnoComponent implements OnInit, OnDestroy {
   }
 
   chartQuestionOne(beneficiario_departamento: any) {
+    let maxScl: number = 0;
+    let minScl: number = 1;
+
+    if (beneficiario_departamento.Cantidad.length === 1) {
+      minScl = 0;
+      maxScl = Math.max(...beneficiario_departamento.Cantidad);
+    } else if (beneficiario_departamento.Cantidad.length > 1) {
+      minScl = Math.min(...beneficiario_departamento.Cantidad);
+      maxScl = Math.max(...beneficiario_departamento.Cantidad);
+    }
 
     let dataDeptos = this.obtenerDatosDepartamento(beneficiario_departamento);
 
+    if (this.varChartTwoQuestionOne != null && this.varChartTwoQuestionOne != "" && this.varChartTwoQuestionOne != undefined) {
+      this.varChartTwoQuestionOne.dispose();
+    }
+
     let chartQuestionOne = echarts.init(document.getElementById('chart-question-one'));
-    let chartTwoQuestionOne = echarts.init(document.getElementById('chart-two-question-one'));
+    this.varChartTwoQuestionOne = echarts.init(document.getElementById('chart-two-question-one'));
     let optionChartOne;
     let optionChartTwo;
+
 
     $.get('../../../../assets/data/COLOMBIADEP.json', function (colombiaJson) {
       chartQuestionOne.hideLoading();
@@ -446,8 +476,8 @@ export class IndicadorUnoComponent implements OnInit, OnDestroy {
           right: -5,
           /* max: Math.max(...beneficiario_departamento.Cantidad),
           min: Math.min(...beneficiario_departamento.Cantidad), */
-          max: 50,
-          min: 0,
+          max: maxScl,
+          min: minScl,
           text: ['Maximo', 'Minimo'],
           textStyle: {
             color: '#212121',
@@ -576,8 +606,10 @@ export class IndicadorUnoComponent implements OnInit, OnDestroy {
       visualMap: {
         top: 'middle',
         right: -5,
-        min: Math.min(...beneficiario_departamento.Cantidad),
-        max: Math.max(...beneficiario_departamento.Cantidad),
+        /* min: Math.min(...beneficiario_departamento.Cantidad),
+        max: Math.max(...beneficiario_departamento.Cantidad), */
+        min: maxScl,
+        max: minScl,
         text: ['Maximo', 'Minimo'],
         inRange: {
           color: ['#9AC331', '#FFDA00', 'rgb(239, 36, 105)']
@@ -619,7 +651,7 @@ export class IndicadorUnoComponent implements OnInit, OnDestroy {
     };
 
     optionChartOne && chartQuestionOne.setOption(optionChartOne);
-    optionChartTwo && chartTwoQuestionOne.setOption(optionChartTwo);
+    optionChartTwo && this.varChartTwoQuestionOne.setOption(optionChartTwo);
 
     $(window).on('resize', function () {
       if (chartQuestionOne != null && chartQuestionOne != undefined) {
@@ -628,17 +660,28 @@ export class IndicadorUnoComponent implements OnInit, OnDestroy {
     });
 
     $(window).on('resize', function () {
-      if (chartTwoQuestionOne != null && chartTwoQuestionOne != undefined) {
-        chartTwoQuestionOne.resize();
+      if (this.varChartTwoQuestionOne != null && this.varChartTwoQuestionOne != undefined) {
+        this.varChartTwoQuestionOne.resize();
       }
     });
+
+
+    /* chartTwoQuestionOne.dispose();
+    chartQuestionOne.dispose(); */
 
   }
 
   chartQuestionTwo(arrNivelBasico: any) {
+    if (this.varChartQuestionTwo != null && this.varChartQuestionTwo != "" && this.varChartQuestionTwo != undefined) {
+      this.varChartQuestionTwo.dispose();
+    }
 
-    let chartQuestionTwo = echarts.init(document.getElementById('chart-question-two'));
-    let chartTwoQuestionTwo = echarts.init(document.getElementById('chart-two-question-two'));
+    if (this.varChartTwoQuestionTwo != null && this.varChartTwoQuestionTwo != "" && this.varChartTwoQuestionTwo != undefined) {
+      this.varChartTwoQuestionTwo.dispose();
+    }
+
+    this.varChartQuestionTwo = echarts.init(document.getElementById('chart-question-two'));
+    this.varChartTwoQuestionTwo = echarts.init(document.getElementById('chart-two-question-two'));
     let optionChartOne;
     let optionChartTwo;
 
@@ -875,18 +918,18 @@ export class IndicadorUnoComponent implements OnInit, OnDestroy {
       }
     };
 
-    optionChartOne && chartQuestionTwo.setOption(optionChartOne);
-    optionChartTwo && chartTwoQuestionTwo.setOption(optionChartTwo);
+    optionChartOne && this.varChartQuestionTwo.setOption(optionChartOne);
+    optionChartTwo && this.varChartTwoQuestionTwo.setOption(optionChartTwo);
 
     $(window).on('resize', function () {
-      if (chartQuestionTwo != null && chartQuestionTwo != undefined) {
-        chartQuestionTwo.resize();
+      if (this.varChartQuestionTwo != null && this.varChartQuestionTwo != undefined) {
+        this.varChartQuestionTwo.resize();
       }
     });
 
     $(window).on('resize', function () {
-      if (chartTwoQuestionTwo != null && chartTwoQuestionTwo != undefined) {
-        chartTwoQuestionTwo.resize();
+      if (this.varChartTwoQuestionTwo != null && this.varChartTwoQuestionTwo != undefined) {
+        this.varChartTwoQuestionTwo.resize();
       }
     });
 
@@ -894,8 +937,15 @@ export class IndicadorUnoComponent implements OnInit, OnDestroy {
 
   chartQuestionThree(arrNivelAvanzado: any) {
 
-    let chartQuestionThree = echarts.init(document.getElementById('chart-question-three'));
-    let chartTwoQuestionThree = echarts.init(document.getElementById('chart-two-question-three'));
+    if (this.varChartQuestionThree != null && this.varChartQuestionThree != "" && this.varChartQuestionThree != undefined){
+      this.varChartQuestionThree.dispose();
+  }
+  if (this.varChartTwoQuestionThree != null && this.varChartTwoQuestionThree != "" && this.varChartTwoQuestionThree != undefined){
+    this.varChartTwoQuestionThree.dispose();
+}
+
+    this.varChartQuestionThree = echarts.init(document.getElementById('chart-question-three'));
+    this.varChartTwoQuestionThree = echarts.init(document.getElementById('chart-two-question-three'));
     let optionChartOne;
     let optionChartTwo;
 
@@ -1132,18 +1182,18 @@ export class IndicadorUnoComponent implements OnInit, OnDestroy {
       }
     };
 
-    optionChartOne && chartQuestionThree.setOption(optionChartOne);
-    optionChartTwo && chartTwoQuestionThree.setOption(optionChartTwo);
+    optionChartOne && this.varChartQuestionThree.setOption(optionChartOne);
+    optionChartTwo && this.varChartTwoQuestionThree.setOption(optionChartTwo);
 
     $(window).on('resize', function () {
-      if (chartQuestionThree != null && chartQuestionThree != undefined) {
-        chartQuestionThree.resize();
+      if (this.varChartQuestionThree != null && this.varChartQuestionThree != undefined) {
+        this.varChartQuestionThree.resize();
       }
     });
 
     $(window).on('resize', function () {
-      if (chartTwoQuestionThree != null && chartTwoQuestionThree != undefined) {
-        chartTwoQuestionThree.resize();
+      if (this.varChartTwoQuestionThree != null && this.varChartTwoQuestionThree != undefined) {
+        this.varChartTwoQuestionThree.resize();
       }
     });
 

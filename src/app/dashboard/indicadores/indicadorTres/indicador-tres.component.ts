@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, HostListener } from '@angular/core';
+import { Component, OnInit, Inject, HostListener, OnDestroy } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Chart } from "chart.js";
 import * as echarts from 'echarts';
@@ -16,6 +16,7 @@ import { PreloadService } from '../../dashboard.service';
 import { Subscription } from 'rxjs';
 import { IndicadoresService } from '../indicadores.service';
 import { IndicadorTresDetail } from '../indicadores.models';
+import Swal from 'sweetalert2';
 declare var $: any;
 declare const initSidebar: any;
 declare const initFlip: any;
@@ -26,13 +27,13 @@ declare const initFlip: any;
   styles: [
   ]
 })
-export class IndicadorTresComponent implements OnInit {
+export class IndicadorTresComponent implements OnInit, OnDestroy {
 
   chart: any;
   data: IndicadorTresDetail;
   indicadorSubscription = new Subscription();
 
-  fecha: Date;
+  fecha: Date = new Date();
 
   /* datosIndicadorTres = {
     Total_contactados: 0,
@@ -98,8 +99,11 @@ export class IndicadorTresComponent implements OnInit {
       this.preloadService.cargando$.emit(true);
     });
     this.observeCharts();
+  }
 
-
+  ngOnDestroy(): void {
+    this.indicadorSubscription.unsubscribe();
+    /* this.filterSubscription.unsubscribe(); */
   }
 
   observeCharts() {
@@ -131,10 +135,25 @@ export class IndicadorTresComponent implements OnInit {
           this.preloadService.cargando$.emit(false);
         });
       },
-      error: (e) => { }
+      error: (e) => {
+        setTimeout(() => {
+          this.preloadService.cargando$.emit(false);
+        });
+        if (e.error && e.error.Error) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: e.error.Error
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Servidor sin respuesta. Intentelo más tarde.'
+          });
+        }
+      }
     });
-
-
   }
 
 

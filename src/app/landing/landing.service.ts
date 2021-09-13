@@ -11,16 +11,16 @@ export class LandingService {
     private http: HttpClient
   ) { }
 
-  login(username: string, password: string) {
+  /* login(username: string, password: string) {
     return this.http.post(environment.api + environment.apiLogin, { username, password }).toPromise();
-  }
+  } */
 
   recoverPassword(email: string) {
     return this.http.post(environment.api + environment.apiLogin + environment.apiCambiarPassword, {email}).toPromise();
   }
 
-  /* login(username: string, password: string) {
+  login(username: string, password: string) {
     return this.http.post(environment.api + environment.apiLogin, { username, password });
   }
- */
+
 }

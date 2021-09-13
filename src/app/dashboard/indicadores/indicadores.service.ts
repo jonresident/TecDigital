@@ -20,12 +20,8 @@ export class IndicadoresService {
         return this.http.get(environment.api + environment.apiResultados + environment.apiOferentes);
     } */
 
-    getBeneficiarias(){
+    getBeneficiarias(body){
         let ruta: string = environment.api + environment.apiResultados + environment.apiBeneficiarias;
-        let body = 
-        {
-            "idUser": sessionStorage.getItem('id')
-        };
         return this.http.post(ruta, body);
     }
 

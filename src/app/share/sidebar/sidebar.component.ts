@@ -47,7 +47,8 @@ export class SidebarComponent implements OnInit {
   }
 
   aplicarFiltros() {
-    let datosBeneficiarios: IndicadorUnoDetail = this.sidebarService.dataUno;
+
+    /* let datosBeneficiarios: IndicadorUnoDetail = this.sidebarService.dataUno;
 
     let datosFiltrados: IndicadorUnoDetail = {
       faseDiagnostico : datosBeneficiarios.faseDiagnostico,
@@ -81,9 +82,15 @@ export class SidebarComponent implements OnInit {
         TamanoEmpresa : ["info 1"],
         FechaFinDatosBasicos: [new Date("01-01-2020")]
       }
-    }
+    } */
 
-    /* this.sidebarService.dataUno$.emit(empresas); */
+    let body = {
+      "idUser": sessionStorage.getItem('id'),
+      "fecha": this.dateFinFilter !== null ? this.dateFinFilter : new Date().toISOString().substr(0,10),
+      "departamento": this.deptoFilter !== null ? this.deptoFilter : "todos"
+    };
+
+    this.sidebarService.filterData$.emit(body);
   }
 
 }

@@ -16,6 +16,13 @@ export interface BodyActualizarUsuario {
     is_active: boolean
 }
 
+export interface BodyCambiarPassword {
+    id: string;
+    username: string;
+    password1: string;
+    password2: string;
+}
+
 export interface Usuario {
     id: string;
     first_name: string;
