@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IndicadorUnoDetail, IndicadorDosDetail } from './indicadores.models';
@@ -8,6 +8,8 @@ import { IndicadorUnoDetail, IndicadorDosDetail } from './indicadores.models';
     providedIn: 'root'
 })
 export class IndicadoresService {
+    cambioIndicador$ = new EventEmitter<boolean>();
+
     constructor(
         private http: HttpClient
     ) { }
@@ -25,12 +27,8 @@ export class IndicadoresService {
         return this.http.post(ruta, body);
     }
 
-    getOferentes(){
+    getOferentes(body){
         let ruta: string = environment.api + environment.apiResultados + environment.apiOferentes;
-        let body = 
-        {
-            "idUser": sessionStorage.getItem('id')
-        };
         return this.http.post(ruta, body);
     }
 
@@ -38,5 +36,10 @@ export class IndicadoresService {
         let ruta: string = environment.api + environment.apiResultados + environment.apiLeads;
         return this.http.get(ruta);
     }
+
+    /* getMapa() {
+        let ruta = '../../../assets/data/COLOMBIADEP.json';
+        return this.http.get(ruta);
+    } */
 
 }

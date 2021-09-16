@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { IndicadorUnoDetail } from 'src/app/dashboard/indicadores/indicadores.models';
+import { IndicadoresService } from 'src/app/dashboard/indicadores/indicadores.service';
 import { IndicadorUnoComponent } from 'src/app/dashboard/indicadores/indicadorUno/indicador-uno.component';
+import { FilterDataDos, FilterDataTres, FilterDataUno } from './sidebar.models';
 import { SidebarService } from './sidebar.service';
 declare var $: any;
 
@@ -10,22 +13,29 @@ declare var $: any;
   styles: [
   ]
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, OnDestroy {
 
   deptoFilter = null;
   dateInitFilter = null;
   dateFinFilter = null;
   aFiltrosSeleccionados = [];
+  indicadorSubscription = new Subscription();
 
   aArray2 = [
     'ANTIOQUIA', 'ATLANTICO', 'SANTAFE DE BOGOTA D.C', 'BOLIVAR', 'BOYACA', 'CALDAS', 'CAQUETA', 'CAUCA', 'CESAR', 'CORDOBA', 'CUNDINAMARCA', 'CHOCO', 'HUILA', 'LA GUAJIRA', 'MAGDALENA', 'META', 'NARIÑO', 'NORTE DE SANTANDER', 'QUINDIO', 'RISARALDA', 'SANTANDER', 'SUCRE', 'TOLIMA', 'VALLE DEL CAUCA', 'ARAUCA', 'CASANARE', 'PUTUMAYO', 'AMAZONAS', 'GUAINIA', 'GUAVIARE', 'VAUPES', 'VICHADA', 'ARCHIPIELAGO DE SAN ANDRES PROVIDENCIA Y SANTA CATALINA'
   ];
 
   constructor(
+    private indicadoresService: IndicadoresService,
     private sidebarService: SidebarService
   ) { }
 
   ngOnInit(): void {
+    this.reiniciarFiltros();
+  }
+
+  ngOnDestroy(): void {
+    this.indicadorSubscription.unsubscribe();
   }
 
 
@@ -44,53 +54,54 @@ export class SidebarComponent implements OnInit {
       return dropdownName !== value.dropdownName;
     });
     this[dropdownName] = null;
+    this.aplicarFiltros();
+  }
+
+  reiniciarFiltros() {
+    this.indicadorSubscription = this.indicadoresService.cambioIndicador$.subscribe({
+      next: (resp) => {
+        if (resp) {
+          this.aFiltrosSeleccionados = [];
+          this.deptoFilter = null;
+          this.dateFinFilter = null;
+        }
+      }
+    });
   }
 
   aplicarFiltros() {
+    let depto: string;
+    if (this.deptoFilter === "SANTAFE DE BOGOTA D.C") {
+      depto ="BOGOTÁ, D. C.";
+    }
+    else {
+      depto = this.deptoFilter;
+    }
 
-    /* let datosBeneficiarios: IndicadorUnoDetail = this.sidebarService.dataUno;
+    if (this.sidebarService.activoUno){
+      let body: FilterDataUno = {
+        "idUser": sessionStorage.getItem('id'),
+        "fecha": this.dateFinFilter !== null ? this.dateFinFilter : new Date().toISOString().substr(0,10),
+        "departamento": depto !== null ? depto : "todos"
+      };
+      this.sidebarService.filterDataUno$.emit(body);
+    } else if (this.sidebarService.activoDos) {
+      let body: FilterDataDos = {
+        "idUser": sessionStorage.getItem('id'),
+        "fecha": this.dateFinFilter !== null ? this.dateFinFilter : new Date().toISOString().substr(0,10),
+        "departamento": depto !== null ? depto : "todos"
+      };
+      /* this.sidebarService.filterDataDos$.emit(body); */
 
-    let datosFiltrados: IndicadorUnoDetail = {
-      faseDiagnostico : datosBeneficiarios.faseDiagnostico,
-      faseMapeo : datosBeneficiarios.faseMapeo,
-      faseEvaluacion : datosBeneficiarios.faseEvaluacion,
-      faseConsolidacion : datosBeneficiarios.faseConsolidacion,
-      faseDespegue: datosBeneficiarios.faseDespegue,
-      nivel_1_basicas: datosBeneficiarios.nivel_1_basicas,
-      nivel_2_basicas: datosBeneficiarios.nivel_1_basicas,
-      nivel_3_basicas: datosBeneficiarios.nivel_3_basicas,
-      nivel_4_basicas: datosBeneficiarios.nivel_4_basicas,
-      nivel_1_avanzadas: datosBeneficiarios.nivel_1_avanzadas,
-      nivel_2_avanzadas: datosBeneficiarios.nivel_2_avanzadas,
-      nivel_3_avanzadas: datosBeneficiarios.nivel_3_avanzadas,
-      nivel_4_avanzadas: datosBeneficiarios.nivel_4_avanzadas,
-      beneficiario_departamento: this.deptoFilter !== null ? null : datosBeneficiarios.beneficiario_departamento,
-      tabla : {
-        NombreEmpresa: ["Emp1"],
-        Direccion: ["dir1"],
-        Departamento : ["info 1"],
-        Telefono : ["info 1"],
-        CorreoElectronico : ["info 1"],
-        NombresRepresentanteLegal : ["info 1"],
-        ApellidosRepresentanteLegal : ["info 1"],
-        NombresPersonaEncargadaProceso : ["info 1"],
-        ApellidosPersonaE : ["info 1"],
-        CorreoElectronicoPersonaEncargadaProceso : ["info 1"],
-        TelefonoPersonaEncargadaProceso : ["info 1"],
-        SitioWeb : ["info 1"],
-        categoria : ["info 1"],
-        TamanoEmpresa : ["info 1"],
-        FechaFinDatosBasicos: [new Date("01-01-2020")]
-      }
-    } */
-
-    let body = {
-      "idUser": sessionStorage.getItem('id'),
-      "fecha": this.dateFinFilter !== null ? this.dateFinFilter : new Date().toISOString().substr(0,10),
-      "departamento": this.deptoFilter !== null ? this.deptoFilter : "todos"
-    };
-
-    this.sidebarService.filterData$.emit(body);
+    } else if (this.sidebarService.activoTres) {
+      let body: FilterDataTres = {
+        "idUser": sessionStorage.getItem('id'),
+        "fecha": this.dateFinFilter !== null ? this.dateFinFilter : new Date().toISOString().substr(0,10),
+        "departamento": depto !== null ? depto : "todos"
+      };
+      /* this.sidebarService.filterDataTres$.emit(body); */
+    }
+        
   }
 
 }

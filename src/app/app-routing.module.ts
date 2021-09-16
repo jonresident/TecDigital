@@ -17,10 +17,10 @@ import { LoginGuard } from './guards/login.guard';
 
 const routes: Routes = [
   {path: 'landing', component: LandingComponent, canActivate: [LoginGuard]},
-  {path: 'recoverpassword', component: RecoverpasswordComponent},
-  {path: 'changepassword', component: ChangepasswordComponent},
+  {path: 'recoverpassword', component: RecoverpasswordComponent, canActivate: [LoginGuard]},
+  {path: 'changepassword', component: ChangepasswordComponent, canActivate: [LoginGuard]},
   {path: '', redirectTo: '/landing', pathMatch: 'full'},
-  {path: '**', component: LandingComponent},
+  {path: '**', component: LandingComponent, canActivate: [LoginGuard]},
   {path: 'login', component: LandingComponent, canActivate: [LoginGuard]},
   {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]}
 ];

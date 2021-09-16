@@ -17,6 +17,7 @@ import { Subscription } from 'rxjs';
 import { IndicadoresService } from '../indicadores.service';
 import { IndicadorTresDetail } from '../indicadores.models';
 import Swal from 'sweetalert2';
+import { SidebarService } from 'src/app/share/sidebar/sidebar.service';
 declare var $: any;
 declare const initSidebar: any;
 declare const initFlip: any;
@@ -49,6 +50,7 @@ export class IndicadorTresComponent implements OnInit, OnDestroy {
   Vivus: any;
 
   constructor(
+    private sidebarService: SidebarService,
     private indicadorService: IndicadoresService,
     private preloadService: PreloadService,
     @Inject(DOCUMENT) private document: Document) { }
@@ -99,11 +101,14 @@ export class IndicadorTresComponent implements OnInit, OnDestroy {
       this.preloadService.cargando$.emit(true);
     });
     this.observeCharts();
+    this.sidebarService.activoTres = true;
+    this.indicadorService.cambioIndicador$.emit(true);
   }
 
   ngOnDestroy(): void {
     this.indicadorSubscription.unsubscribe();
     /* this.filterSubscription.unsubscribe(); */
+    this.sidebarService.activoTres = false;
   }
 
   observeCharts() {

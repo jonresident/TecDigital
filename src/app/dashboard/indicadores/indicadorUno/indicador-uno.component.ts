@@ -33,13 +33,17 @@ export class IndicadorUnoComponent implements OnInit, OnDestroy {
 
   data: IndicadorUnoDetail;
   fecha: Date = new Date();
+  hora: Date = new Date();
   indicadorSubscription = new Subscription();
   filterSubscription = new Subscription();
+  varChartQuestionOne: any;
   varChartTwoQuestionOne: any;
   varChartQuestionTwo: any;
   varChartTwoQuestionTwo: any;
   varChartQuestionThree: any;
   varChartTwoQuestionThree: any;
+
+  ajaxQuery: any = null;
 
   bodyPeticion = {
     "idUser": sessionStorage.getItem('id'),
@@ -131,57 +135,39 @@ export class IndicadorUnoComponent implements OnInit, OnDestroy {
     });
     this.observeCharts(this.bodyPeticion);
     this.loadFilters();
+    this.sidebarService.activoUno = true;
+    this.indicadorService.cambioIndicador$.emit(true);
   }
 
   ngOnDestroy(): void {
     this.indicadorSubscription.unsubscribe();
     this.filterSubscription.unsubscribe();
+    this.sidebarService.activoUno = false;
   }
 
   loadFilters() {
-    this.filterSubscription = this.sidebarService.filterData$.subscribe(resp => {
+    this.filterSubscription = this.sidebarService.filterDataUno$.subscribe(resp => {
       setTimeout(() => {
         this.preloadService.cargando$.emit(true);
       });
       this.observeCharts(resp);
 
-      /* this.data = resp;
-      this.sidebarService.dataUno = resp;
+      let date: Date = new Date(resp.fecha);
+      date.setDate(date.getDate() + 1);
 
-      let diagnostico: number = this.data.faseDiagnostico;
-      let mapeo: number = this.data.faseMapeo;
-      let evaluacion: number = this.data.faseEvaluacion;
-      let consolidacion: number = this.data.faseConsolidacion;
-      let despegue: number = this.data.faseDespegue;
+      let diaSis = date.getDay();
+      let mesSis = date.getMonth();
+      let yearSis = date.getFullYear();
 
-      let beneficiario_departamento = this.data.beneficiario_departamento;
+      let auxDate = new Date();
+      let diaAc = auxDate.getDay();
+      let mesAc = auxDate.getMonth();
+      let yearAc = auxDate.getFullYear();
 
-      let arrNivelBasico: number[] = [
-        this.data.nivel_1_basicas,
-        this.data.nivel_2_basicas,
-        this.data.nivel_3_basicas,
-        this.data.nivel_4_basicas];
+      let hour: Date = (diaSis !== diaAc || mesSis !== mesAc || yearSis !== yearAc) ? null : new Date();
 
-      let arrNivelAvanzado: number[] = [
-        this.data.nivel_1_avanzadas,
-        this.data.nivel_2_avanzadas,
-        this.data.nivel_3_avanzadas,
-        this.data.nivel_4_avanzadas];
-
-      this.definirTablas(beneficiario_departamento, arrNivelBasico, arrNivelAvanzado);
-
-      this.initVivus();
-      this.initializerOdometer(diagnostico, mapeo, evaluacion, consolidacion, despegue);
-      this.chartQuestionOne(beneficiario_departamento);
-      this.chartQuestionTwo(arrNivelBasico);
-      this.chartQuestionThree(arrNivelAvanzado);
-
-
-
-      setTimeout(() => {
-        this.preloadService.cargando$.emit(false);
-      });
-      this.indicadorSubscription.unsubscribe(); */
+      this.fecha = date;
+      this.hora = hour;
     }
     );
   }
@@ -416,14 +402,22 @@ export class IndicadorUnoComponent implements OnInit, OnDestroy {
       this.varChartTwoQuestionOne.dispose();
     }
 
-    let chartQuestionOne = echarts.init(document.getElementById('chart-question-one'));
+    //this.varChartQuestionOne = echarts.init(document.getElementById('chart-question-one'));
     this.varChartTwoQuestionOne = echarts.init(document.getElementById('chart-two-question-one'));
     let optionChartOne;
     let optionChartTwo;
 
+    if (this.ajaxQuery !== null) {
+      this.ajaxQuery.always(function(){
+        this.varChartQuestionOne.dispose();
+      });
+      this.ajaxQuery = null;
+    }
 
-    $.get('../../../../assets/data/COLOMBIADEP.json', function (colombiaJson) {
-      chartQuestionOne.hideLoading();
+    this.ajaxQuery = $.get('../../../../assets/data/COLOMBIADEP.json', function (colombiaJson) {
+
+      this.varChartQuestionOne = echarts.init(document.getElementById('chart-question-one'));
+      this.varChartQuestionOne.hideLoading();
       echarts.registerMap('COLOMBIA_DEP', colombiaJson, {});
       optionChartOne = {
         tooltip: {
@@ -491,6 +485,7 @@ export class IndicadorUnoComponent implements OnInit, OnDestroy {
         },
         series: [
           {
+            name: 'Departamento',
             type: 'map',
             roam: true,
             map: 'COLOMBIA_DEP',
@@ -547,8 +542,15 @@ export class IndicadorUnoComponent implements OnInit, OnDestroy {
           return idx * 5;
         }
       };
-      optionChartOne && chartQuestionOne.setOption(optionChartOne);
-    });
+      optionChartOne && this.varChartQuestionOne.setOption(optionChartOne);
+    })/* .done(function() {
+      if (this.varChartQuestionOne != null && this.varChartQuestionOne != "" && this.varChartQuestionOne != undefined) {
+        this.varChartQuestionOne.dispose();
+      }
+    }) */;
+
+    
+
 
     optionChartTwo = {
       tooltip: {
@@ -650,12 +652,12 @@ export class IndicadorUnoComponent implements OnInit, OnDestroy {
       }
     };
 
-    optionChartOne && chartQuestionOne.setOption(optionChartOne);
+    optionChartOne && this.varChartQuestionOne.setOption(optionChartOne);
     optionChartTwo && this.varChartTwoQuestionOne.setOption(optionChartTwo);
 
     $(window).on('resize', function () {
-      if (chartQuestionOne != null && chartQuestionOne != undefined) {
-        chartQuestionOne.resize();
+      if (this.varChartQuestionOne != null && this.varChartQuestionOne != undefined) {
+        this.varChartQuestionOne.resize();
       }
     });
 
@@ -714,7 +716,7 @@ export class IndicadorUnoComponent implements OnInit, OnDestroy {
               for (var p = 0; p < rowNumber; p++) {
                 var tempStr = "";
                 if (p == rowNumber - 1) {
-                  tempStr = (params.length > 6 ? (params.slice(0, 6) + "...") : '');
+                  tempStr = (params.length > 7 ? (params.slice(0, 7) + "") : '');
                 } else { }
                 newParamsName += tempStr;
               }
@@ -862,7 +864,7 @@ export class IndicadorUnoComponent implements OnInit, OnDestroy {
                   for (var p = 0; p < rowNumber; p++) {
                     var tempStr = "";
                     if (p == rowNumber - 1) {
-                      tempStr = (d.name.length > 6 ? (d.name.slice(0, 6) + "...") : '');
+                      tempStr = (d.name.length > 7 ? (d.name.slice(0, 7) + "") : '');
                     } else { }
                     newParamsName += tempStr;
                   }
@@ -937,12 +939,12 @@ export class IndicadorUnoComponent implements OnInit, OnDestroy {
 
   chartQuestionThree(arrNivelAvanzado: any) {
 
-    if (this.varChartQuestionThree != null && this.varChartQuestionThree != "" && this.varChartQuestionThree != undefined){
+    if (this.varChartQuestionThree != null && this.varChartQuestionThree != "" && this.varChartQuestionThree != undefined) {
       this.varChartQuestionThree.dispose();
-  }
-  if (this.varChartTwoQuestionThree != null && this.varChartTwoQuestionThree != "" && this.varChartTwoQuestionThree != undefined){
-    this.varChartTwoQuestionThree.dispose();
-}
+    }
+    if (this.varChartTwoQuestionThree != null && this.varChartTwoQuestionThree != "" && this.varChartTwoQuestionThree != undefined) {
+      this.varChartTwoQuestionThree.dispose();
+    }
 
     this.varChartQuestionThree = echarts.init(document.getElementById('chart-question-three'));
     this.varChartTwoQuestionThree = echarts.init(document.getElementById('chart-two-question-three'));
@@ -978,7 +980,7 @@ export class IndicadorUnoComponent implements OnInit, OnDestroy {
               for (var p = 0; p < rowNumber; p++) {
                 var tempStr = "";
                 if (p == rowNumber - 1) {
-                  tempStr = (params.length > 6 ? (params.slice(0, 6) + "...") : '');
+                  tempStr = (params.length > 7 ? (params.slice(0, 7) + "") : '');
                 } else { }
                 newParamsName += tempStr;
               }
@@ -1126,7 +1128,7 @@ export class IndicadorUnoComponent implements OnInit, OnDestroy {
                   for (var p = 0; p < rowNumber; p++) {
                     var tempStr = "";
                     if (p == rowNumber - 1) {
-                      tempStr = (d.name.length > 6 ? (d.name.slice(0, 6) + "...") : '');
+                      tempStr = (d.name.length > 7 ? (d.name.slice(0, 7) + "") : '');
                     } else { }
                     newParamsName += tempStr;
                   }

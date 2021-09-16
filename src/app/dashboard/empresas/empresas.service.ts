@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
+import { number } from 'echarts';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IndicadorUnoDetail } from '../indicadores/indicadores.models';
@@ -8,6 +9,10 @@ import { IndicadorUnoDetail } from '../indicadores/indicadores.models';
     providedIn: 'root'
 })
 export class EmpresasService {
+
+    numeroEmpresas$ = new EventEmitter<number>();
+    activo: boolean = false;
+
     constructor(
         private http: HttpClient
     ) { }
@@ -31,5 +36,7 @@ export class EmpresasService {
         };
         return this.http.post(ruta, body);
     }
+
+
 
 }

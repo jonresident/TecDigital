@@ -20,9 +20,12 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   changePassSubscription = new Subscription();
   editSubscription = new Subscription();
   createSubscription = new Subscription();
+  cantRegistrosSubscripcion = new Subscription();
   usuarios: any = [];
   editIsActive: boolean = true;
   newIsActive: boolean = true;
+
+  cantRegistros: number = 0;
 
   formChangePassword: FormGroup;
   formEditUser: FormGroup;
@@ -76,10 +79,15 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    setTimeout(() => {
+      this.preloadService.cargando$.emit(true);
+    });
     this.obtenerDatos();
     this.formChangePasswordInit();
     this.formEditUserInit(null, null, null, null);
     this.formCreateUserInit();
+    this.changeCantRegistros();
+    this.usuariosService.activo = true;
   }
 
   ngOnDestroy(): void {
@@ -87,6 +95,8 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     this.changePassSubscription.unsubscribe();
     this.editSubscription.unsubscribe();
     this.createSubscription.unsubscribe();
+    this.cantRegistrosSubscripcion.unsubscribe();
+    this.usuariosService.activo = false;
   }
 
 
@@ -363,6 +373,21 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   validateEmail: ValidatorFn = (group: AbstractControl): ValidationErrors | null => {
     const email = group.get('email').value;
     return validateEmailFn(email) ? null : { failEmail: true };
+  }
+
+  changeCantRegistros() {
+    this.cantRegistrosSubscripcion = this.usuariosService.numeroUsuarios$.subscribe({
+      next: (resp: number) => {
+        this.cantRegistros = resp;
+      },
+      error: (e) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: "Ocurrio un error inesperado cargando la cantidad de registros al filtrar. comuniquese con soporte técnico"
+        });
+      }
+    });
   }
 
 }

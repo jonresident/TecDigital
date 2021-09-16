@@ -17,6 +17,7 @@ import * as Odometer from 'odometer';
 import { PreloadService } from '../../dashboard.service';
 import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
+import { SidebarService } from 'src/app/share/sidebar/sidebar.service';
 declare var $: any;
 declare const initSidebar: any;
 declare const initFlip: any;
@@ -30,8 +31,14 @@ declare const initFlip: any;
 export class IndicadorDosComponent implements OnInit, OnDestroy {
 
   indicadorSubscription = new Subscription();
+  filterSubscription = new Subscription();
   data: IndicadorDosDetail;
   fecha: Date = new Date();
+  hora: Date = new Date();
+
+  bodyPeticion = {
+    "idUser": sessionStorage.getItem('id')
+  };
 
 
   chart: any;
@@ -44,6 +51,7 @@ export class IndicadorDosComponent implements OnInit, OnDestroy {
   Vivus: any;
 
   constructor(
+    private sidebarService: SidebarService,
     private preloadService: PreloadService,
     private indicadorService: IndicadoresService,
     @Inject(DOCUMENT) private document: Document) { }
@@ -93,13 +101,45 @@ export class IndicadorDosComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.preloadService.cargando$.emit(true);
     });
-    this.observeCharts();
+    this.observeCharts(this.bodyPeticion);
+    /* this.loadFilters(); */
+    this.sidebarService.activoDos = true;
+    this.indicadorService.cambioIndicador$.emit(true);
   }
 
   ngOnDestroy(): void {
     this.indicadorSubscription.unsubscribe();
-    /* this.filterSubscription.unsubscribe(); */
+    this.filterSubscription.unsubscribe();
+    this.sidebarService.activoDos = false;
   }
+
+ /*  loadFilters() {
+    this.filterSubscription = this.sidebarService.filterDataDos$.subscribe(resp => {
+      setTimeout(() => {
+        this.preloadService.cargando$.emit(true);
+      });
+      this.observeCharts(resp);
+
+      let date: Date = new Date(resp.fecha);
+      date.setDate(date.getDate() + 1);
+
+      let diaSis = date.getDay();
+      let mesSis = date.getMonth();
+      let yearSis = date.getFullYear();
+
+      let auxDate = new Date();
+      let diaAc = auxDate.getDay();
+      let mesAc = auxDate.getMonth();
+      let yearAc = auxDate.getFullYear();
+
+      let hour: Date = (diaSis !== diaAc || mesSis !== mesAc || yearSis !== yearAc) ? null : new Date();
+
+      this.fecha = date;
+      this.hora = hour;
+    }
+    );
+  } */
+
 
   obtenerObjetosSectores(sectores: Sectores) {
     let objetos: any = [];
@@ -151,8 +191,8 @@ export class IndicadorDosComponent implements OnInit, OnDestroy {
     ];
   }
 
-  observeCharts() {
-    this.indicadorSubscription = this.indicadorService.getOferentes().subscribe({
+  observeCharts(body) {
+    this.indicadorSubscription = this.indicadorService.getOferentes(body).subscribe({
       next: (resp: any) => {
         this.data = resp;
 
@@ -192,7 +232,7 @@ export class IndicadorDosComponent implements OnInit, OnDestroy {
             text: 'Servidor sin respuesta. Intentelo más tarde.'
           });
         }
-       }
+      }
     });
   }
 
@@ -694,7 +734,7 @@ export class IndicadorDosComponent implements OnInit, OnDestroy {
               for (var p = 0; p < rowNumber; p++) {
                 var tempStr = "";
                 if (p == rowNumber - 1) {
-                  tempStr = (params.length > 6 ? (params.slice(0, 6) + "...") : '');
+                  tempStr = (params.length > 6 ? (params.slice(0, 25) + "") : '');
                 } else { }
                 newParamsName += tempStr;
               }
@@ -842,7 +882,7 @@ export class IndicadorDosComponent implements OnInit, OnDestroy {
                   for (var p = 0; p < rowNumber; p++) {
                     var tempStr = "";
                     if (p == rowNumber - 1) {
-                      tempStr = (d.name.length > 6 ? (d.name.slice(0, 6) + "...") : '');
+                      tempStr = (d.name.length > 6 ? (d.name.slice(0, 25) + "") : '');
                     } else { }
                     newParamsName += tempStr;
                   }

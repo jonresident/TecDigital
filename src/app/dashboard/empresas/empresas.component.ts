@@ -7,6 +7,9 @@ import { PreloadService } from '../dashboard.service';
 import { EmpresasService } from './empresas.service';
 import Swal from 'sweetalert2';
 
+// Pipe
+/* import { FilterPipe } from '../../filter.pipe'; */
+
 declare var $: any;
 
 @Component({
@@ -19,6 +22,9 @@ export class EmpresasComponent implements OnInit, OnDestroy {
 
   datos = [];
   serviceSubscription = new Subscription();
+  cantRegistrosSubscripcion = new Subscription();
+
+  cantRegistros: number = 0;
 
 
   key: string = 'Usuario';
@@ -51,15 +57,35 @@ export class EmpresasComponent implements OnInit, OnDestroy {
     private empresasService: EmpresasService,
   ) { }
 
+
   ngOnInit(): void {
     setTimeout(() => {
       this.preloadService.cargando$.emit(true);
     });
     this.obtenerDatos();
+    this.changeCantRegistros();
+    this.empresasService.activo = true;
   }
 
   ngOnDestroy(): void {
     this.serviceSubscription.unsubscribe();
+    this.cantRegistrosSubscripcion.unsubscribe();
+    this.empresasService.activo = false;
+  }
+
+  changeCantRegistros() {
+    this.cantRegistrosSubscripcion = this.empresasService.numeroEmpresas$.subscribe({
+      next: (resp: number) => {
+        this.cantRegistros = resp;
+      },
+      error: (e) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: "Ocurrio un error inesperado cargando la cantidad de registros al filtrar. comuniquese con soporte técnico"
+        });
+      }
+    });
   }
 
   obtenerDatos() {
@@ -91,6 +117,7 @@ export class EmpresasComponent implements OnInit, OnDestroy {
         }
 
         this.datos = registros;
+        this.cantRegistros = this.datos.length;
 
         setTimeout(() => {
           this.preloadService.cargando$.emit(false);

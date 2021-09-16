@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { BodyCrearUsuario, Usuario, BodyActualizarUsuario, BodyCambiarPassword } from './usuarios.models';
 
@@ -7,6 +7,8 @@ import { BodyCrearUsuario, Usuario, BodyActualizarUsuario, BodyCambiarPassword }
   providedIn: 'root'
 })
 export class UsuariosService {
+  numeroUsuarios$ = new EventEmitter<number>();
+  activo: boolean = false;
 
   constructor(
     private http: HttpClient
