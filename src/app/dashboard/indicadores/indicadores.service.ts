@@ -37,6 +37,11 @@ export class IndicadoresService {
         return this.http.get(ruta);
     }
 
+    validarToken(body){
+        let ruta: string = environment.api + environment.apiLogin + environment.apiToken + environment.apiVerificarTokenAcceso;
+        return this.http.post(ruta, body);
+    }
+
     /* getMapa() {
         let ruta = '../../../assets/data/COLOMBIADEP.json';
         return this.http.get(ruta);

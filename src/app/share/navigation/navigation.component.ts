@@ -22,7 +22,7 @@ export class NavigationComponent implements OnInit {
 
   logout() {
     sessionStorage.clear();
-    this.router.navigate(['/login']);
+    this.router.navigate(['/landing']);
   }
 
 }

@@ -39,8 +39,8 @@ export class UsuariosService {
   }
 
   cambiarPassword(body: BodyCambiarPassword) {
-    let ruta: string =  environment.api + environment.apiLogin + environment.apiCambiarPassword;
-    let resp = this.http.post( ruta, body );
+    let ruta: string = environment.api + environment.apiLogin + environment.apiCambiarPassword;
+    let resp = this.http.post(ruta, body);
     console.log(body);
     return resp;
   }
@@ -57,5 +57,10 @@ export class UsuariosService {
       environment.api + environment.apiUsuarios + environment.apiCrearUsuario,
       body
     );
+  }
+
+  validarToken(body) {
+    let ruta: string = environment.api + environment.apiLogin + environment.apiToken + environment.apiVerificarTokenAcceso;
+    return this.http.post(ruta, body);
   }
 }

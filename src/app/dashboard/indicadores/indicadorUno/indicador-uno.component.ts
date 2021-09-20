@@ -19,6 +19,7 @@ import { PreloadService } from '../../dashboard.service';
 import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
 import { SidebarService } from 'src/app/share/sidebar/sidebar.service';
+import { Router } from '@angular/router';
 declare var $: any;
 declare const initSidebar: any;
 declare const initFlip: any;
@@ -36,6 +37,7 @@ export class IndicadorUnoComponent implements OnInit, OnDestroy {
   hora: Date = new Date();
   indicadorSubscription = new Subscription();
   filterSubscription = new Subscription();
+  validacionSubscription = new Subscription();
   varChartQuestionOne: any;
   varChartTwoQuestionOne: any;
   varChartQuestionTwo: any;
@@ -66,6 +68,7 @@ export class IndicadorUnoComponent implements OnInit, OnDestroy {
   Vivus: any;
 
   constructor(
+    private router: Router,
     private sidebarService: SidebarService,
     private indicadorService: IndicadoresService,
     private preloadService: PreloadService,
@@ -142,6 +145,7 @@ export class IndicadorUnoComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.indicadorSubscription.unsubscribe();
     this.filterSubscription.unsubscribe();
+    this.validacionSubscription.unsubscribe();
     this.sidebarService.activoUno = false;
   }
 
@@ -269,61 +273,81 @@ export class IndicadorUnoComponent implements OnInit, OnDestroy {
 
   observeCharts(body) {
 
-    this.indicadorSubscription = this.indicadorService.getBeneficiarias(body).subscribe({
-      next: (resp: any) => {
-        this.data = resp;
+    this.validacionSubscription = this.indicadorService.validarToken(
+      {
+        "token": sessionStorage.getItem('access')
+      }).subscribe({
+        next: (resp: any) => {
+          this.indicadorSubscription = this.indicadorService.getBeneficiarias(body).subscribe({
+            next: (resp: any) => {
+              this.data = resp;
 
-        let diagnostico: number = this.data.faseDiagnostico;
-        let mapeo: number = this.data.faseMapeo;
-        let evaluacion: number = this.data.faseEvaluacion;
-        let consolidacion: number = this.data.faseConsolidacion;
-        let despegue: number = this.data.faseDespegue;
+              let diagnostico: number = this.data.faseDiagnostico;
+              let mapeo: number = this.data.faseMapeo;
+              let evaluacion: number = this.data.faseEvaluacion;
+              let consolidacion: number = this.data.faseConsolidacion;
+              let despegue: number = this.data.faseDespegue;
 
-        let beneficiario_departamento = this.data.beneficiario_departamento;
+              let beneficiario_departamento = this.data.beneficiario_departamento;
 
-        let arrNivelBasico: number[] = [
-          this.data.nivel_1_basicas,
-          this.data.nivel_2_basicas,
-          this.data.nivel_3_basicas,
-          this.data.nivel_4_basicas];
+              let arrNivelBasico: number[] = [
+                this.data.nivel_1_basicas,
+                this.data.nivel_2_basicas,
+                this.data.nivel_3_basicas,
+                this.data.nivel_4_basicas];
 
-        let arrNivelAvanzado: number[] = [
-          this.data.nivel_1_avanzadas,
-          this.data.nivel_2_avanzadas,
-          this.data.nivel_3_avanzadas,
-          this.data.nivel_4_avanzadas];
+              let arrNivelAvanzado: number[] = [
+                this.data.nivel_1_avanzadas,
+                this.data.nivel_2_avanzadas,
+                this.data.nivel_3_avanzadas,
+                this.data.nivel_4_avanzadas];
 
-        this.definirTablas(beneficiario_departamento, arrNivelBasico, arrNivelAvanzado);
+              this.definirTablas(beneficiario_departamento, arrNivelBasico, arrNivelAvanzado);
 
-        this.initVivus();
-        this.initializerOdometer(diagnostico, mapeo, evaluacion, consolidacion, despegue);
-        this.chartQuestionOne(beneficiario_departamento);
-        this.chartQuestionTwo(arrNivelBasico);
-        this.chartQuestionThree(arrNivelAvanzado);
+              this.initVivus();
+              this.initializerOdometer(diagnostico, mapeo, evaluacion, consolidacion, despegue);
+              this.chartQuestionOne(beneficiario_departamento);
+              this.chartQuestionTwo(arrNivelBasico);
+              this.chartQuestionThree(arrNivelAvanzado);
 
-        setTimeout(() => {
-          this.preloadService.cargando$.emit(false);
-        });
-      },
-      error: (e) => {
-        setTimeout(() => {
-          this.preloadService.cargando$.emit(false);
-        });
-        if (e.error && e.error.Error) {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: e.error.Error
+              setTimeout(() => {
+                this.preloadService.cargando$.emit(false);
+              });
+            },
+            error: (e) => {
+              setTimeout(() => {
+                this.preloadService.cargando$.emit(false);
+              });
+              if (e.error && e.error.Error) {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: e.error.Error
+                });
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: 'Servidor sin respuesta. Intentelo más tarde.'
+                });
+              }
+            }
           });
-        } else {
+        },
+        error: (e) => {
+          setTimeout(() => {
+            this.preloadService.cargando$.emit(false);
+          });
+          sessionStorage.clear();
           Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: 'Servidor sin respuesta. Intentelo más tarde.'
+            text: "Su sesión ha expirado, será redirigido al login de la plataforma"
+          }).then(() => {
+            this.router.navigate(['/landing']);
           });
         }
-      }
-    });
+      });
   }
 
   initializerOdometer(diagnostico: number, mapeo: number, evaluacion: number, consolidacion: number, despegue: number) {
@@ -408,7 +432,7 @@ export class IndicadorUnoComponent implements OnInit, OnDestroy {
     let optionChartTwo;
 
     if (this.ajaxQuery !== null) {
-      this.ajaxQuery.always(function(){
+      this.ajaxQuery.always(function () {
         this.varChartQuestionOne.dispose();
       });
       this.ajaxQuery = null;
@@ -549,7 +573,7 @@ export class IndicadorUnoComponent implements OnInit, OnDestroy {
       }
     }) */;
 
-    
+
 
 
     optionChartTwo = {

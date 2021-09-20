@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { PaginationInstance } from 'ngx-pagination/dist/ngx-pagination.module';
 import { from, Observable, Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
@@ -21,6 +22,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   editSubscription = new Subscription();
   createSubscription = new Subscription();
   cantRegistrosSubscripcion = new Subscription();
+  validacionSubscription = new Subscription();
   usuarios: any = [];
   editIsActive: boolean = true;
   newIsActive: boolean = true;
@@ -74,6 +76,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   };
 
   constructor(
+    private router: Router,
     private preloadService: PreloadService,
     private usuariosService: UsuariosService
   ) { }
@@ -96,56 +99,78 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     this.editSubscription.unsubscribe();
     this.createSubscription.unsubscribe();
     this.cantRegistrosSubscripcion.unsubscribe();
+    this.validacionSubscription.unsubscribe();
     this.usuariosService.activo = false;
   }
 
 
   obtenerDatos() {
-    this.usuariosSubscription = this.usuariosService.getUsuarios().subscribe({
-      next: (resp: any) => {
-        let registro = {};
-        let registros = [];
 
-        for (let i = 0; i < resp.length; i++) {
-          registro = {
-            id: resp[i].id,
-            first_name: resp[i].first_name,
-            username: resp[i].username,
-            email: resp[i].email,
-            rol: resp[i].rol,
-            is_active: resp[i].is_active,
-            date_joined: resp[i].date_joined,
-            last_login: resp[i].last_login
-          }
+    this.validacionSubscription = this.usuariosService.validarToken(
+      {
+        "token": sessionStorage.getItem('access')
+      }).subscribe({
+        next: (resp: any) => {
+          this.usuariosSubscription = this.usuariosService.getUsuarios().subscribe({
+            next: (resp: any) => {
+              let registro = {};
+              let registros = [];
 
-          registros.push(Object.assign({}, registro));
-        }
+              for (let i = 0; i < resp.length; i++) {
+                registro = {
+                  id: resp[i].id,
+                  first_name: resp[i].first_name,
+                  username: resp[i].username,
+                  email: resp[i].email,
+                  rol: resp[i].rol,
+                  is_active: resp[i].is_active,
+                  date_joined: resp[i].date_joined,
+                  last_login: resp[i].last_login
+                }
 
-        this.usuarios = registros;
+                registros.push(Object.assign({}, registro));
+              }
 
-        setTimeout(() => {
-          this.preloadService.cargando$.emit(false);
-        });
-      },
-      error: (e) => {
-        setTimeout(() => {
-          this.preloadService.cargando$.emit(false);
-        });
-        if (e.error && e.error.Error) {
+              this.usuarios = registros;
+
+              setTimeout(() => {
+                this.preloadService.cargando$.emit(false);
+              });
+            },
+            error: (e) => {
+              setTimeout(() => {
+                this.preloadService.cargando$.emit(false);
+              });
+              if (e.error && e.error.Error) {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: e.error.Error
+                });
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: 'Servidor sin respuesta. Intentelo más tarde.'
+                });
+              }
+            }
+          });
+        },
+        error: (e) => {
+          setTimeout(() => {
+            this.preloadService.cargando$.emit(false);
+          });
+          sessionStorage.clear();
           Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: e.error.Error
-          });
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'Servidor sin respuesta. Intentelo más tarde.'
+            text: "Su sesión ha expirado, será redirigido al login de la plataforma"
+          }).then(() => {
+            this.router.navigate(['/landing']);
           });
         }
-      }
-    });
+      });
   }
 
   initEditUserModal(user: Usuario) {

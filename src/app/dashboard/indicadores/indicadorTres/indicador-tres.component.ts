@@ -18,6 +18,7 @@ import { IndicadoresService } from '../indicadores.service';
 import { IndicadorTresDetail } from '../indicadores.models';
 import Swal from 'sweetalert2';
 import { SidebarService } from 'src/app/share/sidebar/sidebar.service';
+import { Router } from '@angular/router';
 declare var $: any;
 declare const initSidebar: any;
 declare const initFlip: any;
@@ -33,6 +34,7 @@ export class IndicadorTresComponent implements OnInit, OnDestroy {
   chart: any;
   data: IndicadorTresDetail;
   indicadorSubscription = new Subscription();
+  validacionSubscription = new Subscription();
 
   fecha: Date = new Date();
 
@@ -50,6 +52,7 @@ export class IndicadorTresComponent implements OnInit, OnDestroy {
   Vivus: any;
 
   constructor(
+    private router: Router,
     private sidebarService: SidebarService,
     private indicadorService: IndicadoresService,
     private preloadService: PreloadService,
@@ -108,57 +111,77 @@ export class IndicadorTresComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.indicadorSubscription.unsubscribe();
     /* this.filterSubscription.unsubscribe(); */
+    this.validacionSubscription.unsubscribe();
     this.sidebarService.activoTres = false;
   }
 
   observeCharts() {
-
-    this.indicadorSubscription = this.indicadorService.getLeads().subscribe({
-      next: (resp: any) => {
-        this.data = resp;
-        let email: number = this.data.cantidad_emails;
-        let telefono: number = this.data.cantidad_telefono;
-        let procesoRegistro: number = this.data.cantidad_registrado;
-        let interes: number = 0;
-
-        let Total_contactados: number = email + telefono + procesoRegistro + interes;
-
-        let tabla = {
-          Total_contactados: Total_contactados,
-          Contacto_inicial_email: email,
-          contacto_inicial_telefono: telefono,
-          proceso_registro: procesoRegistro,
-          inscrito_interes: interes
-        }
-        this.datosIndicadorTres.push(Object.assign({}, tabla));
-
-        this.initVivus();
-        this.initializerOdometer(email, telefono, procesoRegistro, interes);
-        this.chartQuestionOne(email, telefono, procesoRegistro, interes);
-
-        setTimeout(() => {
-          this.preloadService.cargando$.emit(false);
-        });
-      },
-      error: (e) => {
-        setTimeout(() => {
-          this.preloadService.cargando$.emit(false);
-        });
-        if (e.error && e.error.Error) {
+    this.validacionSubscription = this.indicadorService.validarToken(
+      {
+        "token": sessionStorage.getItem('access')
+      }).subscribe({
+        next: (resp: any) => {
+          this.indicadorSubscription = this.indicadorService.getLeads().subscribe({
+            next: (resp: any) => {
+              this.data = resp;
+              let email: number = this.data.cantidad_emails;
+              let telefono: number = this.data.cantidad_telefono;
+              let procesoRegistro: number = this.data.cantidad_registrado;
+              let interes: number = 0;
+      
+              let Total_contactados: number = email + telefono + procesoRegistro + interes;
+      
+              let tabla = {
+                Total_contactados: Total_contactados,
+                Contacto_inicial_email: email,
+                contacto_inicial_telefono: telefono,
+                proceso_registro: procesoRegistro,
+                inscrito_interes: interes
+              }
+              this.datosIndicadorTres.push(Object.assign({}, tabla));
+      
+              this.initVivus();
+              this.initializerOdometer(email, telefono, procesoRegistro, interes);
+              this.chartQuestionOne(email, telefono, procesoRegistro, interes);
+      
+              setTimeout(() => {
+                this.preloadService.cargando$.emit(false);
+              });
+            },
+            error: (e) => {
+              setTimeout(() => {
+                this.preloadService.cargando$.emit(false);
+              });
+              if (e.error && e.error.Error) {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: e.error.Error
+                });
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: 'Servidor sin respuesta. Intentelo más tarde.'
+                });
+              }
+            }
+          });
+        },
+        error: (e) => {
+          setTimeout(() => {
+            this.preloadService.cargando$.emit(false);
+          });
+          sessionStorage.clear();
           Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: e.error.Error
-          });
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'Servidor sin respuesta. Intentelo más tarde.'
+            text: "Su sesión ha expirado, será redirigido al login de la plataforma"
+          }).then(() => {
+            this.router.navigate(['/landing']);
           });
         }
-      }
-    });
+      });
   }
 
 

@@ -21,6 +21,7 @@ export const environment = {
   apiActualizarUsuario: 'update_user/',
   apiListarUsuarios: 'list_user/',
   apiCambiarPassword: 'change_password/',
+  apiResetPassword: 'reset_password/',
   apiToken: 'token/',
   apiVerificarTokenAcceso: 'verify/',
   apiActualizarToken: 'token-refresh/'

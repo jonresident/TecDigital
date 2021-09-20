@@ -16,11 +16,20 @@ export class LandingService {
   } */
 
   recoverPassword(email: string) {
-    return this.http.post(environment.api + environment.apiLogin + environment.apiCambiarPassword, {email}).toPromise();
+    return this.http.post(environment.api + environment.apiLogin + environment.apiCambiarPassword, { email }).toPromise();
   }
 
   login(username: string, password: string) {
     return this.http.post(environment.api + environment.apiLogin, { username, password });
+  }
+
+  resetPassword(email: string) {
+    return this.http.post(environment.api + environment.apiLogin + environment.apiResetPassword, { email });
+  }
+
+  validarToken(body) {
+    let ruta: string = environment.api + environment.apiLogin + environment.apiToken + environment.apiVerificarTokenAcceso;
+    return this.http.post(ruta, body);
   }
 
 }

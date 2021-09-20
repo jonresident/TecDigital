@@ -95,6 +95,7 @@ export class LandingComponent implements OnInit, OnDestroy {
           sessionStorage.setItem('id', resp['id']);
           sessionStorage.setItem('first_session', resp['first_session']);
           sessionStorage.setItem('rol', resp['rol']);
+          console.log(sessionStorage);
           this.router.navigate(['dashboard']);
         }
       },
@@ -104,7 +105,7 @@ export class LandingComponent implements OnInit, OnDestroy {
           Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: 'Las credenciales no son válidas, intente de nuevo.'
+            text: e.error.Error
           });
         } else {
           Swal.fire({

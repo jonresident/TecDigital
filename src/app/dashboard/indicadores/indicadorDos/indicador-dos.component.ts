@@ -18,6 +18,7 @@ import { PreloadService } from '../../dashboard.service';
 import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
 import { SidebarService } from 'src/app/share/sidebar/sidebar.service';
+import { Router } from '@angular/router';
 declare var $: any;
 declare const initSidebar: any;
 declare const initFlip: any;
@@ -32,6 +33,7 @@ export class IndicadorDosComponent implements OnInit, OnDestroy {
 
   indicadorSubscription = new Subscription();
   filterSubscription = new Subscription();
+  validacionSubscription = new Subscription();
   data: IndicadorDosDetail;
   fecha: Date = new Date();
   hora: Date = new Date();
@@ -51,6 +53,7 @@ export class IndicadorDosComponent implements OnInit, OnDestroy {
   Vivus: any;
 
   constructor(
+    private router: Router,
     private sidebarService: SidebarService,
     private preloadService: PreloadService,
     private indicadorService: IndicadoresService,
@@ -110,35 +113,36 @@ export class IndicadorDosComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.indicadorSubscription.unsubscribe();
     this.filterSubscription.unsubscribe();
+    this.validacionSubscription.unsubscribe();
     this.sidebarService.activoDos = false;
   }
 
- /*  loadFilters() {
-    this.filterSubscription = this.sidebarService.filterDataDos$.subscribe(resp => {
-      setTimeout(() => {
-        this.preloadService.cargando$.emit(true);
-      });
-      this.observeCharts(resp);
-
-      let date: Date = new Date(resp.fecha);
-      date.setDate(date.getDate() + 1);
-
-      let diaSis = date.getDay();
-      let mesSis = date.getMonth();
-      let yearSis = date.getFullYear();
-
-      let auxDate = new Date();
-      let diaAc = auxDate.getDay();
-      let mesAc = auxDate.getMonth();
-      let yearAc = auxDate.getFullYear();
-
-      let hour: Date = (diaSis !== diaAc || mesSis !== mesAc || yearSis !== yearAc) ? null : new Date();
-
-      this.fecha = date;
-      this.hora = hour;
-    }
-    );
-  } */
+  /*  loadFilters() {
+     this.filterSubscription = this.sidebarService.filterDataDos$.subscribe(resp => {
+       setTimeout(() => {
+         this.preloadService.cargando$.emit(true);
+       });
+       this.observeCharts(resp);
+ 
+       let date: Date = new Date(resp.fecha);
+       date.setDate(date.getDate() + 1);
+ 
+       let diaSis = date.getDay();
+       let mesSis = date.getMonth();
+       let yearSis = date.getFullYear();
+ 
+       let auxDate = new Date();
+       let diaAc = auxDate.getDay();
+       let mesAc = auxDate.getMonth();
+       let yearAc = auxDate.getFullYear();
+ 
+       let hour: Date = (diaSis !== diaAc || mesSis !== mesAc || yearSis !== yearAc) ? null : new Date();
+ 
+       this.fecha = date;
+       this.hora = hour;
+     }
+     );
+   } */
 
 
   obtenerObjetosSectores(sectores: Sectores) {
@@ -192,48 +196,72 @@ export class IndicadorDosComponent implements OnInit, OnDestroy {
   }
 
   observeCharts(body) {
-    this.indicadorSubscription = this.indicadorService.getOferentes(body).subscribe({
-      next: (resp: any) => {
-        this.data = resp;
 
-        let registradas: number = this.data.empresasRegistradas;
-        let ofertados: number = this.data.portafoliosOfertados;
-        let sectores: Sectores = this.data.sectores;
-        let tipoEmpresas: OferentesPorTipoEmpresas = this.data.oferentesPorTipoEmpresas;
-        let tiposApoyo: CantidadTiposApoyo = this.data.cantidadTiposApoyo;
+    this.validacionSubscription = this.indicadorService.validarToken(
+      {
+        "token": sessionStorage.getItem('access')
+      }).subscribe({
+        next: (resp: any) => {
+          this.indicadorSubscription = this.indicadorService.getOferentes(body).subscribe({
+            next: (resp: any) => {
+              this.data = resp;
+
+              let registradas: number = this.data.empresasRegistradas;
+              let ofertados: number = this.data.portafoliosOfertados;
+              let sectores: Sectores = this.data.sectores;
+              let tipoEmpresas: OferentesPorTipoEmpresas = this.data.oferentesPorTipoEmpresas;
+              let tiposApoyo: CantidadTiposApoyo = this.data.cantidadTiposApoyo;
 
 
-        this.initVivus();
-        this.initializerOdometer(registradas, ofertados);
-        this.chartQuestionOne(sectores);
-        this.chartQuestionTwo(tiposApoyo);
-        this.chartQuestionThree(tipoEmpresas);
+              this.initVivus();
+              this.initializerOdometer(registradas, ofertados);
+              this.chartQuestionOne(sectores);
+              this.chartQuestionTwo(tiposApoyo);
+              this.chartQuestionThree(tipoEmpresas);
 
-        this.definirTablas(sectores, tipoEmpresas, tiposApoyo);
+              this.definirTablas(sectores, tipoEmpresas, tiposApoyo);
 
-        setTimeout(() => {
-          this.preloadService.cargando$.emit(false);
-        });
-      },
-      error: (e) => {
-        setTimeout(() => {
-          this.preloadService.cargando$.emit(false);
-        });
-        if (e.error && e.error.Error) {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: e.error.Error
+              setTimeout(() => {
+                this.preloadService.cargando$.emit(false);
+              });
+            },
+            error: (e) => {
+              setTimeout(() => {
+                this.preloadService.cargando$.emit(false);
+              });
+              if (e.error && e.error.Error) {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: e.error.Error
+                });
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: 'Servidor sin respuesta. Intentelo más tarde.'
+                });
+              }
+            }
           });
-        } else {
+        },
+        error: (e) => {
+          setTimeout(() => {
+            this.preloadService.cargando$.emit(false);
+          });
+          sessionStorage.clear();
           Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: 'Servidor sin respuesta. Intentelo más tarde.'
+            text: "Su sesión ha expirado, será redirigido al login de la plataforma"
+          }).then(() => {
+            this.router.navigate(['/landing']);
           });
         }
-      }
-    });
+      });
+
+
+
   }
 
   initVivus() {

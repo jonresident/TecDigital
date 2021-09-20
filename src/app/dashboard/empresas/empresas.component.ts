@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { PreloadService } from '../dashboard.service';
 import { EmpresasService } from './empresas.service';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 // Pipe
 /* import { FilterPipe } from '../../filter.pipe'; */
@@ -23,6 +24,7 @@ export class EmpresasComponent implements OnInit, OnDestroy {
   datos = [];
   serviceSubscription = new Subscription();
   cantRegistrosSubscripcion = new Subscription();
+  validacionSubscription = new Subscription();
 
   cantRegistros: number = 0;
 
@@ -53,6 +55,7 @@ export class EmpresasComponent implements OnInit, OnDestroy {
   };
 
   constructor(
+    private router: Router,
     private preloadService: PreloadService,
     private empresasService: EmpresasService,
   ) { }
@@ -70,6 +73,7 @@ export class EmpresasComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.serviceSubscription.unsubscribe();
     this.cantRegistrosSubscripcion.unsubscribe();
+    this.validacionSubscription.unsubscribe();
     this.empresasService.activo = false;
   }
 
@@ -89,59 +93,81 @@ export class EmpresasComponent implements OnInit, OnDestroy {
   }
 
   obtenerDatos() {
-    this.serviceSubscription = this.empresasService.getEmpresasBeneficiarias().subscribe({
-      next: (resp: any) => {
-        let registro = {};
-        let registros = [];
-
-        for (let i = 0; i < resp.tabla.NombreEmpresa.length; i++) {
-          registro = {
-            NombreEmpresa: resp.tabla.NombreEmpresa[i],
-            Direccion: resp.tabla.Direccion[i],
-            Departamento: resp.tabla.Departamento[i],
-            Telefono: resp.tabla.Telefono[i],
-            CorreoElectronico: resp.tabla.CorreoElectronico[i],
-            NombresRepresentanteLegal: resp.tabla.NombresRepresentanteLegal[i],
-            ApellidosRepresentanteLegal: resp.tabla.ApellidosRepresentanteLegal[i],
-            NombresPersonaEncargadaProceso: resp.tabla.NombresPersonaEncargadaProceso[i],
-            ApellidosPersonaE: resp.tabla.ApellidosPersonaE[i],
-            CorreoElectronicoPersonaEncargadaProceso: resp.tabla.CorreoElectronicoPersonaEncargadaProceso[i],
-            TelefonoPersonaEncargadaProceso: resp.tabla.TelefonoPersonaEncargadaProceso[i],
-            SitioWeb: resp.tabla.SitioWeb[i],
-            categoria: resp.tabla.categoria[i],
-            TamanoEmpresa: resp.tabla.TamanoEmpresa[i],
-            FechaFinDatosBasicos: resp.tabla.FechaFinDatosBasicos[i]
-          }
-
-          registros.push(Object.assign({}, registro));
-        }
-
-        this.datos = registros;
-        this.cantRegistros = this.datos.length;
-
-        setTimeout(() => {
-          this.preloadService.cargando$.emit(false);
-        });
-      },
-      error: (e) => {
-        setTimeout(() => {
-          this.preloadService.cargando$.emit(false);
-        });
-        if (e.error && e.error.Error) {
+    this.validacionSubscription = this.empresasService.validarToken(
+      {
+        "token": sessionStorage.getItem('access')
+      }).subscribe({
+        next: (resp: any) => {
+          this.serviceSubscription = this.empresasService.getEmpresasBeneficiarias().subscribe({
+            next: (resp: any) => {
+              let registro = {};
+              let registros = [];
+      
+              for (let i = 0; i < resp.tabla.NombreEmpresa.length; i++) {
+                registro = {
+                  NombreEmpresa: resp.tabla.NombreEmpresa[i],
+                  Direccion: resp.tabla.Direccion[i],
+                  Departamento: resp.tabla.Departamento[i],
+                  Telefono: resp.tabla.Telefono[i],
+                  CorreoElectronico: resp.tabla.CorreoElectronico[i],
+                  NombresRepresentanteLegal: resp.tabla.NombresRepresentanteLegal[i],
+                  ApellidosRepresentanteLegal: resp.tabla.ApellidosRepresentanteLegal[i],
+                  NombresPersonaEncargadaProceso: resp.tabla.NombresPersonaEncargadaProceso[i],
+                  ApellidosPersonaE: resp.tabla.ApellidosPersonaE[i],
+                  CorreoElectronicoPersonaEncargadaProceso: resp.tabla.CorreoElectronicoPersonaEncargadaProceso[i],
+                  TelefonoPersonaEncargadaProceso: resp.tabla.TelefonoPersonaEncargadaProceso[i],
+                  SitioWeb: resp.tabla.SitioWeb[i],
+                  categoria: resp.tabla.categoria[i],
+                  TamanoEmpresa: resp.tabla.TamanoEmpresa[i],
+                  FechaFinDatosBasicos: resp.tabla.FechaFinDatosBasicos[i]
+                }
+      
+                registros.push(Object.assign({}, registro));
+              }
+      
+              this.datos = registros;
+              this.cantRegistros = this.datos.length;
+      
+              setTimeout(() => {
+                this.preloadService.cargando$.emit(false);
+              });
+            },
+            error: (e) => {
+              setTimeout(() => {
+                this.preloadService.cargando$.emit(false);
+              });
+              if (e.error && e.error.Error) {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: e.error.Error
+                });
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: 'Servidor sin respuesta. Intentelo más tarde.'
+                });
+              }
+            }
+          });
+        },
+        error: (e) => {
+          setTimeout(() => {
+            this.preloadService.cargando$.emit(false);
+          });
+          sessionStorage.clear();
           Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: e.error.Error
-          });
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'Servidor sin respuesta. Intentelo más tarde.'
+            text: "Su sesión ha expirado, será redirigido al login de la plataforma"
+          }).then(() => {
+            this.router.navigate(['/landing']);
           });
         }
-      }
-    });
+      });
+
+    
   }
 
   setItemPerPage(event: any) {
