@@ -3860,6 +3860,28 @@ svg.finished * {
   stroke-width: 14px;
 }
 
+#icono_referidos {
+  width: 35px;
+  height: 35px;
+}
+
+.referidossvg {
+  fill: transparent;
+  stroke: #fafafa;
+  stroke-width: 14px;
+}
+
+#icono_divulgacion {
+  width: 35px;
+  height: 35px;
+}
+
+.divulgacionsvg {
+  fill: transparent;
+  stroke: #fafafa;
+  stroke-width: 14px;
+}
+
 #icono_email {
   width: 35px;
   height: 35px;
