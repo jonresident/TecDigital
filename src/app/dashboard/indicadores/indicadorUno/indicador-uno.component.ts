@@ -79,11 +79,11 @@ export class IndicadorUnoComponent implements OnInit {
       }
      else if (this.windowScrolled && window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop < 10) {
         this.windowScrolled = false;
-        new Vivus('icono_business',{
+        /*new Vivus('icono_business',{
           duration: 50,
           reverse: true,
           dashGap: 20
-        },).reset();
+        },).reset();*/
         new Vivus('icono_diagnostico',{
           duration: 50,
           reverse: true,
@@ -137,11 +137,11 @@ export class IndicadorUnoComponent implements OnInit {
   }
 
   initVivus() {
-    new Vivus('icono_business',{
+    /*new Vivus('icono_business',{
       duration: 50,
       reverse: true,
       dashGap: 20
-    },).reset();
+    },).reset();*/
     new Vivus('icono_diagnostico',{
       duration: 50,
       reverse: true,
@@ -185,14 +185,14 @@ export class IndicadorUnoComponent implements OnInit {
   }
 
   initializerOdometer() {
-    var OdometerUno = document.querySelector('.resultActivityOne');
+    /*var OdometerUno = document.querySelector('.resultActivityOne');
     let odUno = new Odometer({
       el: OdometerUno,
       value: 0,
       format: '',
       theme: ''
     });
-    odUno.update(202)
+    odUno.update(202)*/
 
     var OdometerDos = document.querySelector('.resultActivityTwo');
     let odDos = new Odometer({

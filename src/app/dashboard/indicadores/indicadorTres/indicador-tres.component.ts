@@ -52,6 +52,16 @@ export class IndicadorTresComponent implements OnInit {
             reverse: true,
             dashGap: 20
           },).reset();
+          new Vivus('icono_referidos',{
+            duration: 50,
+            reverse: true,
+            dashGap: 20
+          },).reset();
+          new Vivus('icono_divulgacion',{
+            duration: 50,
+            reverse: true,
+            dashGap: 20
+          },).reset();
           new Vivus('icono_email',{
             duration: 50,
             reverse: true,
@@ -80,10 +90,21 @@ export class IndicadorTresComponent implements OnInit {
     this.initVivus();
     this.initializerOdometer();
     this.chartQuestionOne();
+    this.chartQuestionTwo();
   }
 
   initVivus() {
     new Vivus('icono_leads',{
+      duration: 50,
+      reverse: true,
+      dashGap: 20
+    },).reset();
+    new Vivus('icono_referidos',{
+      duration: 50,
+      reverse: true,
+      dashGap: 20
+    },).reset();
+    new Vivus('icono_divulgacion',{
       duration: 50,
       reverse: true,
       dashGap: 20
@@ -440,6 +461,264 @@ export class IndicadorTresComponent implements OnInit {
           chartTwoQuestionOne.resize();
       }
   });
+  }
+
+  chartQuestionTwo() {
+
+    let chartQuestionTwo = echarts.init(document.getElementById('chart-question-two'));
+    let chartTwoQuestionTwo = echarts.init(document.getElementById('chart-two-question-two'));
+    let optionChartOne;
+    let optionChartTwo;
+
+      optionChartOne = {
+        tooltip: {
+          trigger: 'item',
+          showDelay: 0,
+          transitionDuration: 0.2,
+          backgroundColor: '#FFFFFF',
+          padding: 5,
+          textStyle: {
+            color: '#212121',
+            fontSize: 13,
+            lineHeight:10,
+            fontWeight: 'bold',
+            fontFamily: 'Roboto-Light'
+          },
+          extraCssText: 'box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);'
+        },
+        xAxis: {
+            type: 'category',
+            data: ['Empresas registradas en la plataforma', 'En contacto activo (Telefono - Whatsapp)', 'Intentos de contacto sin respuesta', 'Por contactar', 'Reg oferentes y deputación BD'],
+            axisLabel: {
+              formatter : function(params, value){
+                var newParamsName = "";
+                var paramsNameNumber = params.length;
+                var provideNumber = 6;
+                var rowNumber = Math.ceil(paramsNameNumber / provideNumber);
+                if (paramsNameNumber > provideNumber) {
+                    for (var p = 0; p < rowNumber; p++) {
+                        var tempStr = "";
+                        if (p == rowNumber - 1) {
+                            tempStr = (params.length > 6 ? (params.slice(0,6)+"...") : '' );
+                        } else {}
+                        newParamsName += tempStr;
+                    }
+                } else {
+                    newParamsName = params;
+                }
+                return newParamsName
+              },
+              color: '#212121',
+              fontWeight: 'bold',
+              fontFamily: 'Roboto-Light'
+          }
+        },
+        yAxis: {
+            type: 'value',
+            axisLabel: {
+              color: '#212121',
+              fontWeight: 'bold',
+              fontFamily: 'Roboto-Light'
+            }
+        },
+        visualMap: {
+            top: 'middle',
+            right: -5,
+            min: 0,
+            max: 100,
+            text: ['Maximo', 'Minimo'],
+            inRange: {
+                color: ['#9AC331', '#FFDA00', 'rgb(239, 36, 105)']
+            },
+            textStyle: {
+              color: '#212121',
+              fontWeight: 'bold',
+              fontFamily: 'Roboto-Light'
+            }
+        },
+        grid: [
+          {
+            right: '14%'
+          }
+        ],
+        series: [
+            {
+              data: [38, 20, 5, 0, 0],
+              name: '',
+              type: 'bar',
+              label: {
+                color: '#212121',
+                fontWeight: 'bold',
+                fontFamily: 'Roboto-Light',
+                position: 'top',
+                show: true
+              },
+              itemStyle: {
+              },
+              animationDelay: function (idx) {
+                return idx * 15;
+              }
+          }
+        ],
+        animationEasing: 'elasticOut',
+        animationDelayUpdate: function (idx) {
+            return idx * 5;
+        }
+    };
+
+    optionChartTwo = {
+      tooltip: {
+        trigger: 'item',
+        showDelay: 0,
+        transitionDuration: 0.2,
+        formatter: "{a} <br/>{b} : {c} ({d}%)",
+        backgroundColor: '#FFFFFF',
+        padding: 5,
+        textStyle: {
+          color: '#212121',
+          fontSize: 13,
+          lineHeight:10,
+          fontWeight: 'bold',
+          fontFamily: 'Roboto-Light'
+        },
+        extraCssText: 'box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);'
+      },
+      legend: {
+        show: false,
+        top: 'top',
+        textStyle: {
+          color: '#212121',
+          fontSize: 13,
+          lineHeight:10,
+          fontWeight: 'bold',
+          fontFamily: 'Roboto-Light'
+        },
+        icon: 'rect'
+      },
+      toolbox: {
+          show: true,
+          feature: {
+              mark: {show: true},
+              dataView: {show: false, readOnly: false},
+              restore: {show: false},
+              saveAsImage: {show: false}
+          }
+      },
+      visualMap: {
+          top: 'middle',
+          right: -5,
+          max:100,
+          min:0,
+          text: ['Maximo', 'Minimo'],
+          inRange: {
+              color: ['#9AC331', '#FFDA00', 'rgb(239, 36, 105)']
+          },
+          textStyle: {
+            color: '#212121',
+            fontWeight: 'bold',
+            fontFamily: 'Roboto-Light'
+          }
+      },
+      series: [
+          {
+              name: 'Dato',
+              type: 'pie',
+              radius: ['30%', '70%'],
+              center: ['50%', '50%'],
+              roseType: 'area',
+              hoverOffset: 12,
+              emphasis: {
+                  label: {
+                      show: true
+                  }
+              },
+              label: {
+                normal: {
+                  show: true,
+                  fontSize: 12,
+                  fontWeight: 'bold',
+                  fontFamily: 'Roboto-Light',
+                  formatter : function(d){
+                    var newParamsName = "";
+                    var paramsNameNumber = d.name.length;
+                    var provideNumber = 6;
+                    var rowNumber = Math.ceil(paramsNameNumber / provideNumber);
+                    if (paramsNameNumber > provideNumber) {
+                        for (var p = 0; p < rowNumber; p++) {
+                            var tempStr = "";
+                            if (p == rowNumber - 1) {
+                                tempStr = (d.name.length > 6 ? (d.name.slice(0,6)+"...") : '' );
+                            } else {}
+                            newParamsName += tempStr;
+                        }
+                    } else {
+                        newParamsName = d.name;
+                    }
+                    return newParamsName
+                  }
+                },
+                emphasis: {
+                  show: true,
+                  fontSize: 12,
+                  fontWeight: 'bold',
+                  fontFamily: 'Roboto-Light'
+                }
+              },
+              lableLine: {
+                normal: {
+                  show: false,
+                  fontSize: 12,
+                  fontWeight: 'bold',
+                  fontFamily: 'Roboto-Light'
+                },
+                emphasis: {
+                  show: true,
+                  fontSize: 12,
+                  fontWeight: 'bold',
+                  fontFamily: 'Roboto-Light'
+                }
+              },
+              itemStyle: {
+                borderRadius: 8,
+                normal: {
+                    opacity: 1,
+                    shadowOffsetX: 0,
+                    shadowOffsetY: 0,
+                }
+              },
+              data: [
+                  {value: 38, name: 'Empresas registradas en la plataforma'},
+                  {value: 20, name: 'En contacto activo (Telefono - Whatsapp)'},
+                  {value: 5, name: 'Intentos de contacto sin respuesta'},
+                  {value: 0, name: 'Por contactar'},
+                  {value: 0, name: 'Reg oferentes y deputación BD'}
+              ],
+              animationDelay: function (idx) {
+                return idx * 15;
+              }
+          }
+      ],
+      animationEasing: 'elasticOut',
+      animationDelayUpdate: function (idx) {
+          return idx * 5;
+      }
+  };
+
+    optionChartOne && chartQuestionTwo.setOption(optionChartOne);
+    optionChartTwo && chartTwoQuestionTwo.setOption(optionChartTwo);
+
+    $(window).on('resize', function(){
+        if(chartQuestionTwo != null && chartQuestionTwo != undefined){
+            chartQuestionTwo.resize();
+        }
+    });
+
+    $(window).on('resize', function(){
+        if(chartTwoQuestionTwo != null && chartTwoQuestionTwo != undefined){
+            chartTwoQuestionTwo.resize();
+        }
+    });
+
   }
 
   /*chartQuestionOne() {
