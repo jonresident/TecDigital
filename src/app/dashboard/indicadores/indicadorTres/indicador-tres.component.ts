@@ -82,6 +82,11 @@ export class IndicadorTresComponent implements OnInit {
             reverse: true,
             dashGap: 20
           },).reset();
+          new Vivus('icono_bar_1',{
+            duration: 50,
+            reverse: true,
+            dashGap: 20
+          },).reset();
       }
   }
 
@@ -125,6 +130,11 @@ export class IndicadorTresComponent implements OnInit {
       dashGap: 20
     },).reset();
     new Vivus('icono_treemap',{
+      duration: 50,
+      reverse: true,
+      dashGap: 20
+    },).reset();
+    new Vivus('icono_bar_1',{
       duration: 50,
       reverse: true,
       dashGap: 20
