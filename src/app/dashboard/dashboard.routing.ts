@@ -32,6 +32,8 @@ const routes: Routes = [
             },
             {path: 'usuarios', component: UsuariosComponent, canActivate: [AdminGuard]},
             {path: 'empresas', component: EmpresasComponent, canActivate: [AdminGuard]}
+            /* {path: 'usuarios', component: UsuariosComponent},
+            {path: 'empresas', component: EmpresasComponent} */
         ]
     }
 ];

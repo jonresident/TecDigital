@@ -21,6 +21,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
   aFiltrosSeleccionados = [];
   indicadorSubscription = new Subscription();
 
+  deptoFilterDisable: boolean = false;
+  dateFilterDisable: boolean = false;
+  botonAplicarDisable: boolean = false;
+
   aArray2 = [
     'ANTIOQUIA', 'ATLANTICO', 'SANTAFE DE BOGOTA D.C', 'BOLIVAR', 'BOYACA', 'CALDAS', 'CAQUETA', 'CAUCA', 'CESAR', 'CORDOBA', 'CUNDINAMARCA', 'CHOCO', 'HUILA', 'LA GUAJIRA', 'MAGDALENA', 'META', 'NARIÑO', 'NORTE DE SANTANDER', 'QUINDIO', 'RISARALDA', 'SANTANDER', 'SUCRE', 'TOLIMA', 'VALLE DEL CAUCA', 'ARAUCA', 'CASANARE', 'PUTUMAYO', 'AMAZONAS', 'GUAINIA', 'GUAVIARE', 'VAUPES', 'VICHADA', 'ARCHIPIELAGO DE SAN ANDRES PROVIDENCIA Y SANTA CATALINA'
   ];
@@ -64,6 +68,20 @@ export class SidebarComponent implements OnInit, OnDestroy {
           this.aFiltrosSeleccionados = [];
           this.deptoFilter = null;
           this.dateFinFilter = null;
+
+          if (this.sidebarService.activoUno) {
+            this.deptoFilterDisable = false;
+            this.dateFilterDisable = false;
+            this.botonAplicarDisable = false;
+          } else if (this.sidebarService.activoDos) {
+            this.deptoFilterDisable = true;
+            this.dateFilterDisable = true;
+            this.botonAplicarDisable = true;
+          } else if (this.sidebarService.activoTres) {
+            this.deptoFilterDisable = true;
+            this.dateFilterDisable = false;
+            this.botonAplicarDisable = false;
+          }
         }
       }
     });
@@ -77,7 +95,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     else {
       depto = this.deptoFilter;
     }
-
+    
     if (this.sidebarService.activoUno){
       let body: FilterDataUno = {
         "idUser": sessionStorage.getItem('id'),
@@ -94,12 +112,12 @@ export class SidebarComponent implements OnInit, OnDestroy {
       /* this.sidebarService.filterDataDos$.emit(body); */
 
     } else if (this.sidebarService.activoTres) {
+
       let body: FilterDataTres = {
         "idUser": sessionStorage.getItem('id'),
-        "fecha": this.dateFinFilter !== null ? this.dateFinFilter : new Date().toISOString().substr(0,10),
-        "departamento": depto !== null ? depto : "todos"
+        "fecha": this.dateFinFilter !== null ? this.dateFinFilter : new Date().toISOString().substr(0,10)
       };
-      /* this.sidebarService.filterDataTres$.emit(body); */
+      this.sidebarService.filterDataTres$.emit(body);
     }
         
   }

@@ -10,6 +10,7 @@ import Swal from 'sweetalert2';
 import { LandingService } from '../landing/landing.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AuthService } from '../auth.service';
 
 declare var $: any;
 
@@ -29,6 +30,7 @@ export class LandingComponent implements OnInit, OnDestroy {
   Vivus: any;
 
   constructor(
+    private authService: AuthService,
     private router: Router,
     private landingService: LandingService,
     private wowService: NgwWowService,
@@ -88,6 +90,17 @@ export class LandingComponent implements OnInit, OnDestroy {
             title: 'Error',
             text: 'El usuario no se encuentra activo'
           });
+        } else if (resp["first_session"] && this.landingService.primeraVez) {
+          Swal.fire({
+            icon: 'info',
+            title: 'Cambio de contraseña',
+            text: "Se requiere cambio de contraseña por razones de seguridad"
+          });
+          this.authService.resetPassword = true;
+          sessionStorage.setItem('username', resp['username']);
+          sessionStorage.setItem('id', resp['id']);
+          this.landingService.primeraVez = false;
+          this.router.navigate(['changepassword'])
         } else {
           sessionStorage.setItem('refresh', resp['refresh']);
           sessionStorage.setItem('access', resp['access']);
@@ -95,7 +108,7 @@ export class LandingComponent implements OnInit, OnDestroy {
           sessionStorage.setItem('id', resp['id']);
           sessionStorage.setItem('first_session', resp['first_session']);
           sessionStorage.setItem('rol', resp['rol']);
-          console.log(sessionStorage);
+          this.landingService.primeraVez = true;
           this.router.navigate(['dashboard']);
         }
       },

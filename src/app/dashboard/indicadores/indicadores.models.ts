@@ -80,7 +80,21 @@ export interface IndicadorTresDetail {
     cantidad_emails: number;
     cantidad_telefono: number;
     cantidad_registrado: number;
+    fuente_leads: number;
+    fuente_referidos: number;
+    fuente_ingresos: number;
+    informe_tecnalia: InformeTecnalia;
     datos_leads: DatosLeads;
+    
+}
+
+export interface InformeTecnalia {
+    "depuracion representante legal": number;
+    "empresas registradas en la plataforma": number;
+    "en contacto activo (telefono - whatsapp) ": number;
+    "intentos de contacto sin respuesta";
+    "por contactar": number;
+    "registrado como oferente": number;
 }
 
 export interface DatosLeads {

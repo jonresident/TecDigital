@@ -4,6 +4,8 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class AuthService {
+  
+  resetPassword: boolean = false;
 
   constructor() { }
 
@@ -13,5 +15,9 @@ export class AuthService {
 
   isAdmin(): boolean {
     return sessionStorage.getItem('rol') === "ADMINISTRADOR" ? true : false;
+  }
+
+  isResetPassword(): boolean {
+    return this.resetPassword;
   }
 }

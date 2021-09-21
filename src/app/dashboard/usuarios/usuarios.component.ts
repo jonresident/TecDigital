@@ -199,50 +199,74 @@ export class UsuariosComponent implements OnInit, OnDestroy {
       this.preloadService.cargando$.emit(true);
     });
     const bodyEdit = { ...values, is_active: this.editIsActive, id: this.selectedUser.id };
-    this.editSubscription = this.usuariosService.editUser(bodyEdit).subscribe({
-      next: (resp: any) => {
-        setTimeout(() => {
-          this.preloadService.cargando$.emit(false);
-        });
-        $('#modalEditUser').modal('hide');
-        if (resp.ok !== null) {
-          Swal.fire({
-            icon: 'info',
-            title: 'Actualización exitosa',
-            text: "Se ha editado exitosamente el usuario seleccionado"
+
+    this.validacionSubscription.unsubscribe();
+    this.validacionSubscription = this.usuariosService.validarToken(
+      {
+        "token": sessionStorage.getItem('access')
+      }).subscribe({
+        next: (resp: any) => {
+          this.editSubscription = this.usuariosService.editUser(bodyEdit).subscribe({
+            next: (resp: any) => {
+              setTimeout(() => {
+                this.preloadService.cargando$.emit(false);
+              });
+              $('#modalEditUser').modal('hide');
+              if (resp.ok !== null) {
+                Swal.fire({
+                  icon: 'info',
+                  title: 'Actualización exitosa',
+                  text: "Se ha editado exitosamente el usuario seleccionado"
+                });
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'ERROR',
+                  text: "Se está ocasionando un error desconocido en la edición de usuarios. contacte a soporte"
+                });
+              }
+              this.usuariosSubscription.unsubscribe();
+              this.obtenerDatos();
+              setTimeout(() => {
+                this.preloadService.cargando$.emit(false);
+              });
+            },
+            error: (e) => {
+              setTimeout(() => {
+                this.preloadService.cargando$.emit(false);
+              });
+              if (e.error && e.error.Error) {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: e.error.Error
+                });
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: 'Servidor sin respuesta. Intentelo más tarde.'
+                });
+              }
+            }
           });
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'ERROR',
-            text: "Se está ocasionando un error desconocido en la edición de usuarios. contacte a soporte"
+        },
+        error: (e) => {
+          setTimeout(() => {
+            this.preloadService.cargando$.emit(false);
           });
-        }
-        this.usuariosSubscription.unsubscribe();
-        this.obtenerDatos();
-        setTimeout(() => {
-          this.preloadService.cargando$.emit(false);
-        });
-      },
-      error: (e) => {
-        setTimeout(() => {
-          this.preloadService.cargando$.emit(false);
-        });
-        if (e.error && e.error.Error) {
+          sessionStorage.clear();
           Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: e.error.Error
-          });
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'Servidor sin respuesta. Intentelo más tarde.'
+            text: "Su sesión ha expirado, será redirigido al login de la plataforma"
+          }).then(() => {
+            this.router.navigate(['/landing']);
           });
         }
       }
-    });
+      );
+
   }
 
   initChangePasswordModal(user: Usuario) {
@@ -270,44 +294,66 @@ export class UsuariosComponent implements OnInit, OnDestroy {
       password2: values.confirmPassword
     };
 
-    this.changePassSubscription = this.usuariosService.cambiarPassword(body).subscribe({
-      next: (resp: any) => {
-        if (resp.ok !== null) {
-          Swal.fire({
-            icon: 'info',
-            title: 'Cambio exitoso',
-            text: "Se ha cambiado exitosamente la contraseña"
+    this.validacionSubscription.unsubscribe();
+    this.validacionSubscription = this.usuariosService.validarToken(
+      {
+        "token": sessionStorage.getItem('access')
+      }).subscribe({
+        next: (resp: any) => {
+          this.changePassSubscription = this.usuariosService.cambiarPassword(body).subscribe({
+            next: (resp: any) => {
+              if (resp.ok !== null) {
+                Swal.fire({
+                  icon: 'info',
+                  title: 'Cambio exitoso',
+                  text: "Se ha cambiado exitosamente la contraseña"
+                });
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'ERROR',
+                  text: "Se está ocasionando un error desconocido en el cambio de contraseña"
+                });
+              }
+              setTimeout(() => {
+                this.preloadService.cargando$.emit(false);
+              });
+            },
+            error: (e) => {
+              setTimeout(() => {
+                this.preloadService.cargando$.emit(false);
+              });
+              if (e.error && e.error.Error) {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: e.error.Error
+                });
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: 'Servidor sin respuesta. Intentelo más tarde.'
+                });
+              }
+            }
           });
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'ERROR',
-            text: "Se está ocasionando un error desconocido en el cambio de contraseña"
+        },
+        error: (e) => {
+          setTimeout(() => {
+            this.preloadService.cargando$.emit(false);
           });
-        }
-        setTimeout(() => {
-          this.preloadService.cargando$.emit(false);
-        });
-      },
-      error: (e) => {
-        setTimeout(() => {
-          this.preloadService.cargando$.emit(false);
-        });
-        if (e.error && e.error.Error) {
+          sessionStorage.clear();
           Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: e.error.Error
-          });
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'Servidor sin respuesta. Intentelo más tarde.'
+            text: "Su sesión ha expirado, será redirigido al login de la plataforma"
+          }).then(() => {
+            this.router.navigate(['/landing']);
           });
         }
-      }
-    });
+      });
+
   }
 
 
@@ -346,47 +392,71 @@ export class UsuariosComponent implements OnInit, OnDestroy {
       this.preloadService.cargando$.emit(true);
     });
     const bodyUser = { ...values, is_active: this.newIsActive };
-    this.createSubscription = this.usuariosService.createUser(bodyUser).subscribe({
-      next: (resp: any) => {
-        setTimeout(() => {
-          this.preloadService.cargando$.emit(false);
-        });
-        $('#modalAddEditUser').modal('hide');
-        if (resp.id !== null) {
-          Swal.fire({
-            icon: 'info',
-            title: 'Guardado exitoso',
-            text: "Se ha creado exitosamente un nuevo usuario"
+
+    this.validacionSubscription.unsubscribe();
+    this.validacionSubscription = this.usuariosService.validarToken(
+      {
+        "token": sessionStorage.getItem('access')
+      }).subscribe({
+        next: (resp: any) => {
+          this.createSubscription = this.usuariosService.createUser(bodyUser).subscribe({
+            next: (resp: any) => {
+              setTimeout(() => {
+                this.preloadService.cargando$.emit(false);
+              });
+              $('#modalAddEditUser').modal('hide');
+              if (resp.id !== null) {
+                Swal.fire({
+                  icon: 'info',
+                  title: 'Guardado exitoso',
+                  text: "Se ha creado exitosamente un nuevo usuario"
+                });
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'ERROR',
+                  text: "Se está ocasionando un error desconocido en la creación de usuarios. contacte a soporte"
+                });
+              }
+              this.usuariosSubscription.unsubscribe();
+              this.obtenerDatos();
+            },
+            error: (e) => {
+              setTimeout(() => {
+                this.preloadService.cargando$.emit(false);
+              });
+              if (e.error && e.error.Error) {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: e.error.Error
+                });
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: 'Servidor sin respuesta. Intentelo más tarde.'
+                });
+              }
+            }
           });
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'ERROR',
-            text: "Se está ocasionando un error desconocido en la creación de usuarios. contacte a soporte"
+        },
+        error: (e) => {
+          setTimeout(() => {
+            this.preloadService.cargando$.emit(false);
           });
-        }
-        this.usuariosSubscription.unsubscribe();
-        this.obtenerDatos();
-      },
-      error: (e) => {
-        setTimeout(() => {
-          this.preloadService.cargando$.emit(false);
-        });
-        if (e.error && e.error.Error) {
+          sessionStorage.clear();
           Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: e.error.Error
-          });
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'Servidor sin respuesta. Intentelo más tarde.'
+            text: "Su sesión ha expirado, será redirigido al login de la plataforma"
+          }).then(() => {
+            this.router.navigate(['/landing']);
           });
         }
-      }
-    });
+      });
+
+    
   }
 
   checkPasswords: ValidatorFn = (group: AbstractControl): ValidationErrors | null => {

@@ -7,6 +7,8 @@ import { environment } from 'src/environments/environment';
 })
 export class LandingService {
 
+  primeraVez: boolean = true;
+
   constructor(
     private http: HttpClient
   ) { }
@@ -29,6 +31,16 @@ export class LandingService {
 
   validarToken(body) {
     let ruta: string = environment.api + environment.apiLogin + environment.apiToken + environment.apiVerificarTokenAcceso;
+    return this.http.post(ruta, body);
+  }
+
+  decifrarUID(token, uid) {
+    let ruta: string = environment.api + environment.apiLogin + environment.apiResponseResetPassword + token + "/" + uid + "/";
+    return this.http.get(ruta);
+  }
+
+  changePassword(body) {
+    let ruta: string = environment.api + environment.apiLogin + environment.apiCambiarPassword;
     return this.http.post(ruta, body);
   }
 

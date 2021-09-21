@@ -32,9 +32,9 @@ export class IndicadoresService {
         return this.http.post(ruta, body);
     }
 
-    getLeads(){
+    getLeads(body){
         let ruta: string = environment.api + environment.apiResultados + environment.apiLeads;
-        return this.http.get(ruta);
+        return this.http.post(ruta, body);
     }
 
     validarToken(body){

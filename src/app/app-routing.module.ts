@@ -14,17 +14,25 @@ import { ResponseresetpasswordComponent } from './landing/responseresetpassword/
 // guards
 import { AuthGuard } from './guards/auth.guard';
 import { LoginGuard } from './guards/login.guard';
+import { ResetPasswordGuard } from './guards/resetPassword.guard';
 
 
 
 const routes: Routes = [
   {path: 'landing', component: LandingComponent, canActivate: [LoginGuard]},
   {path: 'recoverpassword', component: RecoverpasswordComponent, canActivate: [LoginGuard]},
-  {path: 'changepassword', component: ChangepasswordComponent, canActivate: [LoginGuard]},
-  {path: 'responseResetPassword/:token/:uid', component: ResponseresetpasswordComponent},
+  {path: 'changepassword', component: ChangepasswordComponent, canActivate: [ResetPasswordGuard]},
+  {path: 'responseResetPassword/:token/:uid', component: ResponseresetpasswordComponent },
   {path: '', redirectTo: '/landing', pathMatch: 'full'},
   {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
   {path: '**', component: LandingComponent, canActivate: [LoginGuard]}
+  /* {path: 'landing', component: LandingComponent},
+  {path: 'recoverpassword', component: RecoverpasswordComponent},
+  {path: 'changepassword', component: ChangepasswordComponent},
+  {path: 'responseResetPassword/:token/:uid', component: ResponseresetpasswordComponent},
+  {path: '', redirectTo: '/landing', pathMatch: 'full'},
+  {path: 'dashboard', component: DashboardComponent},
+  {path: '**', component: LandingComponent} */
 ];
 
 @NgModule({
