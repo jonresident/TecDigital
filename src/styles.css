@@ -32,6 +32,7 @@
   z-index: 6;
   width: 400px !important;
   height: 400px !important;
+  z-index: 4 !important;
 }
 
 .logo_bios {
@@ -2043,7 +2044,7 @@ td.txt_datos_celdas {
   box-shadow: -4px 2px 10px 0px rgba(51, 51, 51, 0.3);
   -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
-  z-index: 5;
+  z-index: 5 !important;
 }
 
 .padding-form {
@@ -2058,6 +2059,10 @@ td.txt_datos_celdas {
 
 .forms-custom .input-group {
   position: relative;
+}
+
+.forms-custom .left-addon select {
+  padding-left: 30px;
 }
 
 .forms-custom .form-control {
@@ -2532,9 +2537,9 @@ input[type="date"]:before {
 }
 
 #dismiss {
-  width: 35px;
-  height: 35px;
-  line-height: 35px;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
   margin-right: 12px;
   text-align: center;
   background: #f5f5f5;
@@ -2594,7 +2599,7 @@ input[type="date"]:before {
 
 .button-filter {
   width: 55px;
-  height: 35px;
+  height: 30px;
   background-color: #f5f5f5 !important;
   text-decoration: none !important;
   outline: none !important;
@@ -3757,8 +3762,8 @@ svg.finished * {
 }
 
 #icono_diagnostico {
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
 }
 
 .diagnostico {
@@ -3767,8 +3772,8 @@ svg.finished * {
 }
 
 #icono_mapeo {
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
 }
 
 .mapeo {
@@ -3777,8 +3782,8 @@ svg.finished * {
 }
 
 #icono_evaluacion {
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
 }
 
 .evaluacion {
@@ -3787,8 +3792,8 @@ svg.finished * {
 }
 
 #icono_consolidacion {
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
 }
 
 .consolidacion {
@@ -3797,8 +3802,8 @@ svg.finished * {
 }
 
 #icono_despegue {
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
 }
 
 .despegue {
@@ -3817,8 +3822,8 @@ svg.finished * {
 }
 
 #icono_business {
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
 }
 
 .businessvg {
@@ -3828,8 +3833,8 @@ svg.finished * {
 }
 
 #icono_oferente {
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
 }
 
 .oferentessvg {
@@ -3839,8 +3844,8 @@ svg.finished * {
 }
 
 #icono_offer {
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
 }
 
 .offersvg {
@@ -3850,8 +3855,8 @@ svg.finished * {
 }
 
 #icono_leads {
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
 }
 
 .leadsvg {
@@ -3861,8 +3866,8 @@ svg.finished * {
 }
 
 #icono_referidos {
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
 }
 
 .referidossvg {
@@ -3872,8 +3877,8 @@ svg.finished * {
 }
 
 #icono_divulgacion {
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
 }
 
 .divulgacionsvg {
@@ -3883,8 +3888,8 @@ svg.finished * {
 }
 
 #icono_email {
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
 }
 
 .emailsvg {
@@ -3894,8 +3899,8 @@ svg.finished * {
 }
 
 #icono_phone {
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
 }
 
 .phonesvg {
@@ -3905,8 +3910,8 @@ svg.finished * {
 }
 
 #icono_customers {
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
 }
 
 .customersvg {
@@ -3916,8 +3921,8 @@ svg.finished * {
 }
 
 #icono_register {
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
 }
 
 .registersvg {
@@ -4025,6 +4030,7 @@ svg.finished * {
     z-index: 6;
     width: 260px !important;
     height: 300px !important;
+    z-index: 4 !important;
   }
 
   .logo_tecdigital {
@@ -4112,8 +4118,8 @@ svg.finished * {
   }
 
   #icono_diagnostico {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .diagnostico {
@@ -4122,8 +4128,8 @@ svg.finished * {
   }
 
   #icono_mapeo {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .mapeo {
@@ -4132,8 +4138,8 @@ svg.finished * {
   }
 
   #icono_evaluacion {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .evaluacion {
@@ -4142,8 +4148,8 @@ svg.finished * {
   }
 
   #icono_consolidacion {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .consolidacion {
@@ -4152,8 +4158,8 @@ svg.finished * {
   }
 
   #icono_despegue {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .despegue {
@@ -4172,8 +4178,8 @@ svg.finished * {
   }
 
   #icono_business {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .businessvg {
@@ -4183,8 +4189,8 @@ svg.finished * {
   }
 
   #icono_oferente {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .oferentessvg {
@@ -4194,8 +4200,8 @@ svg.finished * {
   }
 
   #icono_offer {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .offersvg {
@@ -4205,8 +4211,8 @@ svg.finished * {
   }
 
   #icono_leads {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .leadsvg {
@@ -4216,8 +4222,8 @@ svg.finished * {
   }
 
   #icono_customers {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .customersvg {
@@ -4227,8 +4233,8 @@ svg.finished * {
   }
 
   #icono_register {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .registersvg {
@@ -4276,6 +4282,7 @@ svg.finished * {
     z-index: 6;
     width: 300px !important;
     height: 320px !important;
+    z-index: 4 !important;
   }
 
   .logo_tecdigital {
@@ -4363,8 +4370,8 @@ svg.finished * {
   }
 
   #icono_diagnostico {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .diagnostico {
@@ -4373,8 +4380,8 @@ svg.finished * {
   }
 
   #icono_mapeo {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .mapeo {
@@ -4383,8 +4390,8 @@ svg.finished * {
   }
 
   #icono_evaluacion {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .evaluacion {
@@ -4393,8 +4400,8 @@ svg.finished * {
   }
 
   #icono_consolidacion {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .consolidacion {
@@ -4403,8 +4410,8 @@ svg.finished * {
   }
 
   #icono_despegue {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .despegue {
@@ -4423,8 +4430,8 @@ svg.finished * {
   }
 
   #icono_business {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .businessvg {
@@ -4434,8 +4441,8 @@ svg.finished * {
   }
 
   #icono_oferente {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .oferentessvg {
@@ -4445,8 +4452,8 @@ svg.finished * {
   }
 
   #icono_offer {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .offersvg {
@@ -4456,8 +4463,8 @@ svg.finished * {
   }
 
   #icono_leads {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .leadsvg {
@@ -4467,8 +4474,8 @@ svg.finished * {
   }
 
   #icono_customers {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .customersvg {
@@ -4478,8 +4485,8 @@ svg.finished * {
   }
 
   #icono_register {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .registersvg {
@@ -4527,6 +4534,7 @@ svg.finished * {
     z-index: 6;
     width: 400px !important;
     height: 400px !important;
+    z-index: 4 !important;
   }
 
   .logo_tecdigital {
@@ -4614,8 +4622,8 @@ svg.finished * {
   }
 
   #icono_diagnostico {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .diagnostico {
@@ -4624,8 +4632,8 @@ svg.finished * {
   }
 
   #icono_mapeo {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .mapeo {
@@ -4634,8 +4642,8 @@ svg.finished * {
   }
 
   #icono_evaluacion {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .evaluacion {
@@ -4644,8 +4652,8 @@ svg.finished * {
   }
 
   #icono_consolidacion {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .consolidacion {
@@ -4654,8 +4662,8 @@ svg.finished * {
   }
 
   #icono_despegue {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .despegue {
@@ -4674,8 +4682,8 @@ svg.finished * {
   }
 
   #icono_business {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .businessvg {
@@ -4685,8 +4693,8 @@ svg.finished * {
   }
 
   #icono_oferente {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .oferentessvg {
@@ -4696,8 +4704,8 @@ svg.finished * {
   }
 
   #icono_offer {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .offersvg {
@@ -4707,8 +4715,8 @@ svg.finished * {
   }
 
   #icono_leads {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .leadsvg {
@@ -4718,8 +4726,8 @@ svg.finished * {
   }
 
   #icono_customers {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .customersvg {
@@ -4729,8 +4737,8 @@ svg.finished * {
   }
 
   #icono_register {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .registersvg {
@@ -4778,6 +4786,7 @@ svg.finished * {
     z-index: 6;
     width: 400px !important;
     height: 400px !important;
+    z-index: 4 !important;
   }
 
   .logo_tecdigital {
@@ -4865,8 +4874,8 @@ svg.finished * {
   }
 
   #icono_diagnostico {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .diagnostico {
@@ -4875,8 +4884,8 @@ svg.finished * {
   }
 
   #icono_mapeo {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .mapeo {
@@ -4885,8 +4894,8 @@ svg.finished * {
   }
 
   #icono_evaluacion {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .evaluacion {
@@ -4895,8 +4904,8 @@ svg.finished * {
   }
 
   #icono_consolidacion {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .consolidacion {
@@ -4905,8 +4914,8 @@ svg.finished * {
   }
 
   #icono_despegue {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .despegue {
@@ -4925,8 +4934,8 @@ svg.finished * {
   }
 
   #icono_business {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .businessvg {
@@ -4936,8 +4945,8 @@ svg.finished * {
   }
 
   #icono_oferente {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .oferentessvg {
@@ -4947,8 +4956,8 @@ svg.finished * {
   }
 
   #icono_offer {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .offersvg {
@@ -4958,8 +4967,8 @@ svg.finished * {
   }
 
   #icono_leads {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .leadsvg {
@@ -4969,8 +4978,8 @@ svg.finished * {
   }
 
   #icono_customers {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .customersvg {
@@ -4980,8 +4989,8 @@ svg.finished * {
   }
 
   #icono_register {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .registersvg {
@@ -5029,6 +5038,7 @@ svg.finished * {
     z-index: 6;
     width: 400px !important;
     height: 400px !important;
+    z-index: 4 !important;
   }
 
   .logo_tecdigital {
@@ -5116,8 +5126,8 @@ svg.finished * {
   }
 
   #icono_diagnostico {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .diagnostico {
@@ -5126,8 +5136,8 @@ svg.finished * {
   }
 
   #icono_mapeo {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .mapeo {
@@ -5136,8 +5146,8 @@ svg.finished * {
   }
 
   #icono_evaluacion {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .evaluacion {
@@ -5146,8 +5156,8 @@ svg.finished * {
   }
 
   #icono_consolidacion {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .consolidacion {
@@ -5156,8 +5166,8 @@ svg.finished * {
   }
 
   #icono_despegue {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .despegue {
@@ -5176,8 +5186,8 @@ svg.finished * {
   }
 
   #icono_business {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .businessvg {
@@ -5187,8 +5197,8 @@ svg.finished * {
   }
 
   #icono_oferente {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .oferentessvg {
@@ -5198,8 +5208,8 @@ svg.finished * {
   }
 
   #icono_offer {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .offersvg {
@@ -5209,8 +5219,8 @@ svg.finished * {
   }
 
   #icono_leads {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .leadsvg {
@@ -5220,8 +5230,8 @@ svg.finished * {
   }
 
   #icono_customers {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .customersvg {
@@ -5231,8 +5241,8 @@ svg.finished * {
   }
 
   #icono_register {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .registersvg {
@@ -5280,6 +5290,7 @@ svg.finished * {
     z-index: 6;
     width: 400px !important;
     height: 400px !important;
+    z-index: 4 !important;
   }
 
   .logo_tecdigital {
@@ -5367,8 +5378,8 @@ svg.finished * {
   }
 
   #icono_diagnostico {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .diagnostico {
@@ -5377,8 +5388,8 @@ svg.finished * {
   }
 
   #icono_mapeo {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .mapeo {
@@ -5387,8 +5398,8 @@ svg.finished * {
   }
 
   #icono_evaluacion {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .evaluacion {
@@ -5397,8 +5408,8 @@ svg.finished * {
   }
 
   #icono_consolidacion {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .consolidacion {
@@ -5407,8 +5418,8 @@ svg.finished * {
   }
 
   #icono_despegue {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .despegue {
@@ -5427,8 +5438,8 @@ svg.finished * {
   }
 
   #icono_business {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .businessvg {
@@ -5438,8 +5449,8 @@ svg.finished * {
   }
 
   #icono_oferente {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .oferentessvg {
@@ -5449,8 +5460,8 @@ svg.finished * {
   }
 
   #icono_offer {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .offersvg {
@@ -5460,8 +5471,8 @@ svg.finished * {
   }
 
   #icono_leads {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .leadsvg {
@@ -5471,8 +5482,8 @@ svg.finished * {
   }
 
   #icono_customers {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .customersvg {
@@ -5482,8 +5493,8 @@ svg.finished * {
   }
 
   #icono_register {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .registersvg {
@@ -5531,6 +5542,7 @@ svg.finished * {
     z-index: 6;
     width: 400px !important;
     height: 400px !important;
+    z-index: 4 !important;
   }
 
   .logo_tecdigital {
@@ -5603,8 +5615,8 @@ svg.finished * {
   }
 
   #icono_diagnostico {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .diagnostico {
@@ -5613,8 +5625,8 @@ svg.finished * {
   }
 
   #icono_mapeo {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .mapeo {
@@ -5623,8 +5635,8 @@ svg.finished * {
   }
 
   #icono_evaluacion {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .evaluacion {
@@ -5633,8 +5645,8 @@ svg.finished * {
   }
 
   #icono_consolidacion {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .consolidacion {
@@ -5643,8 +5655,8 @@ svg.finished * {
   }
 
   #icono_despegue {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .despegue {
@@ -5663,8 +5675,8 @@ svg.finished * {
   }
 
   #icono_business {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .businessvg {
@@ -5674,8 +5686,8 @@ svg.finished * {
   }
 
   #icono_oferente {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .oferentessvg {
@@ -5685,8 +5697,8 @@ svg.finished * {
   }
 
   #icono_offer {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .offersvg {
@@ -5696,8 +5708,8 @@ svg.finished * {
   }
 
   #icono_leads {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .leadsvg {
@@ -5707,8 +5719,8 @@ svg.finished * {
   }
 
   #icono_customers {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .customersvg {
@@ -5718,8 +5730,8 @@ svg.finished * {
   }
 
   #icono_register {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   .registersvg {
@@ -5768,6 +5780,7 @@ svg.finished * {
     z-index: 6;
     width: 400px !important;
     height: 400px !important;
+    z-index: 4 !important;
   }
 
   .logo_tecdigital {
