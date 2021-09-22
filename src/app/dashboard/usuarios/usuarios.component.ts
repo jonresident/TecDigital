@@ -1,5 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import {PaginationInstance} from 'ngx-pagination/dist/ngx-pagination.module';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { PaginationInstance } from 'ngx-pagination/dist/ngx-pagination.module';
+import { from, Observable, Subscription } from 'rxjs';
+import Swal from 'sweetalert2';
+import { PreloadService } from '../dashboard.service';
+import { Usuario, BodyCambiarPassword, BodyActualizarUsuario, validateEmailFn, Roles, BodyCrearUsuario } from './usuarios.models';
+import { UsuariosService } from './usuarios.service';
 declare var $: any;
 
 @Component({
@@ -8,114 +15,44 @@ declare var $: any;
   styles: [
   ]
 })
-export class UsuariosComponent implements OnInit {
+export class UsuariosComponent implements OnInit, OnDestroy {
+  enumRoles = Roles;
+  usuariosSubscription = new Subscription();
+  changePassSubscription = new Subscription();
+  editSubscription = new Subscription();
+  createSubscription = new Subscription();
+  cantRegistrosSubscripcion = new Subscription();
+  validacionSubscription = new Subscription();
+  usuarios: any = [];
+  editIsActive: boolean = true;
+  newIsActive: boolean = true;
 
-  datos = [
-    {
-      "Usuario":"Jothas",
-      "Nombre": "Jonathan",
-      "Apellido": "Ospina Garcia",
-      "Correo": "jonresident@hotmail.com",
-      "Entidad": "Sura",
-      "Rol": "Administrador",
-      "Registro": "Fecha de Registro",
-      "Ingreso": "Fecha ultimo ingreso"
-    },
-    {
-      "Usuario":"Clau",
-      "Nombre": "Claudia Natalia",
-      "Apellido": "Ospina Garcia",
-      "Correo": "claudia@hotmail.com",
-      "Entidad": "Sura",
-      "Rol": "HMO",
-      "Registro": "Fecha de Registro",
-      "Ingreso": "Fecha ultimo ingreso"
-    },
-    {
-      "Usuario":"Mau",
-      "Nombre": "Mauricio",
-      "Apellido": "Ospina Garcia",
-      "Correo": "mauro@hotmail.com",
-      "Entidad": "Sura",
-      "Rol": "HMO",
-      "Registro": "Fecha de Registro",
-      "Ingreso": "Fecha ultimo ingreso"
-    },
-    {
-      "Usuario":"Carlitos",
-      "Nombre": "Carlos",
-      "Apellido": "Ospina Garcia",
-      "Correo": "carlos@hotmail.com",
-      "Entidad": "Sanitas",
-      "Rol": "Administrador",
-      "Registro": "Fecha de Registro",
-      "Ingreso": "Fecha ultimo ingreso"
-    },
-    {
-      "Usuario":"Rubi",
-      "Nombre": "Rubiela",
-      "Apellido": "Ospina Garcia",
-      "Correo": "rubiela@hotmail.com",
-      "Entidad": "Sanitas",
-      "Rol": "Administrador",
-      "Registro": "Fecha de Registro",
-      "Ingreso": "Fecha ultimo ingreso"
-    },
-    {
-      "Usuario":"Yake",
-      "Nombre": "Yakeline",
-      "Apellido": "Ospina Garcia",
-      "Correo": "yake@hotmail.com",
-      "Entidad": "Nueva Eps",
-      "Rol": "Administrador",
-      "Registro": "Fecha de Registro",
-      "Ingreso": "Fecha ultimo ingreso"
-    },
-    {
-      "Usuario":"Eulo",
-      "Nombre": "Eulogia",
-      "Apellido": "Ospina Garcia",
-      "Correo": "eulogia@hotmail.com",
-      "Entidad": "Sura",
-      "Rol": "Visitante",
-      "Registro": "Fecha de Registro",
-      "Ingreso": "Fecha ultimo ingreso"
-    },
-    {
-      "Usuario":"Pau",
-      "Nombre": "Paulo",
-      "Apellido": "Ospina Garcia",
-      "Correo": "paulo@hotmail.com",
-      "Entidad": "Sura",
-      "Rol": "Administrador",
-      "Registro": "Fecha de Registro",
-      "Ingreso": "Fecha ultimo ingreso"
-    },
-    {
-      "Usuario":"Andresito",
-      "Nombre": "Andres",
-      "Apellido": "Ospina Garcia",
-      "Correo": "andreso@hotmail.com",
-      "Entidad": "Salud total",
-      "Rol": "HMO",
-      "Registro": "Fecha de Registro",
-      "Ingreso": "Fecha ultimo ingreso"
-    },
-    {
-      "Usuario":"Davide",
-      "Nombre": "David",
-      "Apellido": "Ospina Garcia",
-      "Correo": "david@hotmail.com",
-      "Entidad": "Sura",
-      "Rol": "Administrador",
-      "Registro": "Fecha de Registro",
-      "Ingreso": "Fecha ultimo ingreso"
-    }
-  ];
+  cantRegistros: number = 0;
+
+  formChangePassword: FormGroup;
+  formEditUser: FormGroup;
+  formCreateUser: FormGroup;
+
+  selectedUser: Usuario = {
+    id: "",
+    first_name: "",
+    username: "",
+    email: "",
+    rol: "",
+    last_login: new Date(),
+    date_joined: new Date,
+    is_active: true,
+    is_superuser: false
+  };
+
+
+  users$: Observable<Usuario[]>;
+  usersSubs = new Subscription();
+  users: Usuario[] = [];
 
   key: string = 'Usuario';
   reverse: boolean = false;
-  sort(key){
+  sort(key) {
     this.key = key;
     this.reverse = !this.reverse;
   }
@@ -126,29 +63,426 @@ export class UsuariosComponent implements OnInit {
   public autoHide: boolean = false;
   public responsive: boolean = false;
   public config: PaginationInstance = {
-      id: 'tableUsers',
-      itemsPerPage: 5,
-      currentPage: 1
+    id: 'tableUsers',
+    itemsPerPage: 5,
+    currentPage: 1
   };
   public labels: any = {
-      previousLabel: 'Anterior',
-      nextLabel: 'Siguiente',
-      screenReaderPaginationLabel: 'Pagination',
-      screenReaderPageLabel: 'page',
-      screenReaderCurrentLabel: `You're on page`
+    previousLabel: 'Anterior',
+    nextLabel: 'Siguiente',
+    screenReaderPaginationLabel: 'Pagination',
+    screenReaderPageLabel: 'page',
+    screenReaderCurrentLabel: `You're on page`
   };
 
-  constructor() { }
+  constructor(
+    private router: Router,
+    private preloadService: PreloadService,
+    private usuariosService: UsuariosService
+  ) { }
 
   ngOnInit(): void {
+    setTimeout(() => {
+      this.preloadService.cargando$.emit(true);
+    });
+    this.obtenerDatos();
+    this.formChangePasswordInit();
+    this.formEditUserInit(null, null, null, null);
+    this.formCreateUserInit();
+    this.changeCantRegistros();
+    this.usuariosService.activo = true;
   }
+
+  ngOnDestroy(): void {
+    this.usuariosSubscription.unsubscribe();
+    this.changePassSubscription.unsubscribe();
+    this.editSubscription.unsubscribe();
+    this.createSubscription.unsubscribe();
+    this.cantRegistrosSubscripcion.unsubscribe();
+    this.validacionSubscription.unsubscribe();
+    this.usuariosService.activo = false;
+  }
+
+
+  obtenerDatos() {
+
+    this.validacionSubscription = this.usuariosService.validarToken(
+      {
+        "token": sessionStorage.getItem('access')
+      }).subscribe({
+        next: (resp: any) => {
+          this.usuariosSubscription = this.usuariosService.getUsuarios().subscribe({
+            next: (resp: any) => {
+              let registro = {};
+              let registros = [];
+
+              for (let i = 0; i < resp.length; i++) {
+                registro = {
+                  id: resp[i].id,
+                  first_name: resp[i].first_name,
+                  username: resp[i].username,
+                  email: resp[i].email,
+                  rol: resp[i].rol,
+                  is_active: resp[i].is_active,
+                  date_joined: resp[i].date_joined,
+                  last_login: resp[i].last_login
+                }
+
+                registros.push(Object.assign({}, registro));
+              }
+
+              this.usuarios = registros;
+
+              setTimeout(() => {
+                this.preloadService.cargando$.emit(false);
+              });
+            },
+            error: (e) => {
+              setTimeout(() => {
+                this.preloadService.cargando$.emit(false);
+              });
+              if (e.error && e.error.Error) {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: e.error.Error
+                });
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: 'Servidor sin respuesta. Intentelo más tarde.'
+                });
+              }
+            }
+          });
+        },
+        error: (e) => {
+          setTimeout(() => {
+            this.preloadService.cargando$.emit(false);
+          });
+          sessionStorage.clear();
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: "Su sesión ha expirado, será redirigido al login de la plataforma"
+          }).then(() => {
+            this.router.navigate(['/landing']);
+          });
+        }
+      });
+  }
+
+  initEditUserModal(user: Usuario) {
+    this.selectedUser = user;
+    this.editIsActive = user.is_active;
+    this.formEditUserInit(user.username, user.first_name, user.email, user.rol);
+  }
+
+  formEditUserInit(username: string, first_name: string, email: string, rol: string) {
+    this.formEditUser = new FormGroup({
+      username: new FormControl(username, [Validators.required, Validators.maxLength(150)]),
+      first_name: new FormControl(first_name, [Validators.required, Validators.maxLength(30)]),
+      email: new FormControl(email, [Validators.required, Validators.maxLength(254)]),
+      rol: new FormControl(rol, [Validators.required])
+    }, {
+      validators: [this.validateEmail]
+    });
+  }
+
+  changeActiveUser(state: boolean) {
+    this.editIsActive = state;
+  }
+
+  editUser(values: BodyActualizarUsuario) {
+    setTimeout(() => {
+      this.preloadService.cargando$.emit(true);
+    });
+    const bodyEdit = { ...values, is_active: this.editIsActive, id: this.selectedUser.id };
+
+    this.validacionSubscription.unsubscribe();
+    this.validacionSubscription = this.usuariosService.validarToken(
+      {
+        "token": sessionStorage.getItem('access')
+      }).subscribe({
+        next: (resp: any) => {
+          this.editSubscription = this.usuariosService.editUser(bodyEdit).subscribe({
+            next: (resp: any) => {
+              setTimeout(() => {
+                this.preloadService.cargando$.emit(false);
+              });
+              $('#modalEditUser').modal('hide');
+              if (resp.ok !== null) {
+                Swal.fire({
+                  icon: 'info',
+                  title: 'Actualización exitosa',
+                  text: "Se ha editado exitosamente el usuario seleccionado"
+                });
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'ERROR',
+                  text: "Se está ocasionando un error desconocido en la edición de usuarios. contacte a soporte"
+                });
+              }
+              this.usuariosSubscription.unsubscribe();
+              this.obtenerDatos();
+              setTimeout(() => {
+                this.preloadService.cargando$.emit(false);
+              });
+            },
+            error: (e) => {
+              setTimeout(() => {
+                this.preloadService.cargando$.emit(false);
+              });
+              if (e.error && e.error.Error) {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: e.error.Error
+                });
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: 'Servidor sin respuesta. Intentelo más tarde.'
+                });
+              }
+            }
+          });
+        },
+        error: (e) => {
+          setTimeout(() => {
+            this.preloadService.cargando$.emit(false);
+          });
+          sessionStorage.clear();
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: "Su sesión ha expirado, será redirigido al login de la plataforma"
+          }).then(() => {
+            this.router.navigate(['/landing']);
+          });
+        }
+      }
+      );
+
+  }
+
+  initChangePasswordModal(user: Usuario) {
+    this.selectedUser = user;
+    this.formChangePasswordInit();
+  }
+
+  formChangePasswordInit() {
+    this.formChangePassword = new FormGroup({
+      password: new FormControl(null, [Validators.required, Validators.maxLength(128), Validators.minLength(8)]),
+      confirmPassword: new FormControl(null),
+    }, {
+      validators: [this.checkPasswords]
+    });
+  }
+
+  changePassword(values: { password: string, confirmPassword: string }) {
+    setTimeout(() => {
+      this.preloadService.cargando$.emit(true);
+    });
+    const body: BodyCambiarPassword = {
+      id: this.selectedUser.id,
+      username: this.selectedUser.username,
+      password1: values.password,
+      password2: values.confirmPassword
+    };
+
+    this.validacionSubscription.unsubscribe();
+    this.validacionSubscription = this.usuariosService.validarToken(
+      {
+        "token": sessionStorage.getItem('access')
+      }).subscribe({
+        next: (resp: any) => {
+          this.changePassSubscription = this.usuariosService.cambiarPassword(body).subscribe({
+            next: (resp: any) => {
+              if (resp.ok !== null) {
+                Swal.fire({
+                  icon: 'info',
+                  title: 'Cambio exitoso',
+                  text: "Se ha cambiado exitosamente la contraseña"
+                });
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'ERROR',
+                  text: "Se está ocasionando un error desconocido en el cambio de contraseña"
+                });
+              }
+              setTimeout(() => {
+                this.preloadService.cargando$.emit(false);
+              });
+            },
+            error: (e) => {
+              setTimeout(() => {
+                this.preloadService.cargando$.emit(false);
+              });
+              if (e.error && e.error.Error) {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: e.error.Error
+                });
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: 'Servidor sin respuesta. Intentelo más tarde.'
+                });
+              }
+            }
+          });
+        },
+        error: (e) => {
+          setTimeout(() => {
+            this.preloadService.cargando$.emit(false);
+          });
+          sessionStorage.clear();
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: "Su sesión ha expirado, será redirigido al login de la plataforma"
+          }).then(() => {
+            this.router.navigate(['/landing']);
+          });
+        }
+      });
+
+  }
+
+
+  setItemPerPage(event: any) {
+    this.config.itemsPerPage = event.target.value;
+  }
+
 
   onPageChange(number: number) {
     this.config.currentPage = number;
   }
 
   onPageBoundsCorrection(number: number) {
-      this.config.currentPage = number;
+    this.config.currentPage = number;
+  }
+
+  formCreateUserInit() {
+    this.formCreateUser = new FormGroup({
+      username: new FormControl(null, [Validators.required, Validators.maxLength(150)]),
+      first_name: new FormControl(null, [Validators.required, Validators.maxLength(30)]),
+      email: new FormControl(null, [Validators.required, Validators.maxLength(254)]),
+      password: new FormControl(null, [Validators.required, Validators.maxLength(128), Validators.minLength(8)]),
+      confirmPassword: new FormControl(null),
+      rol: new FormControl(null, [Validators.required])
+    }, {
+      validators: [this.checkPasswords, this.validateEmail]
+    });
+  }
+
+  changeActiveNew(state: boolean) {
+    this.newIsActive = state;
+  }
+
+  createUser(values: BodyCrearUsuario) {
+    setTimeout(() => {
+      this.preloadService.cargando$.emit(true);
+    });
+    const bodyUser = { ...values, is_active: this.newIsActive };
+
+    this.validacionSubscription.unsubscribe();
+    this.validacionSubscription = this.usuariosService.validarToken(
+      {
+        "token": sessionStorage.getItem('access')
+      }).subscribe({
+        next: (resp: any) => {
+          this.createSubscription = this.usuariosService.createUser(bodyUser).subscribe({
+            next: (resp: any) => {
+              setTimeout(() => {
+                this.preloadService.cargando$.emit(false);
+              });
+              $('#modalAddEditUser').modal('hide');
+              if (resp.id !== null) {
+                Swal.fire({
+                  icon: 'info',
+                  title: 'Guardado exitoso',
+                  text: "Se ha creado exitosamente un nuevo usuario"
+                });
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'ERROR',
+                  text: "Se está ocasionando un error desconocido en la creación de usuarios. contacte a soporte"
+                });
+              }
+              this.usuariosSubscription.unsubscribe();
+              this.obtenerDatos();
+            },
+            error: (e) => {
+              setTimeout(() => {
+                this.preloadService.cargando$.emit(false);
+              });
+              if (e.error && e.error.Error) {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: e.error.Error
+                });
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: 'Servidor sin respuesta. Intentelo más tarde.'
+                });
+              }
+            }
+          });
+        },
+        error: (e) => {
+          setTimeout(() => {
+            this.preloadService.cargando$.emit(false);
+          });
+          sessionStorage.clear();
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: "Su sesión ha expirado, será redirigido al login de la plataforma"
+          }).then(() => {
+            this.router.navigate(['/landing']);
+          });
+        }
+      });
+
+    
+  }
+
+  checkPasswords: ValidatorFn = (group: AbstractControl): ValidationErrors | null => {
+    const pass = group.get('password').value;
+    const confirmPass = group.get('confirmPassword').value;
+    return pass === confirmPass ? null : { notSame: true };
+  }
+
+  validateEmail: ValidatorFn = (group: AbstractControl): ValidationErrors | null => {
+    const email = group.get('email').value;
+    return validateEmailFn(email) ? null : { failEmail: true };
+  }
+
+  changeCantRegistros() {
+    this.cantRegistrosSubscripcion = this.usuariosService.numeroUsuarios$.subscribe({
+      next: (resp: number) => {
+        this.cantRegistros = resp;
+      },
+      error: (e) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: "Ocurrio un error inesperado cargando la cantidad de registros al filtrar. comuniquese con soporte técnico"
+        });
+      }
+    });
   }
 
 }

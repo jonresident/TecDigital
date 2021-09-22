@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { PreloadService } from './dashboard.service';
 declare var $: any;
 
 @Component({
@@ -7,13 +9,20 @@ declare var $: any;
   styles: [
   ]
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
 
   cargando = false;
+  preloadSubscription = new Subscription();
 
-  constructor() { }
+  constructor(public preloadService: PreloadService) { }
 
   ngOnInit(): void {
+    this.preloadSubscription = this.preloadService.cargando$.subscribe(resp => {
+      this.cargando = resp;
+    });
   }
 
+  ngOnDestroy(): void {
+    this.preloadSubscription.unsubscribe();
+  }
 }

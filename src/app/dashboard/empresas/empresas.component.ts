@@ -1,5 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import {PaginationInstance} from 'ngx-pagination/dist/ngx-pagination.module';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { PaginationInstance } from 'ngx-pagination/dist/ngx-pagination.module';
+import { Tabla, IndicadorUnoDetail } from '../indicadores/indicadores.models';
+import { IndicadorUnoComponent } from '../indicadores/indicadorUno/indicador-uno.component';
+import { Subscription } from 'rxjs';
+import { PreloadService } from '../dashboard.service';
+import { EmpresasService } from './empresas.service';
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
+
+// Pipe
+/* import { FilterPipe } from '../../filter.pipe'; */
+
 declare var $: any;
 
 @Component({
@@ -8,114 +19,19 @@ declare var $: any;
   styles: [
   ]
 })
-export class EmpresasComponent implements OnInit {
+export class EmpresasComponent implements OnInit, OnDestroy {
 
-  datos = [
-    {
-      "Usuario":"Jothas",
-      "Nombre": "Jonathan",
-      "Apellido": "Ospina Garcia",
-      "Correo": "jonresident@hotmail.com",
-      "Entidad": "Sura",
-      "Rol": "Administrador",
-      "Registro": "Fecha de Registro",
-      "Ingreso": "Fecha ultimo ingreso"
-    },
-    {
-      "Usuario":"Clau",
-      "Nombre": "Claudia Natalia",
-      "Apellido": "Ospina Garcia",
-      "Correo": "claudia@hotmail.com",
-      "Entidad": "Sura",
-      "Rol": "HMO",
-      "Registro": "Fecha de Registro",
-      "Ingreso": "Fecha ultimo ingreso"
-    },
-    {
-      "Usuario":"Mau",
-      "Nombre": "Mauricio",
-      "Apellido": "Ospina Garcia",
-      "Correo": "mauro@hotmail.com",
-      "Entidad": "Sura",
-      "Rol": "HMO",
-      "Registro": "Fecha de Registro",
-      "Ingreso": "Fecha ultimo ingreso"
-    },
-    {
-      "Usuario":"Carlitos",
-      "Nombre": "Carlos",
-      "Apellido": "Ospina Garcia",
-      "Correo": "carlos@hotmail.com",
-      "Entidad": "Sanitas",
-      "Rol": "Administrador",
-      "Registro": "Fecha de Registro",
-      "Ingreso": "Fecha ultimo ingreso"
-    },
-    {
-      "Usuario":"Rubi",
-      "Nombre": "Rubiela",
-      "Apellido": "Ospina Garcia",
-      "Correo": "rubiela@hotmail.com",
-      "Entidad": "Sanitas",
-      "Rol": "Administrador",
-      "Registro": "Fecha de Registro",
-      "Ingreso": "Fecha ultimo ingreso"
-    },
-    {
-      "Usuario":"Yake",
-      "Nombre": "Yakeline",
-      "Apellido": "Ospina Garcia",
-      "Correo": "yake@hotmail.com",
-      "Entidad": "Nueva Eps",
-      "Rol": "Administrador",
-      "Registro": "Fecha de Registro",
-      "Ingreso": "Fecha ultimo ingreso"
-    },
-    {
-      "Usuario":"Eulo",
-      "Nombre": "Eulogia",
-      "Apellido": "Ospina Garcia",
-      "Correo": "eulogia@hotmail.com",
-      "Entidad": "Sura",
-      "Rol": "Visitante",
-      "Registro": "Fecha de Registro",
-      "Ingreso": "Fecha ultimo ingreso"
-    },
-    {
-      "Usuario":"Pau",
-      "Nombre": "Paulo",
-      "Apellido": "Ospina Garcia",
-      "Correo": "paulo@hotmail.com",
-      "Entidad": "Sura",
-      "Rol": "Administrador",
-      "Registro": "Fecha de Registro",
-      "Ingreso": "Fecha ultimo ingreso"
-    },
-    {
-      "Usuario":"Andresito",
-      "Nombre": "Andres",
-      "Apellido": "Ospina Garcia",
-      "Correo": "andreso@hotmail.com",
-      "Entidad": "Salud total",
-      "Rol": "HMO",
-      "Registro": "Fecha de Registro",
-      "Ingreso": "Fecha ultimo ingreso"
-    },
-    {
-      "Usuario":"Davide",
-      "Nombre": "David",
-      "Apellido": "Ospina Garcia",
-      "Correo": "david@hotmail.com",
-      "Entidad": "Sura",
-      "Rol": "Administrador",
-      "Registro": "Fecha de Registro",
-      "Ingreso": "Fecha ultimo ingreso"
-    }
-  ];
+  datos = [];
+  serviceSubscription = new Subscription();
+  cantRegistrosSubscripcion = new Subscription();
+  validacionSubscription = new Subscription();
+
+  cantRegistros: number = 0;
+
 
   key: string = 'Usuario';
   reverse: boolean = false;
-  sort(key){
+  sort(key) {
     this.key = key;
     this.reverse = !this.reverse;
   }
@@ -126,21 +42,136 @@ export class EmpresasComponent implements OnInit {
   public autoHide: boolean = false;
   public responsive: boolean = false;
   public config: PaginationInstance = {
-      id: 'tableUsers',
-      itemsPerPage: 5,
-      currentPage: 1
+    id: 'tableUsers',
+    itemsPerPage: 5,
+    currentPage: 1
   };
   public labels: any = {
-      previousLabel: 'Anterior',
-      nextLabel: 'Siguiente',
-      screenReaderPaginationLabel: 'Pagination',
-      screenReaderPageLabel: 'page',
-      screenReaderCurrentLabel: `You're on page`
+    previousLabel: 'Anterior',
+    nextLabel: 'Siguiente',
+    screenReaderPaginationLabel: 'Pagination',
+    screenReaderPageLabel: 'page',
+    screenReaderCurrentLabel: `You're on page`
   };
 
-  constructor() { }
+  constructor(
+    private router: Router,
+    private preloadService: PreloadService,
+    private empresasService: EmpresasService,
+  ) { }
+
 
   ngOnInit(): void {
+    setTimeout(() => {
+      this.preloadService.cargando$.emit(true);
+    });
+    this.obtenerDatos();
+    this.changeCantRegistros();
+    this.empresasService.activo = true;
+  }
+
+  ngOnDestroy(): void {
+    this.serviceSubscription.unsubscribe();
+    this.cantRegistrosSubscripcion.unsubscribe();
+    this.validacionSubscription.unsubscribe();
+    this.empresasService.activo = false;
+  }
+
+  changeCantRegistros() {
+    this.cantRegistrosSubscripcion = this.empresasService.numeroEmpresas$.subscribe({
+      next: (resp: number) => {
+        this.cantRegistros = resp;
+      },
+      error: (e) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: "Ocurrio un error inesperado cargando la cantidad de registros al filtrar. comuniquese con soporte técnico"
+        });
+      }
+    });
+  }
+
+  obtenerDatos() {
+    this.validacionSubscription = this.empresasService.validarToken(
+      {
+        "token": sessionStorage.getItem('access')
+      }).subscribe({
+        next: (resp: any) => {
+          this.serviceSubscription = this.empresasService.getEmpresasBeneficiarias().subscribe({
+            next: (resp: any) => {
+              let registro = {};
+              let registros = [];
+      
+              for (let i = 0; i < resp.tabla.NombreEmpresa.length; i++) {
+                registro = {
+                  NombreEmpresa: resp.tabla.NombreEmpresa[i],
+                  Direccion: resp.tabla.Direccion[i],
+                  Departamento: resp.tabla.Departamento[i],
+                  Telefono: resp.tabla.Telefono[i],
+                  CorreoElectronico: resp.tabla.CorreoElectronico[i],
+                  NombresRepresentanteLegal: resp.tabla.NombresRepresentanteLegal[i],
+                  ApellidosRepresentanteLegal: resp.tabla.ApellidosRepresentanteLegal[i],
+                  NombresPersonaEncargadaProceso: resp.tabla.NombresPersonaEncargadaProceso[i],
+                  ApellidosPersonaE: resp.tabla.ApellidosPersonaE[i],
+                  CorreoElectronicoPersonaEncargadaProceso: resp.tabla.CorreoElectronicoPersonaEncargadaProceso[i],
+                  TelefonoPersonaEncargadaProceso: resp.tabla.TelefonoPersonaEncargadaProceso[i],
+                  SitioWeb: resp.tabla.SitioWeb[i],
+                  categoria: resp.tabla.categoria[i],
+                  TamanoEmpresa: resp.tabla.TamanoEmpresa[i],
+                  FechaFinDatosBasicos: resp.tabla.FechaFinDatosBasicos[i]
+                }
+      
+                registros.push(Object.assign({}, registro));
+              }
+      
+              this.datos = registros;
+              this.cantRegistros = this.datos.length;
+      
+              setTimeout(() => {
+                this.preloadService.cargando$.emit(false);
+              });
+            },
+            error: (e) => {
+              setTimeout(() => {
+                this.preloadService.cargando$.emit(false);
+              });
+              if (e.error && e.error.Error) {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: e.error.Error
+                });
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: 'Servidor sin respuesta. Intentelo más tarde.'
+                });
+              }
+            }
+          });
+        },
+        error: (e) => {
+          setTimeout(() => {
+            this.preloadService.cargando$.emit(false);
+          });
+          sessionStorage.clear();
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: "Su sesión ha expirado, será redirigido al login de la plataforma"
+          }).then(() => {
+            this.router.navigate(['/landing']);
+          });
+        }
+      });
+
+    
+  }
+
+  setItemPerPage(event: any) {
+    this.config.itemsPerPage = event.target.value;
   }
 
   onPageChange(number: number) {
@@ -148,7 +179,7 @@ export class EmpresasComponent implements OnInit {
   }
 
   onPageBoundsCorrection(number: number) {
-      this.config.currentPage = number;
+    this.config.currentPage = number;
   }
 
 }

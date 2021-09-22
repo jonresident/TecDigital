@@ -10,10 +10,15 @@ import { IndicadorTresComponent } from './indicadores/indicadorTres/indicador-tr
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { EmpresasComponent } from './empresas/empresas.component';
 
+// guards
+import { AdminGuard } from '../guards/admin.guard';
+import { AuthGuard } from '../guards/auth.guard';
+
 
 const routes: Routes = [
     {
-        path: 'dashboard', component: DashboardComponent,
+        path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard],
+        /* path: 'dashboard', component: DashboardComponent, */
         children: [
             {path: '', pathMatch: 'prefix', redirectTo: 'indicadores'},
             {
@@ -25,8 +30,10 @@ const routes: Routes = [
                     {path: 'indicadorTres', component: IndicadorTresComponent}
                 ]
             },
-            {path: 'usuarios', component: UsuariosComponent},
-            {path: 'empresas', component: EmpresasComponent}
+            {path: 'usuarios', component: UsuariosComponent, canActivate: [AdminGuard]},
+            {path: 'empresas', component: EmpresasComponent, canActivate: [AdminGuard]}
+            /* {path: 'usuarios', component: UsuariosComponent},
+            {path: 'empresas', component: EmpresasComponent} */
         ]
     }
 ];
