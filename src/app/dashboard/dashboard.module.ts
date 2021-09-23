@@ -32,7 +32,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
   exports: [
     DashboardComponent,
     UsuariosComponent,
-    EmpresasComponent
+    EmpresasComponent,
+    ReactiveFormsModule
   ],
   imports: [
     CommonModule,

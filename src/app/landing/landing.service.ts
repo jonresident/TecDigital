@@ -7,8 +7,6 @@ import { environment } from 'src/environments/environment';
 })
 export class LandingService {
 
-  primeraVez: boolean = true;
-
   constructor(
     private http: HttpClient
   ) { }
@@ -17,9 +15,9 @@ export class LandingService {
     return this.http.post(environment.api + environment.apiLogin, { username, password }).toPromise();
   } */
 
-  recoverPassword(email: string) {
+ /*  recoverPassword(email: string) {
     return this.http.post(environment.api + environment.apiLogin + environment.apiCambiarPassword, { email }).toPromise();
-  }
+  } */
 
   login(username: string, password: string) {
     return this.http.post(environment.api + environment.apiLogin, { username, password });

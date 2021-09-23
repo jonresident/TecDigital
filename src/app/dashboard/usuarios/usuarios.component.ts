@@ -291,7 +291,8 @@ export class UsuariosComponent implements OnInit, OnDestroy {
       id: this.selectedUser.id,
       username: this.selectedUser.username,
       password1: values.password,
-      password2: values.confirmPassword
+      password2: values.confirmPassword,
+      reset_last_login: true
     };
 
     this.validacionSubscription.unsubscribe();

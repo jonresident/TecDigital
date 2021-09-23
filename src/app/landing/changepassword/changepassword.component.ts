@@ -79,7 +79,8 @@ export class ChangepasswordComponent implements OnInit {
       id: sessionStorage.getItem('id'),
       username: sessionStorage.getItem('username'),
       password1: values.password,
-      password2: values.confirmPassword
+      password2: values.confirmPassword,
+      reset_last_login: false
     }
     this.changeSubscription = this.landingService.changePassword(body).subscribe({
       next: (resp: any) => {

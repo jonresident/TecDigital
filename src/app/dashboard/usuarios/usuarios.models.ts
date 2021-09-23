@@ -21,6 +21,7 @@ export interface BodyCambiarPassword {
     username: string;
     password1: string;
     password2: string;
+    reset_last_login: boolean;
 }
 
 export interface Usuario {

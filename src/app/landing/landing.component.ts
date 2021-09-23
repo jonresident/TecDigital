@@ -90,7 +90,7 @@ export class LandingComponent implements OnInit, OnDestroy {
             title: 'Error',
             text: 'El usuario no se encuentra activo'
           });
-        } else if (resp["first_session"] && this.landingService.primeraVez) {
+        } else if (resp["first_session"]) {
           Swal.fire({
             icon: 'info',
             title: 'Cambio de contraseña',
@@ -99,7 +99,6 @@ export class LandingComponent implements OnInit, OnDestroy {
           this.authService.resetPassword = true;
           sessionStorage.setItem('username', resp['username']);
           sessionStorage.setItem('id', resp['id']);
-          this.landingService.primeraVez = false;
           this.router.navigate(['changepassword'])
         } else {
           sessionStorage.setItem('refresh', resp['refresh']);
@@ -108,7 +107,6 @@ export class LandingComponent implements OnInit, OnDestroy {
           sessionStorage.setItem('id', resp['id']);
           sessionStorage.setItem('first_session', resp['first_session']);
           sessionStorage.setItem('rol', resp['rol']);
-          this.landingService.primeraVez = true;
           this.router.navigate(['dashboard']);
         }
       },
