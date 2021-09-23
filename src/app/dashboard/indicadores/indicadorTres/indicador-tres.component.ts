@@ -186,7 +186,7 @@ export class IndicadorTresComponent implements OnInit, OnDestroy {
               let ingresos: number = this.data.fuente_ingresos;
               let email: number = this.data.cantidad_emails;
               let telefono: number = this.data.cantidad_telefono;
-              let procesoRegistro: number = this.data.cantidad_registrado;
+              let cantRegistrado: number = this.data.total;
               
               let registradas: number = this.data.informe_tecnalia['empresas registradas en la plataforma'];
               let contactoTelWt: number = this.data.informe_tecnalia['en contacto activo (telefono - whatsapp) '];
@@ -223,7 +223,7 @@ export class IndicadorTresComponent implements OnInit, OnDestroy {
               
               this.initVivus();
               
-              this.initializerOdometer(leads, referidos, ingresos, email, telefono, procesoRegistro);
+              this.initializerOdometer(leads, referidos, ingresos, email, telefono, cantRegistrado);
               
               this.chartQuestionOne(email, telefono);
               
@@ -319,7 +319,7 @@ export class IndicadorTresComponent implements OnInit, OnDestroy {
     },).reset();
   }
 
-  initializerOdometer(leads: number, referidos: number, ingresos: number, email: number, telefono: number, procesoRegistro: number) {
+  initializerOdometer(leads: number, referidos: number, ingresos: number, email: number, telefono: number, cantRegistrado: number) {
     
 
     var OdometerUno = document.querySelector('.resultActivityOne');
@@ -374,7 +374,7 @@ export class IndicadorTresComponent implements OnInit, OnDestroy {
       format: '',
       theme: ''
     });
-    odSix.update(procesoRegistro)
+    odSix.update(cantRegistrado)
 
    /*  var OdometerFive = document.querySelector('.resultActivityFive');
     let odFive = new Odometer({
@@ -523,7 +523,7 @@ export class IndicadorTresComponent implements OnInit, OnDestroy {
             }
           }, /*{
             name: 'Registrados plataforma',
-            value: procesoRegistro,
+            value: cantRegistrado,
             label: {
               show: true,
               position: 'inside',

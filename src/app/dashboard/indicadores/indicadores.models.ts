@@ -77,6 +77,7 @@ export interface CantidadTiposApoyo {
 }
 
 export interface IndicadorTresDetail { 
+    total: number;
     cantidad_emails: number;
     cantidad_telefono: number;
     cantidad_registrado: number;

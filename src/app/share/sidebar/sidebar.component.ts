@@ -75,8 +75,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
             this.botonAplicarDisable = false;
           } else if (this.sidebarService.activoDos) {
             this.deptoFilterDisable = true;
-            this.dateFilterDisable = true;
-            this.botonAplicarDisable = true;
+            this.dateFilterDisable = false;
+            this.botonAplicarDisable = false;
           } else if (this.sidebarService.activoTres) {
             this.deptoFilterDisable = true;
             this.dateFilterDisable = false;
@@ -107,10 +107,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
       let body: FilterDataDos = {
         "idUser": sessionStorage.getItem('id'),
         "fecha": this.dateFinFilter !== null ? this.dateFinFilter : new Date().toISOString().substr(0,10),
-        "departamento": depto !== null ? depto : "todos"
       };
-      /* this.sidebarService.filterDataDos$.emit(body); */
-
+      this.sidebarService.filterDataDos$.emit(body);
     } else if (this.sidebarService.activoTres) {
 
       let body: FilterDataTres = {

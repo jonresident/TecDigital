@@ -7,7 +7,6 @@ export interface FilterDataUno {
 export interface FilterDataDos {
     idUser: string;
     fecha: string;
-    departamento: string;
 }
 
 export interface FilterDataTres {

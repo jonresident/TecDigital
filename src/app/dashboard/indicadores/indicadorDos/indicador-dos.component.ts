@@ -39,7 +39,8 @@ export class IndicadorDosComponent implements OnInit, OnDestroy {
   hora: Date = new Date();
 
   bodyPeticion = {
-    "idUser": sessionStorage.getItem('id')
+    "idUser": sessionStorage.getItem('id'),
+    "fecha": new Date().toISOString().substr(0, 10)
   };
 
 
@@ -105,7 +106,7 @@ export class IndicadorDosComponent implements OnInit, OnDestroy {
       this.preloadService.cargando$.emit(true);
     });
     this.observeCharts(this.bodyPeticion);
-    /* this.loadFilters(); */
+    this.loadFilters();
     this.sidebarService.activoDos = true;
     this.indicadorService.cambioIndicador$.emit(true);
   }
@@ -117,7 +118,7 @@ export class IndicadorDosComponent implements OnInit, OnDestroy {
     this.sidebarService.activoDos = false;
   }
 
-  /*  loadFilters() {
+   loadFilters() {
      this.filterSubscription = this.sidebarService.filterDataDos$.subscribe(resp => {
        setTimeout(() => {
          this.preloadService.cargando$.emit(true);
@@ -142,7 +143,7 @@ export class IndicadorDosComponent implements OnInit, OnDestroy {
        this.hora = hour;
      }
      );
-   } */
+   }
 
 
   obtenerObjetosSectores(sectores: Sectores) {
