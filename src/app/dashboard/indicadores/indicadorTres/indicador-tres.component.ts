@@ -47,6 +47,11 @@ export class IndicadorTresComponent implements OnInit {
       }
      else if (this.windowScrolled && window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop < 10) {
           this.windowScrolled = false;
+          new Vivus('icono_total_leads',{
+            duration: 50,
+            reverse: true,
+            dashGap: 20
+          },).reset();
           new Vivus('icono_leads',{
             duration: 50,
             reverse: true,
@@ -99,6 +104,11 @@ export class IndicadorTresComponent implements OnInit {
   }
 
   initVivus() {
+    new Vivus('icono_total_leads',{
+      duration: 50,
+      reverse: true,
+      dashGap: 20
+    },).reset();
     new Vivus('icono_leads',{
       duration: 50,
       reverse: true,
@@ -142,6 +152,16 @@ export class IndicadorTresComponent implements OnInit {
   }
 
   initializerOdometer() {
+
+    var OdometerUno = document.querySelector('.resultActivityOneTotal');
+    let odTotal = new Odometer({
+      el: OdometerUno,
+      value: 0,
+      format: '',
+      theme: ''
+    });
+    odTotal.update(2432)
+
     var OdometerUno = document.querySelector('.resultActivityOne');
     let odUno = new Odometer({
       el: OdometerUno,

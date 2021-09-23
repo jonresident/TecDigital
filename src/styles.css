@@ -3123,6 +3123,22 @@ input[type="date"]:before {
   position: relative;
 }
 
+.container-card-tota-leads, .card-tota-leads {
+  width: 170px !important;
+  height: 170px !important;
+}
+
+.front-card.count.card-tota-leads .card-body, .back-card.count .card-body {
+  height: 170px !important;
+}
+
+.icono-tarjetas-pequenas-total {
+  padding: 5px;
+  border-radius: 100%;
+  background-color: transparent;
+  position: relative;
+}
+
 /* ---------------------------------------------------
       STYLES CONTENEDOR BACKGROUND DESCRIPCION PREGUNTA
    ----------------------------------------------------- */
@@ -3852,6 +3868,17 @@ svg.finished * {
   fill: transparent;
   stroke: #fafafa;
   stroke-width: 10px;
+}
+
+#icono_total_leads {
+  width: 45px;
+  height: 45px;
+}
+
+.totalleadsvg {
+  fill: transparent;
+  stroke: #1D244A;
+  stroke-width: 14px;
 }
 
 #icono_leads {
