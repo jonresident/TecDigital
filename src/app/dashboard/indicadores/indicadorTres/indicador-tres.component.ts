@@ -78,6 +78,11 @@ export class IndicadorTresComponent implements OnInit, OnDestroy {
       }
      else if (this.windowScrolled && window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop < 10) {
           this.windowScrolled = false;
+          new Vivus('icono_total_leads',{
+            duration: 50,
+            reverse: true,
+            dashGap: 20
+          },).reset();
           new Vivus('icono_leads',{
             duration: 50,
             reverse: true,
@@ -272,7 +277,12 @@ export class IndicadorTresComponent implements OnInit, OnDestroy {
 
 
   initVivus() {
-    new Vivus('icono_leads', {
+    new Vivus('icono_total_leads',{
+      duration: 50,
+      reverse: true,
+      dashGap: 20
+    },).reset();
+    new Vivus('icono_leads',{
       duration: 50,
       reverse: true,
       dashGap: 20
@@ -320,7 +330,16 @@ export class IndicadorTresComponent implements OnInit, OnDestroy {
   }
 
   initializerOdometer(leads: number, referidos: number, ingresos: number, email: number, telefono: number, cantRegistrado: number) {
-    
+    let total: number = leads + referidos + ingresos;
+
+    var OdometerUnoTotal = document.querySelector('.resultActivityOneTotal');
+    let odTotal = new Odometer({
+      el: OdometerUnoTotal,
+      value: 0,
+      format: '',
+      theme: ''
+    });
+    odTotal.update(total)
 
     var OdometerUno = document.querySelector('.resultActivityOne');
     let odUno = new Odometer({
