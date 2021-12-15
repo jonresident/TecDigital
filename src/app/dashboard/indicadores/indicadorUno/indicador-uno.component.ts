@@ -219,7 +219,8 @@ export class IndicadorUnoComponent implements OnInit {
       format: '',
       theme: ''
     });
-    odFour.update(8)
+    //odFour.update(evaluacion)
+    odFour.update(16)
 
     var OdometerFive = document.querySelector('.resultActivityFive');
     let odFive = new Odometer({
